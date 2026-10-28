@@ -43,8 +43,8 @@
   status = 200
 
 [[redirects]]
-  from = "/donor-engine"
-  to = "/donor-engine.html"
+  from = "/easydonor"
+  to = "/easydonor.html"
   status = 200
 
 [[redirects]]

@@ -10,6 +10,9 @@
   order Quest Diagnostics lab tests from your own application and receive
   structured results through a single API, with published pricing. Details
   below.
+- EasyDonor (https://caregap.io/easydonor): living-donor program software for
+  tissue banks and biobanks, covering donor acquisition, eligibility and
+  retention. Details below.
 
 More products are in development.
 
@@ -104,6 +107,69 @@ Sandbox access is available right away. Production typically takes several
 business days, because Quest subaccount setup is a manual process on Quest's
 side. The integration can be built while that paperwork clears.
 
+# EasyDonor
+
+## What EasyDonor solves
+
+Tissue banks and biobanks working with living donors have to find donors,
+screen them against eligibility criteria, consent them, get samples collected
+and tested, return results, compensate donors and bring them back, while
+keeping records that stand up to review. EasyDonor runs that whole donor
+program so the bank can focus on the science.
+
+## How it is sold
+
+CareGap builds a custom donor eligibility program for each bank on the
+EasyDonor platform: the bank's eligibility criteria, SOPs, forms, collection
+methods, compensation and brand. Pricing is scoped per program; contact
+sales@caregap.io or book a demo at https://calendly.com/caregap/caregap-demo.
+
+## Donor portal
+
+- Sign-up and pre-screening questions.
+- Health questionnaire scored against the bank's risk factors, with automatic
+  deferral.
+- Consent signed in the portal and stored as signed PDFs, including HIPAA
+  authorization where needed.
+- Self-booked eligibility interviews.
+- At-home collection kits with tracking and a pre-shipping checklist.
+- Blood draws at home through Getlabs mobile phlebotomy or by walk-in at a
+  Quest patient service center, with the lab requisition generated
+  automatically.
+- Lab results visible to the donor only after staff review and release, with
+  a referral letter when there is a finding.
+- Compensation by e-gift card, tracked thank-you shipments, repeat donations
+  by round, and email reminders sent during waking hours in the donor's time
+  zone.
+- Multiple programs side by side, each with its own steps and compensation.
+
+## Staff console
+
+- Work queue sorted by role (admin, coordinator, scientist, read-only).
+- Donor record with eligibility interview, reconfirmation, eligibility
+  determination and chain of custody.
+- Results review and release.
+- Incidental findings workflow with a contact ladder, notification script and
+  referral packet.
+- Sign-ups opened or closed by program and state; temporary or indefinite
+  deferrals per program.
+- Kit tracking, lost-kit reports, gift card delivery and resends.
+- Funnel analytics, KPI tiles, a cohort explorer and CSV exports.
+
+## Quality and security
+
+- Built for banks working under FDA 21 CFR Part 1271 donor eligibility
+  requirements; the bank's own SOPs and forms drive the workflow.
+- Records are kept against the form revision they were filed under.
+- Audit log of staff actions, multi-factor authentication, automatic logoff
+  and enforced password policy.
+- Donor eligibility determinations, and responsibility for them, remain with
+  the bank.
+
+## Customers
+
+Muse Bio runs its donor program on EasyDonor (https://mycells.bio).
+
 ## Pages
 
 - [LabLink](https://lablink.caregap.io): sign up and use the product.
@@ -111,6 +177,8 @@ side. The integration can be built while that paperwork clears.
 - [Home](https://caregap.io/): CareGap overview and products.
 - [LabLink overview](https://caregap.io/lablink): billing options, pricing,
   onboarding steps, developer API, requirements and FAQ.
+- [EasyDonor overview](https://caregap.io/easydonor): donor portal, staff
+  console, quality and security, how programs are built, and FAQ.
 - [Terms of use](https://caregap.io/terms-of-use)
 - [Privacy policy](https://caregap.io/privacy-policy)
 

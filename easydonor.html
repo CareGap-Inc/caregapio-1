@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyDonor by CareGap | Living-Donor Programs for Tissue Banks and Biobanks</title>
+    <meta name="description" content="EasyDonor runs living-donor programs for tissue banks and biobanks: sign-up, pre-screening and eligibility, e-signed consent, collection, results release, compensation and retention, with the records your quality system needs.">
+    <link rel="canonical" href="https://caregap.io/easydonor">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://caregap.io/easydonor">
+    <meta property="og:title" content="EasyDonor by CareGap | Living-Donor Programs for Tissue Banks and Biobanks">
+    <meta property="og:description" content="Donor acquisition, eligibility and retention for tissue banks and biobanks, built around your eligibility program. Live with Muse Bio.">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/png" href="https://imgur.com/QAdKjar.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://caregap.io/#org",
+          "name": "CareGap",
+          "url": "https://caregap.io",
+          "email": "sales@caregap.io"
+        },
+        {
+          "@type": "Service",
+          "@id": "https://caregap.io/easydonor#service",
+          "name": "EasyDonor",
+          "alternateName": "EasyDonor by CareGap",
+          "serviceType": "Living-donor program management software for tissue banks and biobanks",
+          "url": "https://caregap.io/easydonor",
+          "description": "EasyDonor runs living-donor programs end to end for tissue banks and biobanks: donor sign-up and pre-screening, health questionnaires with automatic deferral, e-signed consent, eligibility interviews, at-home collection kits and blood draws, staff-released results, incidental findings, e-gift card compensation, repeat donations, audit logging and reporting. CareGap builds each program around the bank's own eligibility criteria, forms and brand.",
+          "provider": {"@id": "https://caregap.io/#org"},
+          "areaServed": {"@type": "Country", "name": "United States"},
+          "audience": {"@type": "BusinessAudience", "audienceType": "Tissue banks and biobanks"},
+          "offers": {
+            "@type": "Offer",
+            "description": "Custom donor eligibility program, scoped and priced per program. Contact sales@caregap.io."
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://caregap.io/easydonor#faq",
+          "mainEntity": [
+            {"@type": "Question", "name": "Is EasyDonor off the shelf?", "acceptedAnswer": {"@type": "Answer", "text": "No. We build a donor eligibility program tailored to your bank: your criteria, your forms, your collection methods and your brand, on the EasyDonor platform."}},
+            {"@type": "Question", "name": "Who is EasyDonor for?", "acceptedAnswer": {"@type": "Answer", "text": "Tissue banks and biobanks that work with living donors and want to spend their time on the science rather than on donor acquisition, eligibility and retention."}},
+            {"@type": "Question", "name": "Does EasyDonor make eligibility determinations?", "acceptedAnswer": {"@type": "Answer", "text": "It screens donors against your risk factors, applies your deferrals and records the determination on your forms. The determination itself, and responsibility for it, stays with your bank's staff."}},
+            {"@type": "Question", "name": "How do donors give samples and blood?", "acceptedAnswer": {"@type": "Answer", "text": "Donors can collect at home with a tracked kit. For blood draws they can book an at-home draw through Getlabs mobile phlebotomy or walk in to a Quest patient service center, and the lab requisition is generated for you."}},
+            {"@type": "Question", "name": "How are donors compensated?", "acceptedAnswer": {"@type": "Answer", "text": "By e-gift card, with delivery your team can track and resend. Thank-you shipments are tracked too. Compensation can differ by program."}},
+            {"@type": "Question", "name": "How do donors hear from you?", "acceptedAnswer": {"@type": "Answer", "text": "By email: status updates, results notices and reminders timed to each donor and sent only during waking hours in their time zone. Donors can unsubscribe without logging in."}},
+            {"@type": "Question", "name": "How is donor data protected?", "acceptedAnswer": {"@type": "Answer", "text": "EasyDonor is built with HIPAA safeguards: multi-factor authentication, automatic logoff after inactivity, enforced password policy, role-based staff access and an audit log of staff actions."}},
+            {"@type": "Question", "name": "Who uses EasyDonor today?", "acceptedAnswer": {"@type": "Answer", "text": "Muse Bio runs its donor program on EasyDonor. You can see the donor side at mycells.bio."}},
+            {"@type": "Question", "name": "How much does EasyDonor cost?", "acceptedAnswer": {"@type": "Answer", "text": "Each program is scoped and priced to your bank. Book a demo or email sales@caregap.io and we will walk through your program."}}
+          ]
+        }
+      ]
+    }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="dist/styles.css">
+    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+</head>
+<body class="font-['Inter'] bg-white">
+
+    <!-- Calendly Modal (shared script.js expects these nodes) -->
+    <div id="calendly-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-3xl h-[80vh] bg-white rounded-lg shadow-xl overflow-hidden">
+            <div class="absolute top-0 right-0 z-10 p-4">
+                <button id="close-modal" class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-md hover:bg-gray-100 transition-colors" aria-label="Close">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="calendly-container" class="w-full h-full"></div>
+        </div>
+    </div>
+
+    <!-- Sticky Header -->
+    <header id="header" class="fixed w-full top-0 left-0 z-50 transition-all duration-300 bg-white/90 backdrop-blur">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="/" class="logo">
+                    <img src="https://imgur.com/jWqRq4Y.png" alt="CareGap Logo" class="h-8">
+                </a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#donor-journey" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Donor Journey</a>
+                    <a href="#staff" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Staff Console</a>
+                    <a href="#quality" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Quality</a>
+                    <a href="#faq-section" class="text-gray-700 hover:text-[#ff3e57] transition-colors">FAQ</a>
+                    <a href="https://calendly.com/caregap/caregap-demo" class="bg-[#ff3e57] text-white px-6 py-2 rounded-full hover:bg-[#ff3e57]/90 transition-colors">Book a Demo</a>
+                </div>
+                <button class="md:hidden" id="mobile-menu-button" aria-label="Open menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-4">
+                <div class="flex flex-col space-y-4">
+                    <a href="#donor-journey" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Donor Journey</a>
+                    <a href="#staff" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Staff Console</a>
+                    <a href="#quality" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Quality</a>
+                    <a href="#faq-section" class="text-gray-700 hover:text-[#ff3e57] transition-colors">FAQ</a>
+                    <a href="https://calendly.com/caregap/caregap-demo" class="bg-[#ff3e57] text-white px-6 py-2 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Book a Demo</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="pt-32 pb-20 bg-gradient-to-b from-white to-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl" data-aos="fade-up">
+                <p class="text-sm font-semibold tracking-widest text-[#ff3e57] mb-4">EASYDONOR BY CAREGAP &middot; FOR TISSUE BANKS AND BIOBANKS</p>
+                <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight text-gray-900">
+                    Your living-donor program, run end to end.
+                    <span class="text-[#ff3e57] block">You focus on the science.</span>
+                </h1>
+                <p class="text-xl text-gray-600 mb-8 max-w-3xl">
+                    EasyDonor handles donor acquisition, eligibility and retention: sign-up, screening, consent, collection, results, compensation and the records your quality system needs. We build it around your eligibility criteria, your forms and your brand.
+                </p>
+
+                <div class="flex flex-wrap gap-3 mb-10">
+                    <span class="bg-white border border-gray-200 rounded-full px-5 py-2 text-gray-900 font-semibold shadow-sm">Live with Muse Bio</span>
+                    <span class="bg-white border border-gray-200 rounded-full px-5 py-2 text-gray-900 font-semibold shadow-sm">Built to your eligibility program</span>
+                    <span class="bg-white border border-gray-200 rounded-full px-5 py-2 text-gray-900 font-semibold shadow-sm">Donor portal and staff console</span>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="https://calendly.com/caregap/caregap-demo" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Book a Demo</a>
+                    <a href="#donor-journey" class="border-2 border-[#ff3e57] text-[#ff3e57] px-8 py-3 rounded-full hover:bg-[#ff3e57] hover:text-white transition-colors text-center">See How It Works</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The problem -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-12 items-start max-w-6xl">
+                <div data-aos="fade-up">
+                    <h2 class="text-4xl font-bold mb-4">The science is the hard part. The donor program should not be.</h2>
+                </div>
+                <div class="space-y-4 text-gray-600 text-lg" data-aos="fade-up" data-aos-delay="100">
+                    <p>Working with living-donor tissue means finding donors, screening them against your criteria, consenting them, getting samples collected and tested, telling them their results, paying them and bringing them back &mdash; and keeping a record of every step that stands up to review.</p>
+                    <p>Most banks run that on spreadsheets, inboxes and paper forms. EasyDonor puts the whole program in one place: a donor portal for the people giving, and a console for the team running it.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Donor journey -->
+    <section id="donor-journey" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mb-14" data-aos="fade-up">
+                <p class="text-sm font-semibold tracking-widest text-[#ff3e57] mb-4">THE DONOR PORTAL</p>
+                <h2 class="text-4xl font-bold mb-4">Every step of the donor journey</h2>
+                <p class="text-lg text-gray-600">Donors sign up, qualify, consent, collect and get paid in one portal, under your brand. Run more than one program side by side, each with its own steps and compensation.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="card border border-gray-100" data-aos="fade-up">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-9 h-9 bg-[#ff3e57] text-white rounded-full flex items-center justify-center font-bold text-sm">1</span>
+                        <h3 class="text-lg font-semibold">Sign up and pre-screen</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm">Donors register and answer your pre-screening questions before anyone on your team spends time on them.</p>
+                </div>
+                <div class="card border border-gray-100" data-aos="fade-up" data-aos-delay="50">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-9 h-9 bg-[#ff3e57] text-white rounded-full flex items-center justify-center font-bold text-sm">2</span>
+                        <h3 class="text-lg font-semibold">Screen and defer</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm">A health questionnaire scored against your risk factors, with deferrals applied automatically and consistently.</p>
+                </div>
+                <div class="card border border-gray-100" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-9 h-9 bg-[#ff3e57] text-white rounded-full flex items-center justify-center font-bold text-sm">3</span>
+                        <h3 class="text-lg font-semibold">Consent, e-signed</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm">Your consent forms signed in the portal and saved as signed PDFs, including HIPAA authorization where you need it.</p>
+                </div>
+                <div class="card border border-gray-100" data-aos="fade-up" data-aos-delay="150">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-9 h-9 bg-[#ff3e57] text-white rounded-full flex items-center justify-center font-bold text-sm">4</span>
+                        <h3 class="text-lg font-semibold">Book the interview</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm">Donors book their eligibility interview themselves, and it lands in your team's queue.</p>
+                </div>
+                <div class="card border border-gray-100" data-aos="fade-up">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-9 h-9 bg-[#ff3e57] text-white rounded-full flex items-center justify-center font-bold text-sm">5</span>
+                        <h3 class="text-lg font-semibold">Collect at home</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm">At-home collection kits with tracking, a pre-shipping checklist and sample-storage times captured from the donor.</p>
+                </div>
+                <div class="card border border-gray-100" data-aos="fade-up" data-aos-delay="50">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-9 h-9 bg-[#ff3e57] text-white rounded-full flex items-center justify-center font-bold text-sm">6</span>
+                        <h3 class="text-lg font-semibold">Blood draw, their way</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm">An at-home draw through Getlabs mobile phlebotomy, or a walk-in at a Quest patient service center. The lab requisition is generated for you.</p>
+                </div>
+                <div class="card border border-gray-100" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-9 h-9 bg-[#ff3e57] text-white rounded-full flex items-center justify-center font-bold text-sm">7</span>
+                        <h3 class="text-lg font-semibold">Results, released by you</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm">Donors see their lab report only after your staff review and release it &mdash; with a referral letter when there is a finding.</p>
+                </div>
+                <div class="card border border-gray-100" data-aos="fade-up" data-aos-delay="150">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-9 h-9 bg-[#ff3e57] text-white rounded-full flex items-center justify-center font-bold text-sm">8</span>
+                        <h3 class="text-lg font-semibold">Paid, and back again</h3>
+                    </div>
+                    <p class="text-gray-600 text-sm">Compensation by e-gift card, tracked thank-you shipments, repeat donations by round, and reminder emails timed to each donor.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Staff console -->
+    <section id="staff" class="py-20 bg-gray-900 text-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mb-14" data-aos="fade-up">
+                <p class="text-sm font-semibold tracking-widest text-[#ff3e57] mb-4">THE STAFF CONSOLE</p>
+                <h2 class="text-4xl font-bold mb-4">One place for the team running the program</h2>
+                <p class="text-lg text-gray-400">Your coordinators, scientists and admins see what needs doing next, and every donor's full record in one view.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6" data-aos="fade-up">
+                    <h3 class="text-lg font-semibold mb-2">Work queue by role</h3>
+                    <p class="text-gray-400 text-sm">Interviews to run, results to review, kits to ship &mdash; sorted into buckets for the person whose job it is.</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6" data-aos="fade-up" data-aos-delay="50">
+                    <h3 class="text-lg font-semibold mb-2">The full donor record</h3>
+                    <p class="text-gray-400 text-sm">Eligibility interview, reconfirmation, eligibility determination and chain of custody, recorded on each donor.</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-lg font-semibold mb-2">Results review and release</h3>
+                    <p class="text-gray-400 text-sm">Nothing reaches a donor until your staff have reviewed it and chosen to release it.</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6" data-aos="fade-up" data-aos-delay="150">
+                    <h3 class="text-lg font-semibold mb-2">Incidental findings</h3>
+                    <p class="text-gray-400 text-sm">A guided workflow with a contact ladder, a notification script and a referral packet, so positive results are handled the same way every time.</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-lg font-semibold mb-2">Program and eligibility controls</h3>
+                    <p class="text-gray-400 text-sm">Open or close sign-ups by program and by state, and set temporary or indefinite deferrals per program.</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6" data-aos="fade-up" data-aos-delay="250">
+                    <h3 class="text-lg font-semibold mb-2">Kits and compensation</h3>
+                    <p class="text-gray-400 text-sm">Outbound and return tracking for every kit, lost-kit reports from donors, and gift card delivery you can see and resend.</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6" data-aos="fade-up">
+                    <h3 class="text-lg font-semibold mb-2">Outreach and retention</h3>
+                    <p class="text-gray-400 text-sm">Email outreach to donors from the console, and automatic reminders that respect quiet hours in each donor's time zone.</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6" data-aos="fade-up" data-aos-delay="50">
+                    <h3 class="text-lg font-semibold mb-2">Reporting</h3>
+                    <p class="text-gray-400 text-sm">Funnel analytics and KPI tiles, a cohort explorer for ad-hoc questions, and CSV exports of donors and forms.</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-lg font-semibold mb-2">Staff roles</h3>
+                    <p class="text-gray-400 text-sm">Admin, coordinator, scientist and read-only roles, with invite-only access and multi-factor authentication.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quality -->
+    <section id="quality" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mb-14" data-aos="fade-up">
+                <h2 class="text-4xl font-bold mb-4">Built for your quality system</h2>
+                <p class="text-lg text-gray-600">EasyDonor is built for banks working under FDA 21 CFR Part 1271 donor eligibility requirements. Your SOPs and forms drive the workflow, not the other way round.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="card border border-gray-100" data-aos="fade-up">
+                    <h3 class="text-lg font-semibold mb-3">Your forms, versioned</h3>
+                    <p class="text-gray-600 text-sm">Your eligibility, chain-of-custody, reconfirmation and incidental-finding records, with each record kept against the form revision it was filed under.</p>
+                </div>
+                <div class="card border border-gray-100" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-lg font-semibold mb-3">An audit trail</h3>
+                    <p class="text-gray-600 text-sm">Staff actions are written to an audit log built for HIPAA audit controls.</p>
+                </div>
+                <div class="card border border-gray-100" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-lg font-semibold mb-3">Locked down by default</h3>
+                    <p class="text-gray-600 text-sm">Multi-factor authentication, automatic logoff after inactivity and enforced password policy, for donors and staff.</p>
+                </div>
+                <div class="card border border-gray-100" data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="text-lg font-semibold mb-3">State rules, per program</h3>
+                    <p class="text-gray-600 text-sm">Sign-ups and reporting steps configured to the states where you collect.</p>
+                </div>
+            </div>
+
+            <p class="text-xs text-gray-500 mt-10 max-w-4xl">EasyDonor supports your quality system and your team's work. Donor eligibility determinations, and responsibility for them, remain with your bank.</p>
+        </div>
+    </section>
+
+    <!-- How we work -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mb-14" data-aos="fade-up">
+                <h2 class="text-4xl font-bold mb-4">A donor program built around yours</h2>
+                <p class="text-lg text-gray-600">Every bank's eligibility criteria are different. We build EasyDonor to your program rather than asking you to fit ours.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 max-w-5xl">
+                <div class="card border border-gray-100" data-aos="fade-up">
+                    <div class="w-12 h-12 bg-[#ff3e57]/10 rounded-full flex items-center justify-center mb-5">
+                        <span class="text-lg font-bold text-[#ff3e57]">01</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Map your program</h3>
+                    <p class="text-gray-600 text-sm">Your eligibility criteria and risk factors, SOPs and forms, collection methods, compensation and the states you collect in.</p>
+                </div>
+                <div class="card border border-gray-100" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-12 h-12 bg-[#ff3e57]/10 rounded-full flex items-center justify-center mb-5">
+                        <span class="text-lg font-bold text-[#ff3e57]">02</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">We build it</h3>
+                    <p class="text-gray-600 text-sm">Your donor portal and staff console, in your brand, configured to your screening, consent and collection steps.</p>
+                </div>
+                <div class="card border border-gray-100" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-12 h-12 bg-[#ff3e57]/10 rounded-full flex items-center justify-center mb-5">
+                        <span class="text-lg font-bold text-[#ff3e57]">03</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Launch and grow</h3>
+                    <p class="text-gray-600 text-sm">Open sign-ups, run donors through, and add programs and states as you go.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer -->
+    <section id="customer" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-5xl bg-gray-900 text-white rounded-2xl p-10 grid md:grid-cols-3 gap-10 items-center" data-aos="fade-up">
+                <div class="md:col-span-1">
+                    <img src="https://raw.githubusercontent.com/jeremycwalker1/CAREGAP.IO/main/musebiologo.png" alt="Muse Bio" class="h-14 w-auto object-contain bg-white rounded-xl p-3">
+                </div>
+                <div class="md:col-span-2">
+                    <p class="text-xs font-semibold tracking-widest text-[#ff3e57] mb-3">LIVE TODAY</p>
+                    <h2 class="text-3xl font-bold mb-4">Muse Bio runs its donor program on EasyDonor</h2>
+                    <p class="text-gray-400 mb-6">Muse Bio's donors sign up, screen, consent, collect at home, book blood draws and get paid through EasyDonor, while Muse Bio's team runs eligibility, results and incidental findings from the staff console.</p>
+                    <a href="https://mycells.bio" class="text-[#ff3e57] font-semibold hover:underline">Visit mycells.bio &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq-section" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold mb-16 max-w-3xl" data-aos="fade-up">Questions banks ask</h2>
+            <div class="space-y-8 max-w-4xl">
+                <div class="border-b pb-6" data-aos="fade-up">
+                    <h3 class="text-xl font-semibold mb-2">Is EasyDonor off the shelf?</h3>
+                    <p class="text-gray-600">No. We build a donor eligibility program tailored to your bank: your criteria, your forms, your collection methods and your brand, on the EasyDonor platform.</p>
+                </div>
+                <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="50">
+                    <h3 class="text-xl font-semibold mb-2">Who is EasyDonor for?</h3>
+                    <p class="text-gray-600">Tissue banks and biobanks that work with living donors and want to spend their time on the science rather than on donor acquisition, eligibility and retention.</p>
+                </div>
+                <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-xl font-semibold mb-2">Does EasyDonor make eligibility determinations?</h3>
+                    <p class="text-gray-600">It screens donors against your risk factors, applies your deferrals and records the determination on your forms. The determination itself, and responsibility for it, stays with your bank's staff.</p>
+                </div>
+                <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="150">
+                    <h3 class="text-xl font-semibold mb-2">How do donors give samples and blood?</h3>
+                    <p class="text-gray-600">Donors can collect at home with a tracked kit. For blood draws they can book an at-home draw through Getlabs mobile phlebotomy or walk in to a Quest patient service center, and the lab requisition is generated for you.</p>
+                </div>
+                <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-xl font-semibold mb-2">How are donors compensated?</h3>
+                    <p class="text-gray-600">By e-gift card, with delivery your team can track and resend. Thank-you shipments are tracked too. Compensation can differ by program.</p>
+                </div>
+                <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="250">
+                    <h3 class="text-xl font-semibold mb-2">How do donors hear from you?</h3>
+                    <p class="text-gray-600">By email: status updates, results notices and reminders timed to each donor and sent only during waking hours in their time zone. Donors can unsubscribe without logging in.</p>
+                </div>
+                <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="text-xl font-semibold mb-2">How is donor data protected?</h3>
+                    <p class="text-gray-600">EasyDonor is built with HIPAA safeguards: multi-factor authentication, automatic logoff after inactivity, enforced password policy, role-based staff access and an audit log of staff actions.</p>
+                </div>
+                <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="350">
+                    <h3 class="text-xl font-semibold mb-2">Who uses EasyDonor today?</h3>
+                    <p class="text-gray-600">Muse Bio runs its donor program on EasyDonor. You can see the donor side at mycells.bio.</p>
+                </div>
+                <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="400">
+                    <h3 class="text-xl font-semibold mb-2">How much does EasyDonor cost?</h3>
+                    <p class="text-gray-600">Each program is scoped and priced to your bank. Book a demo or email sales@caregap.io and we will walk through your program.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-20 bg-[#ff3e57] text-white">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold mb-6" data-aos="fade-up">Let us run the donor program</h2>
+            <p class="text-xl mb-10 max-w-2xl mx-auto" data-aos="fade-up">Tell us about your bank and your eligibility criteria, and we will show you what your program looks like on EasyDonor.</p>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4" data-aos="fade-up">
+                <a href="https://calendly.com/caregap/caregap-demo" class="bg-white text-[#ff3e57] px-8 py-3 rounded-full hover:bg-gray-100 transition-colors">Book a Demo</a>
+                <a href="mailto:sales@caregap.io?subject=EasyDonor" class="border-2 border-white text-white px-8 py-3 rounded-full hover:bg-white hover:text-[#ff3e57] transition-colors">Email sales@caregap.io</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <img src="https://imgur.com/jWqRq4Y.png" alt="CareGap Logo" class="h-8 mb-4">
+                    <p class="text-gray-400">&copy; 2026 CareGap. All rights reserved.</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">Products</h3>
+                    <p class="text-gray-400"><a href="/lablink" class="hover:text-white transition-colors">LabLink</a></p>
+                    <p class="text-gray-400 mt-2"><a href="/easydonor" class="hover:text-white transition-colors">EasyDonor</a></p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">Contact</h3>
+                    <p class="text-gray-400"><a href="mailto:sales@caregap.io" class="hover:text-white transition-colors">sales@caregap.io</a></p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">Legal</h3>
+                    <div class="flex space-x-4">
+                        <a href="/terms-of-use" class="text-gray-400 hover:text-white transition-colors">Terms Of Use</a>
+                        <a href="/privacy-policy" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
+                    </div>
+                </div>
+            </div>
+            <p class="text-xs text-gray-600 max-w-4xl">EasyDonor supports a bank's quality system and staff; donor eligibility determinations remain the responsibility of the bank. Informational only and not legal or regulatory advice.</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

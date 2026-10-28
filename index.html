@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CareGap | Healthcare Infrastructure for Digital Health Products</title>
-    <meta name="description" content="CareGap builds healthcare infrastructure products, including LabLink for ordering Quest Diagnostics lab tests from your own app on HIPAA-compliant infrastructure.">
+    <meta name="description" content="CareGap builds healthcare infrastructure products: LabLink for ordering Quest Diagnostics lab tests from your own app, and EasyDonor for running living-donor programs at tissue banks and biobanks.">
     <link rel="canonical" href="https://caregap.io/">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://caregap.io/">
@@ -24,7 +24,8 @@
           "email": "sales@caregap.io",
           "description": "CareGap builds healthcare infrastructure products for companies delivering health and wellness services.",
           "makesOffer": [
-            {"@type": "Offer", "itemOffered": {"@id": "https://caregap.io/lablink#service"}}
+            {"@type": "Offer", "itemOffered": {"@id": "https://caregap.io/lablink#service"}},
+            {"@type": "Offer", "itemOffered": {"@id": "https://caregap.io/easydonor#service"}}
           ]
         },
         {
@@ -33,6 +34,14 @@
           "name": "LabLink",
           "url": "https://caregap.io/lablink",
           "description": "Order Quest Diagnostics lab tests and receive structured results through a single API, on HIPAA-compliant infrastructure. Client bill, patient cash or patient insurance.",
+          "provider": {"@id": "https://caregap.io/#org"}
+        },
+        {
+          "@type": "Service",
+          "@id": "https://caregap.io/easydonor#service",
+          "name": "EasyDonor",
+          "url": "https://caregap.io/easydonor",
+          "description": "Living-donor program software for tissue banks and biobanks: donor sign-up, screening and eligibility, e-signed consent, collection, results release, compensation, retention and quality records.",
           "provider": {"@id": "https://caregap.io/#org"}
         }
       ]
@@ -68,6 +77,7 @@
                 </a>
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="/lablink" class="text-gray-700 hover:text-[#ff3e57] transition-colors font-semibold">LabLink</a>
+                    <a href="/easydonor" class="text-gray-700 hover:text-[#ff3e57] transition-colors font-semibold">EasyDonor</a>
                     <a href="#how-it-works" class="text-gray-700 hover:text-[#ff3e57] transition-colors">How It Works</a>
                     <a href="#features-section" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Features</a>
                     <a href="#partners-section" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Our Partners</a>
@@ -84,6 +94,7 @@
             <div id="mobile-menu" class="hidden md:hidden mt-4">
                 <div class="flex flex-col space-y-4">
                     <a href="/lablink" class="text-gray-700 hover:text-[#ff3e57] transition-colors font-semibold">LabLink</a>
+                    <a href="/easydonor" class="text-gray-700 hover:text-[#ff3e57] transition-colors font-semibold">EasyDonor</a>
                     <a href="#how-it-works" class="text-gray-700 hover:text-[#ff3e57] transition-colors">How It Works</a>
                     <a href="#features-section" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Features</a>
                     <a href="#partners-section" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Our Partners</a>
@@ -145,7 +156,7 @@
             <div class="max-w-3xl mb-14" data-aos="fade-up">
                 <p class="text-sm font-semibold tracking-widest text-[#ff3e57] mb-4">PRODUCTS</p>
                 <h2 class="text-4xl font-bold mb-4">Infrastructure you can build on</h2>
-                <p class="text-lg text-gray-400">Each CareGap product solves one hard part of delivering care &mdash; on HIPAA-compliant infrastructure, under your brand.</p>
+                <p class="text-lg text-gray-400">Each CareGap product solves one hard part of delivering care &mdash; built for protected health data, and under your brand.</p>
             </div>
 
             <div class="grid lg:grid-cols-2 gap-8">
@@ -166,16 +177,25 @@
                     </div>
                 </div>
 
-                <!-- More products -->
-                <div class="border border-dashed border-white/20 rounded-2xl p-8 flex flex-col justify-center" data-aos="fade-up" data-aos-delay="100">
-                    <p class="text-xs font-semibold tracking-widest text-gray-500 mb-3">MORE ON THE WAY</p>
-                    <h3 class="text-2xl font-bold mb-3">Building something in healthcare?</h3>
-                    <p class="text-gray-400 mb-6">We are adding products to the platform. Tell us what you are building and we will show you what is available today.</p>
-                    <div>
+                <!-- EasyDonor -->
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-8 flex flex-col" data-aos="fade-up" data-aos-delay="100">
+                    <p class="text-xs font-semibold tracking-widest text-[#ff3e57] mb-3">DONOR PROGRAMS FOR TISSUE AND BIOBANKS</p>
+                    <h3 class="text-3xl font-bold mb-3">EasyDonor</h3>
+                    <p class="text-gray-400 mb-6">Run your living-donor program end to end &mdash; sign-up, screening and eligibility, consent, collection, results, compensation and the records your quality system needs &mdash; so your team can focus on the science.</p>
+                    <ul class="space-y-3 mb-8 text-gray-300 text-sm">
+                        <li class="flex gap-3"><span class="text-[#ff3e57] font-bold">&#10003;</span> Donor eligibility programs built around your bank</li>
+                        <li class="flex gap-3"><span class="text-[#ff3e57] font-bold">&#10003;</span> A donor portal and a staff console, under your brand</li>
+                        <li class="flex gap-3"><span class="text-[#ff3e57] font-bold">&#10003;</span> Live today with Muse Bio</li>
+                        <li class="flex gap-3"><span class="text-[#ff3e57] font-bold">&#10003;</span> Scoped and priced to your program</li>
+                    </ul>
+                    <div class="mt-auto flex flex-wrap gap-4">
+                        <a href="/easydonor" class="inline-block bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors">Explore EasyDonor</a>
                         <a href="https://calendly.com/caregap/caregap-demo" class="inline-block border-2 border-white/30 text-white px-8 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-colors">Book a Demo</a>
                     </div>
                 </div>
             </div>
+
+            <p class="text-gray-400 mt-10" data-aos="fade-up">Building something else in healthcare? <a href="https://calendly.com/caregap/caregap-demo" class="text-[#ff3e57] font-semibold hover:underline">Tell us about it</a> &mdash; more products are on the way.</p>
         </div>
     </section>
 
@@ -329,6 +349,7 @@
                 <div>
                     <h3 class="font-semibold mb-4">Products</h3>
                     <p class="text-gray-400"><a href="/lablink" class="hover:text-white transition-colors">LabLink</a></p>
+                    <p class="text-gray-400 mt-2"><a href="/easydonor" class="hover:text-white transition-colors">EasyDonor</a></p>
                 </div>
                 <div>
                     <h3 class="font-semibold mb-4">Contact</h3>

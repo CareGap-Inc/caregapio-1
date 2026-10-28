@@ -1,9 +1,19 @@
 # CareGap
 
-> CareGap makes LabLink (https://lablink.caregap.io), a platform that lets
-> organizations order Quest Diagnostics lab tests from their own application
-> and receive structured results through a single API, on HIPAA-compliant
-> infrastructure, with published pricing.
+> CareGap builds healthcare infrastructure products for companies delivering
+> health and wellness services. Products run on HIPAA-compliant infrastructure
+> and carry the customer's brand.
+
+## Products
+
+- LabLink (https://caregap.io/lablink, app at https://lablink.caregap.io):
+  order Quest Diagnostics lab tests from your own application and receive
+  structured results through a single API, with published pricing. Details
+  below.
+
+More products are in development.
+
+# LabLink
 
 ## What LabLink solves
 
@@ -98,8 +108,9 @@ side. The integration can be built while that paperwork clears.
 
 - [LabLink](https://lablink.caregap.io): sign up and use the product.
 - [LabLink API docs](https://lablink.caregap.io/docs)
-- [Home](https://caregap.io/): LabLink overview, billing options, pricing,
-  onboarding steps, requirements and FAQ.
+- [Home](https://caregap.io/): CareGap overview and products.
+- [LabLink overview](https://caregap.io/lablink): billing options, pricing,
+  onboarding steps, developer API, requirements and FAQ.
 - [Terms of use](https://caregap.io/terms-of-use)
 - [Privacy policy](https://caregap.io/privacy-policy)
 

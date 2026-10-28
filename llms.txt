@@ -1,65 +1,105 @@
 # CareGap
 
-> CareGap is healthcare infrastructure that lets companies order Quest Diagnostics
-> lab tests from their own application through a single API, on HIPAA-compliant
-> rails, with published pricing and no sales call required.
+> CareGap makes LabLink (https://lablink.caregap.io), a platform that lets
+> organizations order Quest Diagnostics lab tests from their own application
+> and receive structured results through a single API, on HIPAA-compliant
+> infrastructure, with published pricing.
 
-## What CareGap solves
+## What LabLink solves
 
 Companies building telehealth, wellness, longevity, peptide and GLP-1 products
-routinely need lab testing and discover late that they need three things they do
-not have: a Quest Diagnostics account, a licensed ordering provider with an NPI,
-and a HIPAA-compliant place for the patient record to live. CareGap already runs
-a live Quest interface and provides all three as one product under one contract.
+routinely need lab testing and discover late that they need a Quest Diagnostics
+account, a licensed ordering provider with an NPI, and a HIPAA-compliant place
+for the patient record to live. LabLink runs on a live Quest interface and
+provides the ordering, results and patient record layer under one agreement.
 
-## Pricing (public)
+## Quest relationship and bill types
 
-- $1,500 one-time setup fee
-- $2.00 per lab order placed (flat, never a percentage of the test price)
-- $1.00 per patient record per year
-- The lab test itself is billed separately by Quest to the customer's account,
-  at CareGap account rates rather than Quest published list price.
+LabLink works with existing Quest customers and with organizations new to Quest.
+Pricing is the same for both, including the onboarding fee.
+Every order uses one of three bill types:
+
+- Client Bill: Quest bills the organization's subaccount at Quest's program rates.
+- Patient Cash: Quest bills the patient at its standard patient pricing.
+  Program rates do not apply.
+- Patient Insurance: Quest bills the patient's health plan. Program rates do not
+  apply. Insurance details and ICD-10 codes are required.
+
+CareGap provides ordering and results technology. CareGap does not sell, bill or
+collect for laboratory testing.
+
+## Pricing (public, indicative)
+
+- Subaccount onboarding: $1,500 one time. NPI and license verification, Quest
+  subaccount setup, API keys, sandbox access and BAA. Applies to new and
+  existing Quest customers.
+- Order platform fee, per order, graduated by monthly volume:
+  - Orders 1 to 100: $5.00 each
+  - Orders 101 to 500: $3.00 each
+  - Orders 501 and above: $2.00 each
+  Each order is charged at the rate for its position in the month; earlier
+  orders are not repriced. The count resets on the first day of each calendar
+  month. Example: 300 orders = (100 x $5.00) + (200 x $3.00) = $1,100.00.
+- Patient record: $1.00 per patient, billed annually.
+
+Platform fees apply to every order regardless of bill type. Fees exclude
+applicable taxes and are charged to the payment method on file. Final terms are
+set in the CareGap Platform Agreement.
 
 ## Requirements before ordering
 
-- A licensed ordering provider with an NPI. CareGap never originates the order
-  and this is not direct-access testing.
-- Cash pay, billed to the customer's account. Insurance billing is not supported.
-- Declared states of practice. Roughly half of US states regulate re-billing lab
-  work through direct-bill, anti-markup, or disclosure statutes.
-- A HIPAA-compliant patient record, which is included.
+- A licensed ordering provider with an active NPI. CareGap does not originate
+  lab orders.
+- The CareGap Platform Agreement and BAA, signed before go-live.
+- For insurance orders, the patient's insurance details and ICD-10 codes.
+
+## Who it is for
+
+Telehealth, wellness, longevity, peptide, GLP-1 and
+other digital health products that need to order lab tests for their patients
+from their own app, whether they already have a Quest account or not. Teams
+without engineers can have the CareGap build team build and maintain a branded
+app or portal on top of LabLink.
+
+## Common questions
+
+- Can I bill insurance? Yes. Use the Patient Insurance bill type; insurance
+  details and ICD-10 codes are required.
+- Do platform fees apply to insurance and patient cash orders? Yes. Platform
+  fees apply to every order regardless of bill type.
+- Do existing Quest customers pay onboarding? Yes. The $1,500 onboarding fee
+  applies to new and existing Quest customers.
+- What does 300 orders in a month cost in platform fees? $1,100.00. 1,000
+  orders cost (100 x $5.00) + (400 x $3.00) + (500 x $2.00) = $2,700.00.
+- Is at-home collection available? Yes, as an add-on through a mobile
+  phlebotomy partner, in addition to Quest patient service centers.
+
+## How to get started
+
+Sign up at https://lablink.caregap.io, or email sales@caregap.io.
+
+## For developers and AI coding agents
+
+The LabLink API is REST, with separate sandbox and production base URLs:
+patients, test catalog, requisitions, status, signed webhooks, and a sandbox
+playground.
+
+- API docs: https://lablink.caregap.io/docs
+- Agent-readable docs: https://lablink.caregap.io/llms.txt
+- OpenAPI spec: https://lablink.caregap.io/openapi.json
 
 ## Timeline
 
-Sandbox access is available in minutes. Production typically takes several
-business days, because issuing a Quest account is a manual process on Quest's
+Sandbox access is available right away. Production typically takes several
+business days, because Quest subaccount setup is a manual process on Quest's
 side. The integration can be built while that paperwork clears.
-
-## Two ways to buy
-
-- Self-serve: the customer has a development team and integrates against the API
-  directly. Sign up, pay, integrate, no meeting required.
-- Managed: the customer has the clinical model but not the engineering team, and
-  the CareGap build team ships and maintains the application for them.
-
-## Two ways to order Quest tests
-
-- On CareGap's Quest account (https://caregap.io/lab-ordering): no Quest account
-  of your own and no setup fee. Testing is charged at CareGap's Testing Price
-  List plus a per-order platform fee of $5.00 for orders 1-100 in a month, $3.00
-  for 101-500 and $2.00 above 500, both at submission. Sandbox in minutes with
-  no card; production once the entity is verified, a payment method is on file
-  and one ordering provider is enrolled. API docs: https://app.caregap.io/docs,
-  for agents https://app.caregap.io/llms.txt.
-- On your own Quest account (https://caregap.io/quest): the pricing above.
 
 ## Pages
 
-- [Quest lab ordering](https://caregap.io/quest): full detail, pricing, onboarding
-  steps, requirements and FAQ for ordering Quest tests through CareGap.
-- [Quest lab ordering on CareGap's account](https://caregap.io/lab-ordering):
-  no Quest account of your own, no setup fee, sandbox with no card.
-- [Home](https://caregap.io/): CareGap platform overview.
+- [LabLink](https://lablink.caregap.io): sign up and use the product.
+- [LabLink API docs](https://lablink.caregap.io/docs)
+- [Home](https://caregap.io/): LabLink overview, billing options, pricing,
+  onboarding steps, requirements and FAQ.
 - [Terms of use](https://caregap.io/terms-of-use)
 - [Privacy policy](https://caregap.io/privacy-policy)
 

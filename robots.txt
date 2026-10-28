@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Disallow: /quest-thanks
-Disallow: /quest-thanks.html
+Disallow: /thanks
+Disallow: /thanks.html
 
 Sitemap: https://caregap.io/sitemap.xml

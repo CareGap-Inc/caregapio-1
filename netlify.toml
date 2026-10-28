@@ -4,19 +4,42 @@
 
 # Specific routes must come before the catch-all below.
 
+# The /quest and /lab-ordering landing pages were merged into the home
+# page when the product became LabLink. Keep old links and search results
+# working.
 [[redirects]]
   from = "/quest"
-  to = "/quest.html"
-  status = 200
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/quest.html"
+  to = "/"
+  status = 301
 
 [[redirects]]
   from = "/lab-ordering"
-  to = "/lab-ordering.html"
-  status = 200
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/lab-ordering.html"
+  to = "/"
+  status = 301
 
 [[redirects]]
   from = "/quest-thanks"
-  to = "/quest-thanks.html"
+  to = "/thanks"
+  status = 301
+
+[[redirects]]
+  from = "/quest-thanks.html"
+  to = "/thanks"
+  status = 301
+
+[[redirects]]
+  from = "/thanks"
+  to = "/thanks.html"
   status = 200
 
 [[redirects]]

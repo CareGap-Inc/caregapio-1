@@ -43,6 +43,11 @@
   status = 200
 
 [[redirects]]
+  from = "/donor-engine"
+  to = "/donor-engine.html"
+  status = 200
+
+[[redirects]]
   from = "/thanks"
   to = "/thanks.html"
   status = 200

@@ -87,6 +87,11 @@
   status = 200
 
 [[redirects]]
+  from = "/quest-lab-results-api"
+  to = "/quest-lab-results-api.html"
+  status = 200
+
+[[redirects]]
   from = "/quest-api-without-account"
   to = "/quest-api-without-account.html"
   status = 200

@@ -41,9 +41,13 @@ An audit of caregap.io for the LabLink sunset of `/quest` and `/lab-ordering`, p
 | Finding | Severity | Resolution |
 |---|---|---|
 | No step-by-step path to a first sandbox order | High (conversion) | Added "From signup to your first sandbox order", a sandbox-to-production checklist and a "Stuck in sandbox?" path to `/lablink` |
-| No runnable examples, and none can be written truthfully without the OpenAPI spec | Blocker | None published. Examples must carry `data-openapi-operation`; `npm run check:live` validates them against the live spec; a test blocks unvalidated cURL |
+| No runnable examples | High | Added cURL and JavaScript for each first-order step, a Node.js signature check and a results parser. Each is validated against the spec snapshot (operation, sandbox base URL, body fields, required fields, enums, query parameters); the signature and parser examples are executed in tests; `check:live` confirms each route exists on the sandbox |
+| **The site said production ordering was live** ("Sandbox today. Live in days", "moving real orders and real results today", "already runs in production"). The spec says `POST /orders` returns `not_available` on production until production billing is in place | **High** (accuracy) | Claims removed; `/lablink`, the guides and `llms.txt` say production ordering is not open yet. A test blocks those claims while the spec says "Sandbox only for now" |
+| "Requisitions" resource and "pull structured results" did not match the API (orders; results arrive by webhook) | Medium | Corrected |
+| "FHIR layer" not supported by the docs | Medium | Removed. Row A14 |
+| LabLink docs say it keeps no copy of patient data; `/lablink`'s patient-record layer implies it does | Medium | Flagged, not changed (pricing positioning). Row A15 |
 | Old `/lab-ordering` linked `app.caregap.io/openapi.json`; the current site uses `lablink.caregap.io` | Low | Test blocks `app.caregap.io` anywhere on the site |
-| Rate limits, result formats and sandbox result behaviour are unpublished | Medium | Not claimed. Backlog |
+| Rate limits and order idempotency are undocumented | Low | Not claimed |
 
 ### SEO and AI discoverability
 
@@ -71,7 +75,7 @@ Three candidate intent pages were proposed. Two were built.
 
 - **`/quest-api-without-account`**: built. It answers the retired `/lab-ordering` page's search intent ("order Quest labs without a Quest account") truthfully under current LabLink terms, and states plainly that the old offer is retired. Every claim maps to an owner-published fact.
 - **`/quest-lab-ordering-api`**: built. Prerequisites, order lifecycle, sandbox versus production, bill types, implementation notes and limitations, all from owner-published capabilities. Exact routes and payloads are deferred to the OpenAPI spec instead of being guessed.
-- **`/quest-lab-results-api`**: **not built.** A useful results page needs field-level formats, PDF and LOINC availability, polling versus webhook mechanics and sandbox result behaviour. None of that could be verified without the spec, so the page would have been thin or speculative. Backlog item 3.
+- **`/quest-lab-results-api`**: built once the spec and LabLink's webhook docs were reachable. Covers the `order.results_final` event, reading Quest's HL7 v2 message as JSON, the PDF report, corrected results, delivery rules and PHI handling. Its example event and parsing code are executed by `tests/examples.test.mjs`.
 
 ## Files changed
 
@@ -80,7 +84,9 @@ Three candidate intent pages were proposed. Two were built.
 | `lablink.html` | CTA hierarchy; first-sandbox-order section; sandbox-to-production checklist; troubleshooting; 3 FAQ entries (visible and JSON-LD); guide links; contact form (3 required fields, attribution hidden fields, optional source detail); `data-cta` tracking; `og:image`; analytics |
 | `index.html` | Home LabLink card links to pricing instead of repeating it; CTA tracking; aria-labels; analytics |
 | `easydonor.html`, `thanks.html` | Analytics (UTM persistence, contact event on `/thanks`) |
-| `quest-lab-ordering-api.html`, `quest-api-without-account.html` | New guide pages |
+| `quest-lab-ordering-api.html`, `quest-api-without-account.html`, `quest-lab-results-api.html` | New guide pages |
+| `copy-code.js` | Copy buttons for code examples, announced to screen readers |
+| `data/lablink-openapi.json` | Snapshot of the LabLink OpenAPI spec the examples are tested against (not served) |
 | `404.html` | New real 404 page |
 | `terms-of-use.html`, `privacy-policy.html` | Canonical and meta description |
 | `netlify.toml` | Guide routes, real 404, hidden repository folders, noindex previews |
@@ -99,17 +105,18 @@ Three candidate intent pages were proposed. Two were built.
 
 1. **Confirm current pricing** (rows P1–P4) against the signed October 2026 fee schedule and the LabLink billing code: graduated tiers, calendar-month reset, how the patient-record year and patient count work.
 2. **Is sandbox open before payment?** (row P8). If yes, the primary CTA can become "Create Sandbox Account", and possibly "no card" if that is true.
-3. **LabLink app repository access**, to verify the API claims (section A) against `openapi.json`, add real examples, and build the app-side funnel events.
-4. **Partner logos on `/lablink`** (row S3): permission, and whether each is a LabLink customer.
-5. **Analytics destination and consent** (`docs/lablink-funnel.md`).
-6. **Whose name the Quest subaccount is in** for new-to-Quest customers (row Q2).
-7. **Developer support channel and any response-time commitment** (row S4).
+3. **Production ordering date** (row A13), and whether the $1,500 onboarding is charged before production opens.
+4. **Patient-record positioning** (rows A15, P4): the docs say LabLink keeps no copy of patient data.
+5. **LabLink app repository access**, to build the app-side funnel events.
+6. **Partner logos on `/lablink`** (row S3): permission, and whether each is a LabLink customer.
+7. **Analytics destination and consent** (`docs/lablink-funnel.md`).
+8. **Whose name the Quest subaccount is in** for new-to-Quest customers (row Q2).
 
 ## Backlog (prioritized)
 
-1. After deploy: `npm run check:live`; confirm `www` redirects to the apex. (The `lablink.caregap.io` docs, `llms.txt` and OpenAPI URLs were confirmed public on 2026-10-29.)
-2. With spec access: add validated cURL and JavaScript examples for the six first-order steps, with `data-openapi-operation`, copy buttons and expected responses; add rate-limit and idempotency notes if supported.
-3. Build `/quest-lab-results-api` once result formats and sandbox behaviour are confirmed.
+1. After deploy: `npm run check:live`; confirm `www` redirects to the apex.
+2. When production ordering opens: refresh the spec snapshot and update the "not open yet" lines (see the docs update checklist).
+3. Confirm Netlify is building this repository with deploy previews (none appeared on PR #7).
 4. App-side events (`signup_started`, `signup_completed`, `first_sandbox_order_succeeded`, `production_activation_started`, `production_activated`) in the LabLink app.
 5. Search Console: review legacy URL queries and backlinks; resubmit sitemap; update external backlinks (see the migration doc).
 6. One permissioned customer or integration proof point for `/lablink` (none available today; no testimonial was invented).

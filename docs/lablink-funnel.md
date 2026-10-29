@@ -31,7 +31,7 @@ Events are built from an allow-list of fields per event and passed through `sani
 
 ### CTA identifiers
 
-`cta_id` is one of: `create_account`, `open_app`, `read_docs`, `openapi`, `agent_docs`, `talk_to_us`, `email_sales`, `book_call`, `explore_lablink`. `tests/links.test.mjs` checks each one points at its allowed destination. `cta_location` is set on the link (`hero`, `nav`, `developers`, `first_sandbox_order`, `sandbox_help`, `faq`, `contact`, `guide_intro`, `guide_next_step`, `home_products`, `thanks`, …).
+`cta_id` is one of: `create_account`, `open_app`, `read_docs`, `openapi`, `agent_docs`, `talk_to_us`, `email_sales`, `email_support`, `book_call`, `explore_lablink`, and `copy_example` (a Copy button on a code example; `cta_location` names the example, e.g. `create_order`). `tests/links.test.mjs` checks each link points at its allowed destination. Copy clicks are the closest thing to "developer tried the API" the marketing site can see. `cta_location` is set on the link (`hero`, `nav`, `developers`, `first_sandbox_order`, `sandbox_help`, `faq`, `contact`, `guide_intro`, `guide_next_step`, `home_products`, `thanks`, …).
 
 On caregap.io, a `create_account` click is the handoff to signup. `lablink_sandbox_signup_started` belongs in the app, where the signup form actually is.
 

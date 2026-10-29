@@ -89,6 +89,11 @@ async function main() {
     pass(`OpenAPI ${spec.openapi || spec.swagger} "${spec.info?.title}" ${spec.info?.version}`);
     for (const server of spec.servers || []) console.log(`      server: ${server.url}${server.description ? ` (${server.description})` : ''}`);
     if (!(spec.servers || []).length) fail('OpenAPI spec lists no servers');
+    // The site's examples are tested against this snapshot.
+    const snapshot = JSON.parse(readFileSync('data/lablink-openapi.json', 'utf8'));
+    JSON.stringify(snapshot) === JSON.stringify(spec)
+      ? pass('OpenAPI spec matches data/lablink-openapi.json')
+      : fail('OpenAPI spec has changed since data/lablink-openapi.json: refresh the snapshot, run npm test, and review the site examples and claims');
   } catch (e) {
     fail(`OpenAPI spec could not be read (${e.message})`);
   }
@@ -106,6 +111,22 @@ async function main() {
       : fail(`${op.file}: ${op.method.toUpperCase()} ${op.path} is not in the spec`);
   }
   if (!operations.length) console.log('      no code examples on the site to validate');
+
+  // Each example's route must exist on the sandbox. Sent without a key, so
+  // it is refused at authentication: nothing is created or ordered.
+  const sandbox = spec?.servers?.find((s) => s.url.includes('/sandbox/'))?.url;
+  const seen = new Set();
+  for (const op of operations) {
+    const key = `${op.method} ${op.path}`;
+    if (!sandbox || seen.has(key)) continue;
+    seen.add(key);
+    const url = sandbox + op.path.replace(/\{[^}]+\}/g, '1');
+    const res = await fetch(url, { method: op.method.toUpperCase(), headers: { 'content-type': 'application/json' }, body: op.method === 'get' ? undefined : '{}' });
+    const body = await res.json().catch(() => ({}));
+    res.status === 401 && body.error?.type === 'unauthorized' && body.error?.requestId
+      ? pass(`sandbox ${op.method.toUpperCase()} ${op.path} answers 401 unauthorized without a key`)
+      : fail(`sandbox ${op.method.toUpperCase()} ${op.path} answered ${res.status} ${JSON.stringify(body).slice(0, 120)}`);
+  }
 
   console.log(failures.length ? `\n${failures.length} check(s) failed` : '\nAll checks passed');
   process.exit(failures.length ? 1 : 0);

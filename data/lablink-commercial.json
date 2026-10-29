@@ -37,7 +37,8 @@
     "openapi": "https://lablink.caregap.io/openapi.json",
     "agentDocs": "https://lablink.caregap.io/llms.txt",
     "talkToUs": "https://caregap.io/lablink#contact",
-    "sales": "mailto:sales@caregap.io"
+    "sales": "mailto:sales@caregap.io",
+    "support": "mailto:support@caregap.io"
   },
   "retired": {
     "$comment": "Offers from the retired /quest and /lab-ordering pages. None of these are available. They must not appear on the public site as current terms; tests/legacy-content.test.mjs enforces it.",

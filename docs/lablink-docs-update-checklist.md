@@ -24,6 +24,8 @@ Run this checklist for any change to LabLink API behaviour, pricing, onboarding,
 ## API change
 
 - [ ] Update `openapi.json` and the human docs on `lablink.caregap.io` first.
+- [ ] Refresh the snapshot: `curl -s https://lablink.caregap.io/openapi.json -o data/lablink-openapi.json`, then `npm test`. The example tests fail if a request on the site no longer matches.
+- [ ] When production ordering opens (the `POST /orders` description no longer says "Sandbox only for now"), update every "production ordering is not open yet" line on `lablink.html`, the three guides and `llms.txt`. The production-claims test switches itself off once the spec changes.
 - [ ] Check the developer section, "From signup to your first sandbox order" on `lablink.html`, the lifecycle in `quest-lab-ordering-api.html`, and `llms.txt` "For developers and AI coding agents".
 - [ ] Any code example on caregap.io must sit in `<pre data-openapi-operation="METHOD /path">` and use synthetic data only. `npm run check:live` checks the operation exists in the live spec.
 - [ ] A change to sandbox or production base URLs or environment availability must agree across the spec `servers`, the docs, the site and `llms.txt`.

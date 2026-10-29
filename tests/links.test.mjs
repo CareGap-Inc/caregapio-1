@@ -13,6 +13,7 @@ const CTA_DESTINATIONS = {
   agent_docs: [urls.agentDocs],
   talk_to_us: ['#contact', '/lablink#contact'],
   email_sales: [urls.sales],
+  email_support: [urls.support],
   book_call: ['https://calendly.com/caregap/caregap-demo'],
   explore_lablink: ['/lablink']
 };

@@ -20,7 +20,7 @@ Approval owner for every commercial fact: the CareGap owner (Jeremy Walker, jere
 | P1 | Subaccount onboarding $1,500, one time; covers NPI and license verification, Quest subaccount setup, API keys, sandbox access and BAA | `08677bc`; fee schedule cited, not in repo | Owner-published. **NEEDS OWNER CONFIRMATION** against LabLink billing config / Stripe price |
 | P2 | Same onboarding fee for new and existing Quest customers | `08677bc` | Owner-published. **NEEDS OWNER CONFIRMATION** |
 | P3 | Order platform fee: $5.00 (orders 1–100), $3.00 (101–500), $2.00 (501+), graduated; earlier orders are not repriced; resets on the first of each calendar month | `08677bc` | Owner-published. **NEEDS OWNER CONFIRMATION** that billing code implements graduated (not volume-repriced) tiers and a calendar-month reset |
-| P4 | Patient record $1.00 per patient per year, billed annually | `08677bc` | Owner-published. **NEEDS OWNER CONFIRMATION** of when the year starts and how a "patient" is counted |
+| P4 | Patient record $1.00 per patient per year, billed annually | `08677bc` | Owner-published. **NEEDS OWNER CONFIRMATION** of when the year starts and how a "patient" is counted, and how it fits row A15 (LabLink keeps no copy of patient data) |
 | P5 | Platform fees apply to every order regardless of bill type | `08677bc` | Owner-published |
 | P6 | Fees exclude taxes; charged to the payment method on file; card data handled by Stripe | `08677bc` | Owner-published |
 | P7 | Pricing is indicative; final terms set in the CareGap Platform Agreement | `08677bc` | Owner-published |
@@ -51,22 +51,26 @@ Approval owner for every commercial fact: the CareGap owner (Jeremy Walker, jere
 
 ## API and developer experience
 
-`npm run check:live` from a normal network on 2026-10-29 confirmed that the docs, `llms.txt` and `openapi.json` (OpenAPI 3.1.0, "LabLink API" 1.0.0) are public, and read the spec's `servers`. Endpoint-level claims (A2–A8) are still unchecked against the spec's paths.
+Verified on 2026-10-29 against the LabLink OpenAPI spec (3.1.0, "LabLink API" 1.0.0) and the agent docs at `lablink.caregap.io/llms.txt` and `/llms/*.md`. A snapshot of the spec is in [`data/lablink-openapi.json`](../data/lablink-openapi.json) (not served on caregap.io). `tests/examples.test.mjs` validates every example on the site against it. `npm run check:live` fails when the live spec drifts from the snapshot, and checks that each example route answers `401` on the sandbox without a key.
 
 | # | Fact | Source | Status |
 |---|---|---|---|
-| A1 | REST API with separate sandbox and production base URLs (and keys) | `openapi.json` `servers`: sandbox `https://lablink.caregap.io/api/sandbox/v1` ("Synthetic data only. Nothing reaches a real lab or a real patient, and nothing is billed. Use a sandbox key."); production `https://lablink.caregap.io/api/v1` ("Available once your account is live. Use a production key.") | **Verified** 2026-10-29 |
-| A2 | Patients with caller-supplied `externalId` so retries do not duplicate | `lablink.html` | Owner-published. **NEEDS VERIFICATION** |
-| A3 | Test catalog search by name or order code; ask-at-order-entry questions | `lablink.html` | Owner-published. **NEEDS VERIFICATION** |
-| A4 | Requisition: patient, tests, provider and answers in one request; CareGap completes questionnaire and provider authorization | `lablink.html` | Owner-published. **NEEDS VERIFICATION** |
-| A5 | Status with `actionRequired` and the call that completes it | `lablink.html` | Owner-published. **NEEDS VERIFICATION** |
-| A6 | Signed webhooks when Quest receives the requisition and when results post, separately for sandbox and production | `lablink.html` | Owner-published. **NEEDS VERIFICATION** |
-| A7 | Playground in the console for sandbox calls | `lablink.html` | Owner-published. **NEEDS VERIFICATION** |
-| A8 | One error shape across endpoints | `lablink.html` | Owner-published. **NEEDS VERIFICATION** |
-| A9 | Docs at `/docs`, agent docs at `/llms.txt`, spec at `/openapi.json` on `lablink.caregap.io` | `npm run check:live` | **Verified** 2026-10-29: each returns 200 without auth |
-| A10 | Structured results; FHIR layer; HL7 and file handling with Quest; audit logging | `lablink.html` | Owner-published |
-| A11 | Rate limits, idempotency keys beyond `externalId`, result formats (PDF, LOINC and so on), sandbox result simulation | — | **Not published.** Unknown until the spec is reviewed |
-| A12 | Runnable code examples (cURL / JavaScript) | — | **Not published.** Blocked on spec access; the `data-openapi-operation` and `check:live` harness is ready |
+| A1 | Separate sandbox (`https://lablink.caregap.io/api/sandbox/v1`) and production (`https://lablink.caregap.io/api/v1`) base URLs and keys; bearer auth | spec `servers`, `securitySchemes`; `overview.md` | **Verified** |
+| A2 | `POST /patients` with your own `externalId`: a repeat returns `409 conflict` with `existingId`; `GET /patients?externalId=` | spec | **Verified** |
+| A3 | `GET /tests` (`search`, `code`, paging) and `GET /tests/{id}` with ask-at-order-entry `questions` | spec | **Verified** |
+| A4 | `POST /orders`: patient, address, 1–25 tests, provider NPI, up to 10 ICD-10-CM codes, billing, answers in one request; LabLink completes questionnaire and provider authorization | spec | **Verified.** The site now says "orders", not "requisitions" (a requisition is the PDF from `GET /orders/{id}/requisition`) |
+| A5 | `status` (`created`, `awaiting_collection`, `results_final`, `cancelled`) and `actionRequired` (`answer_questions`, `choose_provider`, `choose_billing`) finished by `/answers`, `/provider`, `/billing` | spec | **Verified** |
+| A6 | Signed webhooks `order.awaiting_collection` and `order.results_final`; `LabLink-Signature` HMAC-SHA256; retries every 5 min up to 3 more; at least once; per-environment secrets | `llms/webhooks.md` | **Verified.** Webhooks are not in the OpenAPI document itself |
+| A7 | Console playground; test webhook events from the console | `llms/webhooks.md` | **Verified** |
+| A8 | One error shape `{ error: { type, message, param, requestId } }`; `LabLink-Request-Id` header | spec `Error`; live 401 from the sandbox | **Verified** |
+| A9 | Docs, `llms.txt`, `openapi.json` public | `npm run check:live` | **Verified** |
+| A10 | Results: HL7 v2 ORU^R01 parsed to JSON (`hl7v2+json`) plus the PDF report, in the `order.results_final` event; no endpoint to fetch results | `llms/webhooks.md`; spec | **Verified.** The site no longer says results are "pulled" |
+| A11 | Sandbox test provider Test Physician, NPI `1336176510`; patients in RI not served; unknown fields rejected | spec | **Verified** |
+| A12 | Rate limits, idempotency keys for orders | — | **Not documented.** Not claimed |
+| A13 | **Production ordering is not open:** `POST /orders`, `/answers`, `/provider`, `/billing` return `403 not_available` on production "until production billing is in place" | spec | **Verified.** Contradicted the site ("Sandbox today. Live in days", "moving real orders and real results today", "already runs in production"); those claims are removed and the site says production ordering is not open yet. **NEEDS OWNER INPUT:** expected production date, and whether onboarding is charged before production opens |
+| A14 | "FHIR layer" | `lablink.html` (removed) | **Not supported by the docs** (results are HL7 v2 as JSON; no FHIR endpoints). Removed from the site. **NEEDS OWNER CONFIRMATION** if a FHIR layer exists elsewhere |
+| A15 | "LabLink passes patient data through to the lab network and keeps no copy" | `overview.md`, `insurance.md`, `webhooks.md` | **Verified.** Conflicts with the Layer 1 copy on `/lablink` ("The patient record … on HIPAA-compliant infrastructure", $1.00 per patient record per year), which implies LabLink holds the record. **NEEDS OWNER CONFIRMATION** of how to describe what the patient-record fee covers |
+| A16 | Runnable cURL and JavaScript examples for the first sandbox order; Node.js signature check; results parsing example | `lablink.html`, `quest-lab-results-api.html` | **Published**, validated by `tests/examples.test.mjs` |
 
 ## Services, proof points and support
 
@@ -75,7 +79,7 @@ Approval owner for every commercial fact: the CareGap owner (Jeremy Walker, jere
 | S1 | At-home collection as an add-on through a mobile phlebotomy partner | `08677bc` | Owner-published. Add-on price not published |
 | S2 | CareGap build team can build and maintain a branded app or portal | `08677bc` | Owner-published |
 | S3 | "Who We Work With" logos on `/lablink` (Lumen, UpShiftHR, InfinitiHR, Muse Bio, Nutrivue, Getlabs, Thorne, Tru Niagen, Tachin.ai, TRD) | pre-existing | **NEEDS OWNER CONFIRMATION** that each is permissioned and accurately presented on a LabLink page (customer, partner or vendor) |
-| S4 | Support contact: sales@caregap.io; no response-time commitment published | site | Owner-published. Dedicated developer support channel: **NEEDS OWNER DECISION** |
+| S4 | Developer support: support@caregap.io, quoting the request id (LabLink docs); sales: sales@caregap.io. No response-time commitment published | `llms/overview.md`, site | **Verified** for the address. No SLA is claimed |
 
 ## Retired offers (must not be presented as available)
 

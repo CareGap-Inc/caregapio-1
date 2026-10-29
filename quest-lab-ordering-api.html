@@ -36,10 +36,10 @@
           "@type": "FAQPage",
           "@id": "https://caregap.io/quest-lab-ordering-api#faq",
           "mainEntity": [
-            {"@type": "Question", "name": "Do I have to handle HL7 to order Quest labs through LabLink?", "acceptedAnswer": {"@type": "Answer", "text": "No. LabLink runs a live Quest interface with HL7 and file handling already in place. Your application calls a REST API."}},
-            {"@type": "Question", "name": "Can I test without real patients?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The LabLink sandbox has its own base URL, keys and webhooks. Use synthetic patient data only in sandbox."}},
-            {"@type": "Question", "name": "How long until I can place a real order?", "acceptedAnswer": {"@type": "Answer", "text": "Sandbox access does not wait on Quest paperwork. Production typically takes several business days, because Quest subaccount setup is a manual process on Quest's side, and requires a signed Platform Agreement and BAA, a verified ordering provider and a passed certification round trip."}},
-            {"@type": "Question", "name": "What format are results in?", "acceptedAnswer": {"@type": "Answer", "text": "Results come back as structured data through the LabLink API, and LabLink exposes data through a FHIR layer. Field-level formats are documented in the API docs and OpenAPI spec."}}
+            {"@type": "Question", "name": "Do I have to handle HL7 to order Quest labs through LabLink?", "acceptedAnswer": {"@type": "Answer", "text": "No. LabLink runs a Quest interface with HL7 and file handling already in place. Your application calls a REST API and receives results as HL7 v2 parsed to JSON."}},
+            {"@type": "Question", "name": "Can I test without real patients?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The LabLink sandbox has its own base URL, keys and webhooks, and a test ordering provider. Use synthetic patient data only: nothing in sandbox reaches a real lab or patient, and nothing is billed."}},
+            {"@type": "Question", "name": "Can I place real orders through the API today?", "acceptedAnswer": {"@type": "Answer", "text": "Not yet. Ordering is open in sandbox today. On production, creating an order returns not_available until production billing is in place. Going live will also need a signed Platform Agreement and BAA, a verified ordering provider and your Quest subaccount, which typically takes several business days to set up, so it is worth starting early."}},
+            {"@type": "Question", "name": "What format are results in?", "acceptedAnswer": {"@type": "Answer", "text": "The order.results_final webhook carries Quest's results message, HL7 v2 ORU^R01 parsed to JSON without interpretation, and the PDF report as base64."}}
           ]
         }
       ]
@@ -88,8 +88,8 @@
 
             <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">How to order Quest labs through an API</h1>
 
-            <p class="text-xl text-gray-700 mb-6">To order Quest Diagnostics tests from your own software you need three things: a programmatic connection to Quest, a licensed ordering provider with an active NPI, and a HIPAA-compliant place for the patient record. LabLink provides the connection and the patient record through one REST API, on a Quest interface that is already live.</p>
-            <p class="text-lg text-gray-600 mb-10">With LabLink you create a patient, pick tests from Quest's catalog, submit a requisition with the ordering provider and bill type, follow its status, and receive signed webhooks when Quest receives the order and when results are posted. This guide walks through each step and what to plan for.</p>
+            <p class="text-xl text-gray-700 mb-6">To order Quest Diagnostics tests from your own software you need three things: a programmatic connection to Quest, a licensed ordering provider with an active NPI, and a HIPAA-compliant place for the patient record. LabLink provides the connection through one REST API, on an existing Quest interface, and passes patient data through to the lab network without keeping a copy.</p>
+            <p class="text-lg text-gray-600 mb-10">With LabLink you create a patient, pick tests from Quest's catalog, place an order with the ordering provider, diagnosis codes and bill type, follow its status, and receive signed webhooks when Quest has the requisition and when results are posted. Ordering through the API is open in sandbox today; production ordering is not open yet. This guide walks through each step and what to plan for.</p>
 
             <div class="flex flex-col sm:flex-row gap-4 mb-14">
                 <a href="https://lablink.caregap.io/docs" data-cta="read_docs" data-cta-location="guide_intro" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Read API Docs</a>
@@ -106,27 +106,28 @@
             </ul>
 
             <h2 class="text-3xl font-bold mb-4">The order lifecycle</h2>
+            <p class="text-gray-700 mb-4">Every call goes to <code class="font-mono text-sm bg-gray-100 px-1 rounded break-all">https://lablink.caregap.io/api/sandbox/v1</code> in sandbox or <code class="font-mono text-sm bg-gray-100 px-1 rounded break-all">https://lablink.caregap.io/api/v1</code> in production, with <code class="font-mono text-sm bg-gray-100 px-1 rounded">Authorization: Bearer &lt;key&gt;</code> and a key for the same environment.</p>
             <ol class="space-y-6 text-gray-700 mb-6 list-decimal pl-6">
                 <li>
-                    <strong>Create or look up the patient.</strong> An order cannot exist without a patient, and the patient record lives on LabLink's HIPAA-compliant infrastructure. Send your own <code class="font-mono text-sm bg-gray-100 px-1 rounded">externalId</code> with each patient so a retried request finds the existing record instead of creating a duplicate. Patient records are billed per patient per year, so duplicates cost money as well as causing confusion.
+                    <strong>Create or look up the patient</strong> with <code class="font-mono text-sm bg-gray-100 px-1 rounded">POST /patients</code>. Only first name, last name and date of birth are required. Send your own <code class="font-mono text-sm bg-gray-100 px-1 rounded">externalId</code>: a retried create returns <code class="font-mono text-sm bg-gray-100 px-1 rounded">conflict</code> with the existing id, and <code class="font-mono text-sm bg-gray-100 px-1 rounded">GET /patients?externalId=</code> finds the patient later. Without one, every call creates a new patient; LabLink never merges on similar names. Patient records are billed per patient per year, so duplicates cost money as well as causing confusion.
                 </li>
                 <li>
-                    <strong>Pick tests from the catalog.</strong> Search the Quest test catalog by name or order code. Some tests have ask-at-order-entry questions that must be answered on the order; read them from the catalog so your intake can collect the answers.
+                    <strong>Pick tests from the catalog.</strong> <code class="font-mono text-sm bg-gray-100 px-1 rounded">GET /tests?search=</code> matches part of a name and <code class="font-mono text-sm bg-gray-100 px-1 rounded">code=</code> part of a Quest order code. Then call <code class="font-mono text-sm bg-gray-100 px-1 rounded">GET /tests/{id}</code> for each test: some have ask-at-order-entry questions, and an order is not created until every one is answered. Ask them while the order is being put together, not afterwards.
                 </li>
                 <li>
-                    <strong>Submit the requisition.</strong> Patient, tests, ordering provider, bill type and question answers go in one request. CareGap completes the questionnaire and provider authorization steps.
+                    <strong>Place the order</strong> with <code class="font-mono text-sm bg-gray-100 px-1 rounded">POST /orders</code>: patient, address (the first time you order for a patient), up to 25 tests, the provider's NPI, up to 10 ICD-10-CM diagnosis codes, bill type and answers, in one request. LabLink completes the questionnaire and provider authorization. If it cannot, the order is still created and comes back with <code class="font-mono text-sm bg-gray-100 px-1 rounded">actionRequired</code>.
                 </li>
                 <li>
-                    <strong>Follow the requisition's status.</strong> Each requisition reports its progress step by step. If something is still needed, the status includes <code class="font-mono text-sm bg-gray-100 px-1 rounded">actionRequired</code> with the call that completes it, so your app can prompt the right person instead of failing silently.
+                    <strong>Finish anything outstanding.</strong> <code class="font-mono text-sm bg-gray-100 px-1 rounded">actionRequired.type</code> is <code class="font-mono text-sm bg-gray-100 px-1 rounded">answer_questions</code>, <code class="font-mono text-sm bg-gray-100 px-1 rounded">choose_provider</code> or <code class="font-mono text-sm bg-gray-100 px-1 rounded">choose_billing</code>, finished with <code class="font-mono text-sm bg-gray-100 px-1 rounded">POST /orders/{id}/answers</code>, <code class="font-mono text-sm bg-gray-100 px-1 rounded">/provider</code> or <code class="font-mono text-sm bg-gray-100 px-1 rounded">/billing</code>. Its <code class="font-mono text-sm bg-gray-100 px-1 rounded">message</code> says which.
                 </li>
                 <li>
-                    <strong>Receive webhooks.</strong> LabLink sends signed events when Quest receives the requisition and when results are posted. Verify the signature before acting on an event.
+                    <strong>Follow the status.</strong> <code class="font-mono text-sm bg-gray-100 px-1 rounded">GET /orders/{id}</code> returns <code class="font-mono text-sm bg-gray-100 px-1 rounded">created</code>, then <code class="font-mono text-sm bg-gray-100 px-1 rounded">awaiting_collection</code> once Quest has the requisition, then <code class="font-mono text-sm bg-gray-100 px-1 rounded">results_final</code>; or <code class="font-mono text-sm bg-gray-100 px-1 rounded">cancelled</code>. Branch on <code class="font-mono text-sm bg-gray-100 px-1 rounded">status</code> and <code class="font-mono text-sm bg-gray-100 px-1 rounded">actionRequired</code>, not on step names.
                 </li>
                 <li>
-                    <strong>Read and store the results.</strong> Results come back as structured data. Treat them as protected health information everywhere they go in your system, including logs.
+                    <strong>Receive webhooks.</strong> <code class="font-mono text-sm bg-gray-100 px-1 rounded">order.awaiting_collection</code> says the patient can be drawn: download the requisition PDF they bring with <code class="font-mono text-sm bg-gray-100 px-1 rounded">GET /orders/{id}/requisition</code>. <code class="font-mono text-sm bg-gray-100 px-1 rounded">order.results_final</code> carries Quest's results message, HL7 v2 parsed to JSON, and the PDF report. See <a href="/quest-lab-results-api" class="text-[#ff3e57] font-semibold hover:underline">retrieving Quest results programmatically</a>.
                 </li>
             </ol>
-            <p class="text-gray-600 mb-12">Exact routes, request and response bodies, base URLs and the authentication header are in the <a href="https://lablink.caregap.io/docs" data-cta="read_docs" data-cta-location="guide_lifecycle" class="text-[#ff3e57] font-semibold hover:underline">API docs</a> and the <a href="https://lablink.caregap.io/openapi.json" data-cta="openapi" data-cta-location="guide_lifecycle" class="text-[#ff3e57] font-semibold hover:underline">OpenAPI spec</a>. The playground in the LabLink console sends every call in sandbox and shows the exact request your integration would send.</p>
+            <p class="text-gray-600 mb-12">Request bodies, every field and the errors for each call are in the <a href="https://lablink.caregap.io/docs" data-cta="read_docs" data-cta-location="guide_lifecycle" class="text-[#ff3e57] font-semibold hover:underline">API docs</a> and the <a href="https://lablink.caregap.io/openapi.json" data-cta="openapi" data-cta-location="guide_lifecycle" class="text-[#ff3e57] font-semibold hover:underline">OpenAPI spec</a>, and the <a href="/lablink#first-sandbox-order" class="text-[#ff3e57] font-semibold hover:underline">first sandbox order walkthrough</a> has copy-paste requests for each step. The playground in the LabLink console sends every call in sandbox.</p>
 
             <h2 class="text-3xl font-bold mb-4">Sandbox and production</h2>
             <div class="overflow-x-auto mb-12">
@@ -139,11 +140,11 @@
                         </tr>
                     </thead>
                     <tbody class="text-gray-700 align-top">
-                        <tr class="border-b border-gray-100"><th scope="row" class="py-3 pr-4 font-semibold">Base URL and keys</th><td class="py-3 pr-4">Sandbox base URL and keys</td><td class="py-3">Separate production base URL and keys</td></tr>
-                        <tr class="border-b border-gray-100"><th scope="row" class="py-3 pr-4 font-semibold">Webhooks</th><td class="py-3 pr-4">Configured for sandbox</td><td class="py-3">Configured separately for production</td></tr>
-                        <tr class="border-b border-gray-100"><th scope="row" class="py-3 pr-4 font-semibold">Patient data</th><td class="py-3 pr-4">Synthetic data only</td><td class="py-3">Real patients, under your BAA</td></tr>
-                        <tr class="border-b border-gray-100"><th scope="row" class="py-3 pr-4 font-semibold">When it opens</th><td class="py-3 pr-4">During onboarding, without waiting on Quest</td><td class="py-3">After your Quest subaccount is issued (typically several business days) and certification passes</td></tr>
-                        <tr><th scope="row" class="py-3 pr-4 font-semibold">To move on</th><td class="py-3 pr-4" colspan="2">Pass the automated certification suite: a test order and result round trip. Your account then moves to production.</td></tr>
+                        <tr class="border-b border-gray-100"><th scope="row" class="py-3 pr-4 font-semibold">Base URL</th><td class="py-3 pr-4"><code class="font-mono">/api/sandbox/v1</code></td><td class="py-3"><code class="font-mono">/api/v1</code></td></tr>
+                        <tr class="border-b border-gray-100"><th scope="row" class="py-3 pr-4 font-semibold">Keys and webhooks</th><td class="py-3 pr-4">Sandbox key; sandbox webhook endpoint and signing secret</td><td class="py-3">Separate production key, endpoint and secret</td></tr>
+                        <tr class="border-b border-gray-100"><th scope="row" class="py-3 pr-4 font-semibold">Data</th><td class="py-3 pr-4">Synthetic only. Nothing reaches a real lab or patient, and nothing is billed</td><td class="py-3">Real patients and real orders, under your BAA</td></tr>
+                        <tr class="border-b border-gray-100"><th scope="row" class="py-3 pr-4 font-semibold">Ordering provider</th><td class="py-3 pr-4">A test provider, Test Physician, NPI <code class="font-mono">1336176510</code></td><td class="py-3">Your own licensed provider</td></tr>
+                        <tr><th scope="row" class="py-3 pr-4 font-semibold">Ordering</th><td class="py-3 pr-4">Open</td><td class="py-3">Not open yet: creating an order returns <code class="font-mono">not_available</code> until production billing is in place</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -170,11 +171,13 @@
             <h2 class="text-3xl font-bold mb-4">Implementation notes</h2>
             <ul class="space-y-3 text-gray-700 mb-12 list-disc pl-6">
                 <li>Make patient creation idempotent with <code class="font-mono text-sm bg-gray-100 px-1 rounded">externalId</code>, and look patients up before creating them.</li>
-                <li>Handle errors in one place: every endpoint returns the same error shape.</li>
+                <li>Handle errors in one place: every error is <code class="font-mono text-sm bg-gray-100 px-1 rounded">{ error: { type, message, param, requestId } }</code>. Branch on <code class="font-mono text-sm bg-gray-100 px-1 rounded">type</code>. A <code class="font-mono text-sm bg-gray-100 px-1 rounded">platform_unavailable</code> (502) is safe to retry for reads; check before retrying a create.</li>
+                <li>Unknown fields are rejected, not ignored, so a typo fails loudly instead of being dropped.</li>
                 <li>Drive your UI from <code class="font-mono text-sm bg-gray-100 px-1 rounded">actionRequired</code> rather than hard-coding the steps an order goes through.</li>
-                <li>Verify webhook signatures, and keep sandbox and production webhook endpoints and secrets separate.</li>
+                <li>Verify webhook signatures against the raw body, dedupe events on <code class="font-mono text-sm bg-gray-100 px-1 rounded">id</code> (delivery is at least once), and keep sandbox and production endpoints and secrets separate.</li>
                 <li>Keep API keys server side. Never put them in a browser or mobile app bundle.</li>
-                <li>Keep patient data and results out of application logs, analytics and error trackers.</li>
+                <li>Keep patient data and results out of application logs, analytics and error trackers. LabLink keeps no copy of patient data, so your system is the record of what you ordered and received.</li>
+                <li>Patients in Rhode Island are not served.</li>
                 <li>If you client bill and re-bill patients, have counsel review state direct-bill, anti-markup and disclosure rules before you publish prices.</li>
             </ul>
 
@@ -190,19 +193,19 @@
                 <div class="space-y-6">
                     <div class="border-b pb-6">
                         <h3 class="text-xl font-semibold mb-2">Do I have to handle HL7 to order Quest labs through LabLink?</h3>
-                        <p class="text-gray-600">No. LabLink runs a live Quest interface with HL7 and file handling already in place. Your application calls a REST API.</p>
+                        <p class="text-gray-600">No. LabLink runs a Quest interface with HL7 and file handling already in place. Your application calls a REST API and receives results as HL7 v2 parsed to JSON.</p>
                     </div>
                     <div class="border-b pb-6">
                         <h3 class="text-xl font-semibold mb-2">Can I test without real patients?</h3>
-                        <p class="text-gray-600">Yes. The LabLink sandbox has its own base URL, keys and webhooks. Use synthetic patient data only in sandbox.</p>
+                        <p class="text-gray-600">Yes. The LabLink sandbox has its own base URL, keys and webhooks, and a test ordering provider. Use synthetic patient data only: nothing in sandbox reaches a real lab or patient, and nothing is billed.</p>
                     </div>
                     <div class="border-b pb-6">
-                        <h3 class="text-xl font-semibold mb-2">How long until I can place a real order?</h3>
-                        <p class="text-gray-600">Sandbox access does not wait on Quest paperwork. Production typically takes several business days, because Quest subaccount setup is a manual process on Quest's side, and requires a signed Platform Agreement and BAA, a verified ordering provider and a passed certification round trip.</p>
+                        <h3 class="text-xl font-semibold mb-2">Can I place real orders through the API today?</h3>
+                        <p class="text-gray-600">Not yet. Ordering is open in sandbox today. On production, creating an order returns not_available until production billing is in place. Going live will also need a signed Platform Agreement and BAA, a verified ordering provider and your Quest subaccount, which typically takes several business days to set up, so it is worth starting early.</p>
                     </div>
                     <div class="border-b pb-6">
                         <h3 class="text-xl font-semibold mb-2">What format are results in?</h3>
-                        <p class="text-gray-600">Results come back as structured data through the LabLink API, and LabLink exposes data through a FHIR layer. Field-level formats are documented in the API docs and OpenAPI spec.</p>
+                        <p class="text-gray-600">The order.results_final webhook carries Quest's results message, HL7 v2 ORU^R01 parsed to JSON without interpretation, and the PDF report as base64.</p>
                     </div>
                 </div>
             </section>
@@ -215,7 +218,7 @@
                     <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="guide_next_step" class="border-2 border-white/30 text-white px-8 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-colors text-center">Create Your LabLink Account</a>
                     <a href="/lablink#contact" data-cta="talk_to_us" data-cta-location="guide_next_step" class="text-white underline self-center hover:text-[#ff3e57]">Talk to Us</a>
                 </div>
-                <p class="text-sm text-gray-400 mt-6">Related: <a href="/quest-api-without-account" class="text-white underline hover:text-[#ff3e57]">Ordering Quest tests without your own Quest account</a></p>
+                <p class="text-sm text-gray-400 mt-6">Related: <a href="/quest-api-without-account" class="text-white underline hover:text-[#ff3e57]">Ordering Quest tests without your own Quest account</a> &middot; <a href="/quest-lab-results-api" class="text-white underline hover:text-[#ff3e57]">Retrieving Quest results programmatically</a></p>
             </div>
         </article>
     </main>

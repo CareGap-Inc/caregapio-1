@@ -1,8 +1,9 @@
 /*
  * LabLink acquisition and conversion events.
  *
- * Vendor neutral: events are pushed to window.dataLayer and go nowhere
- * unless a tag manager or analytics tool reading dataLayer is installed.
+ * Events go to Google Analytics 4 when GA4_MEASUREMENT_ID is set and the
+ * page is on a production host; otherwise they stay in window.dataLayer and
+ * go nowhere.
  * Every event is built from an allow-list of fields and passed through
  * sanitize(), so names, emails, phone numbers, NPIs, IDs, tokens and raw
  * form input never reach analytics. Event definitions and verification
@@ -15,6 +16,12 @@
     'use strict';
 
     var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+
+    // Google Analytics 4 measurement ID, e.g. 'G-ABC123DEF4'. Empty: GA4 is
+    // not loaded. It loads only on these hosts, never on deploy previews or
+    // local copies.
+    var GA4_MEASUREMENT_ID = '';
+    var GA4_HOSTS = ['caregap.io', 'www.caregap.io'];
 
     // Allowed fields per event. Events marked "app" are emitted by the
     // LabLink app (lablink.caregap.io), not by this site; they are listed
@@ -75,6 +82,18 @@
         return String(value).split(/[?#]/)[0];
     }
 
+    // The page URL GA4 records: path plus allow-listed UTMs only, so no other
+    // query parameter (an email in a mistyped link, a token) is sent.
+    function cleanPageLocation(href) {
+        var url = new URL(href);
+        var clean = new URL(url.origin + url.pathname);
+        UTM_KEYS.forEach(function (key) {
+            var value = url.searchParams.get(key);
+            if (value && !FORBIDDEN_VALUE.test(value)) clean.searchParams.set(key, value.slice(0, MAX_VALUE_LENGTH));
+        });
+        return clean.toString();
+    }
+
     function sanitize(eventName, props) {
         var allowed = EVENTS[eventName];
         if (!allowed) return null;
@@ -95,7 +114,10 @@
         EVENTS: EVENTS,
         UTM_KEYS: UTM_KEYS,
         LEAD_SOURCES: LEAD_SOURCES,
+        GA4_MEASUREMENT_ID: GA4_MEASUREMENT_ID,
+        GA4_HOSTS: GA4_HOSTS,
         sanitize: sanitize,
+        cleanPageLocation: cleanPageLocation,
         classifySource: classifySource
     };
 
@@ -124,11 +146,21 @@
     if (params.get('analytics_debug') === '1') storageSet(DEBUG_KEY, true);
     var debug = storageGet(DEBUG_KEY) === true;
 
+    var ga4 = false;
+
     function track(eventName, props) {
         var payload = sanitize(eventName, props);
         if (!payload) return;
         global.dataLayer = global.dataLayer || [];
-        global.dataLayer.push(payload);
+        if (ga4) {
+            var params = {};
+            Object.keys(payload).forEach(function (key) {
+                if (key !== 'event') params[key] = payload[key];
+            });
+            global.gtag('event', eventName, params);
+        } else {
+            global.dataLayer.push(payload);
+        }
         if (debug && global.console) global.console.info('[lablink analytics]', payload);
     }
     api.track = track;
@@ -138,6 +170,23 @@
     var siteHost = global.location.hostname;
     var referrerHost = '';
     try { referrerHost = document.referrer ? new URL(document.referrer).hostname : ''; } catch (e) { /* bad referrer */ }
+
+    if (/^G-[A-Z0-9]+$/.test(GA4_MEASUREMENT_ID) && GA4_HOSTS.indexOf(global.location.hostname) !== -1) {
+        global.dataLayer = global.dataLayer || [];
+        global.gtag = global.gtag || function () { global.dataLayer.push(arguments); };
+        global.gtag('js', new Date());
+        global.gtag('config', GA4_MEASUREMENT_ID, {
+            page_location: cleanPageLocation(global.location.href),
+            page_referrer: referrerHost ? 'https://' + referrerHost + '/' : '',
+            allow_google_signals: false,
+            allow_ad_personalization_signals: false
+        });
+        var tag = document.createElement('script');
+        tag.async = true;
+        tag.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_MEASUREMENT_ID;
+        document.head.appendChild(tag);
+        ga4 = true;
+    }
 
     var incoming = {};
     UTM_KEYS.forEach(function (key) {

@@ -36,7 +36,7 @@
           "@type": "FAQPage",
           "@id": "https://caregap.io/quest-api-without-account#faq",
           "mainEntity": [
-            {"@type": "Question", "name": "Do I need a Quest account to use the LabLink sandbox?", "acceptedAnswer": {"@type": "Answer", "text": "No. Sandbox access is part of LabLink onboarding and does not wait on Quest subaccount setup. You can build the integration while the subaccount is being set up."}},
+            {"@type": "Question", "name": "Do I need a Quest account to use the LabLink sandbox?", "acceptedAnswer": {"@type": "Answer", "text": "No. Your sandbox opens when you create your LabLink account, before any payment, and does not wait on Quest subaccount setup. You can build the integration while the subaccount is being set up."}},
             {"@type": "Question", "name": "I already have a Quest account. Is LabLink cheaper for me?", "acceptedAnswer": {"@type": "Answer", "text": "No. Pricing is the same for new and existing Quest customers, including the $1,500 one-time onboarding fee."}},
             {"@type": "Question", "name": "Can I bill insurance if I am new to Quest?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Client Bill, Patient Cash and Patient Insurance are available whether you are new to Quest or bring an existing account. Insurance orders need the patient's insurance details and ICD-10 codes."}},
             {"@type": "Question", "name": "Can patients order tests for themselves through LabLink?", "acceptedAnswer": {"@type": "Answer", "text": "Not without a provider. Every order requires a licensed ordering provider with an active NPI, and CareGap does not originate lab orders."}}
@@ -92,7 +92,7 @@
             <p class="text-lg text-gray-600 mb-10">What you cannot skip is a licensed ordering provider with an active NPI, a signed CareGap Platform Agreement and BAA, and the one-time onboarding fee. The rest of this page covers each of those, what it costs, and what changed from earlier CareGap offers.</p>
 
             <div class="flex flex-col sm:flex-row gap-4 mb-14">
-                <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="guide_intro" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Create Your LabLink Account</a>
+                <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="guide_intro" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Create Sandbox Account</a>
                 <a href="https://lablink.caregap.io/docs" data-cta="read_docs" data-cta-location="guide_intro" class="border-2 border-[#ff3e57] text-[#ff3e57] px-8 py-3 rounded-full hover:bg-[#ff3e57] hover:text-white transition-colors text-center">Read API Docs</a>
             </div>
 
@@ -109,7 +109,7 @@
                 <li>You create your LabLink account and tell us you are new to Quest. Your ordering provider's NPI and state license are verified.</li>
                 <li>You sign the Platform Agreement and BAA and put a payment method on file.</li>
                 <li>CareGap files your Quest subaccount and tracks it through to a client number.</li>
-                <li>Meanwhile your sandbox keys are issued, so you build the integration while the paperwork clears.</li>
+                <li>Your sandbox is open from the moment you create your account, so you build the integration while the paperwork clears.</li>
                 <li>Once the subaccount is issued and your integration passes the automated certification round trip, your account moves to production.</li>
             </ol>
             <p class="text-gray-600 mb-4">Step 3 is the only manual step. Quest subaccount setup is a human process on Quest's side and typically takes several business days. Sandbox access does not wait on it.</p>
@@ -137,7 +137,7 @@
             <h2 class="text-3xl font-bold mb-4">What it costs</h2>
             <p class="text-gray-700 mb-4">The same for organizations new to Quest and for existing Quest customers:</p>
             <ul class="space-y-2 text-gray-700 mb-4 list-disc pl-6">
-                <li>$1,500 one-time subaccount onboarding: NPI and license verification, Quest subaccount setup, API keys, sandbox access and BAA.</li>
+                <li>$1,500 one-time subaccount onboarding: NPI and license verification, Quest subaccount setup, production API keys and BAA.</li>
                 <li>An order platform fee of $5.00, $3.00 or $2.00 per order, graduated by monthly volume.</li>
                 <li>$1.00 per patient record per year.</li>
             </ul>
@@ -162,7 +162,7 @@
                 <div class="space-y-6">
                     <div class="border-b pb-6">
                         <h3 class="text-xl font-semibold mb-2">Do I need a Quest account to use the LabLink sandbox?</h3>
-                        <p class="text-gray-600">No. Sandbox access is part of LabLink onboarding and does not wait on Quest subaccount setup. You can build the integration while the subaccount is being set up.</p>
+                        <p class="text-gray-600">No. Your sandbox opens when you create your LabLink account, before any payment, and does not wait on Quest subaccount setup. You can build the integration while the subaccount is being set up.</p>
                     </div>
                     <div class="border-b pb-6">
                         <h3 class="text-xl font-semibold mb-2">I already have a Quest account. Is LabLink cheaper for me?</h3>
@@ -183,7 +183,7 @@
                 <h2 class="text-2xl font-bold mb-3">Next step</h2>
                 <p class="text-gray-300 mb-6">Developers can create an account and start in sandbox without a call. If you want help with your Quest setup or ordering provider first, talk to us.</p>
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="guide_next_step" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Create Your LabLink Account</a>
+                    <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="guide_next_step" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Create Sandbox Account</a>
                     <a href="/lablink#contact" data-cta="talk_to_us" data-cta-location="guide_next_step" class="border-2 border-white/30 text-white px-8 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-colors text-center">Talk to Us</a>
                 </div>
                 <p class="text-sm text-gray-400 mt-6">Related: <a href="/quest-lab-ordering-api" class="text-white underline hover:text-[#ff3e57]">How to order Quest labs through an API</a> &middot; <a href="/quest-lab-results-api" class="text-white underline hover:text-[#ff3e57]">Retrieving Quest results programmatically</a></p>

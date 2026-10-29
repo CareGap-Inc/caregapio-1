@@ -8,7 +8,7 @@
     "amount": 1500,
     "display": "$1,500",
     "cadence": "one time",
-    "includes": "NPI and license verification, Quest subaccount setup, API keys, sandbox access and BAA",
+    "includes": "NPI and license verification, Quest subaccount setup, production API keys and BAA",
     "appliesTo": "new and existing Quest customers"
   },
   "orderPlatformFee": {

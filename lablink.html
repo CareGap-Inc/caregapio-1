@@ -40,7 +40,7 @@
               "name": "Subaccount onboarding",
               "price": "1500.00",
               "priceCurrency": "USD",
-              "description": "One time. NPI and license verification, Quest subaccount setup, API keys, sandbox access and BAA. Applies to new and existing Quest customers."
+              "description": "One time. NPI and license verification, Quest subaccount setup, production API keys and BAA. Applies to new and existing Quest customers."
             },
             {
               "@type": "Offer",
@@ -99,7 +99,7 @@
             {"@type": "Question", "name": "Do you support at-home collection?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, as an add-on through our mobile phlebotomy partner, in addition to Quest patient service centers."}},
             {"@type": "Question", "name": "We do not have a dev team. Can you build the app?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The CareGap build team can design, build and maintain your branded app or portal on top of LabLink. Book a call and we will scope it."}},
             {"@type": "Question", "name": "Can I place production orders today?", "acceptedAnswer": {"@type": "Answer", "text": "Not yet. Ordering through the API is open in sandbox today. On production, creating an order returns not_available until production billing is in place. You can build and test the whole integration in sandbox, including webhooks, and talk to us about production timing."}},
-            {"@type": "Question", "name": "How fast can I be in sandbox?", "acceptedAnswer": {"@type": "Answer", "text": "Sandbox access does not wait on Quest paperwork. You can be calling the API and building while your subaccount is being set up."}}
+            {"@type": "Question", "name": "How fast can I be in sandbox?", "acceptedAnswer": {"@type": "Answer", "text": "Right away. Your sandbox opens when you create your account, before any payment, and does not wait on Quest paperwork. You can be calling the API and building while your subaccount is being set up."}}
           ]
         }
       ]
@@ -183,10 +183,10 @@
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="hero" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Create Your LabLink Account</a>
+                        <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="hero" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Create Sandbox Account</a>
                         <a href="https://lablink.caregap.io/docs" data-cta="read_docs" data-cta-location="hero" class="border-2 border-[#ff3e57] text-[#ff3e57] px-8 py-3 rounded-full hover:bg-[#ff3e57] hover:text-white transition-colors text-center">Read API Docs</a>
                     </div>
-                    <p class="text-sm text-gray-500 mt-5">Ordering through the API is open in sandbox today; production ordering is not open yet. Sandbox access is included in <a href="#pricing" class="underline hover:text-[#ff3e57]">onboarding</a>. Want to talk it through first? <a href="#contact" data-cta="talk_to_us" data-cta-location="hero" class="text-[#ff3e57] font-semibold hover:underline">Talk to us</a>.</p>
+                    <p class="text-sm text-gray-500 mt-5">Your sandbox opens when you create your account, before any payment. Production ordering is not open yet; see <a href="#pricing" class="underline hover:text-[#ff3e57]">pricing</a> for going live. Want to talk it through first? <a href="#contact" data-cta="talk_to_us" data-cta-location="hero" class="text-[#ff3e57] font-semibold hover:underline">Talk to us</a>.</p>
                 </div>
 
                 <div class="md:w-1/3" data-aos="fade-left">
@@ -257,7 +257,7 @@
                 <div class="card border border-gray-100" data-aos="fade-up">
                     <p class="text-4xl font-bold text-[#ff3e57] mb-2">$1,500</p>
                     <p class="font-semibold mb-2">Subaccount onboarding &middot; one time</p>
-                    <p class="text-gray-600 text-sm">NPI and license verification, Quest subaccount setup, API keys, sandbox access and BAA. Applies to new and existing Quest customers.</p>
+                    <p class="text-gray-600 text-sm">NPI and license verification, Quest subaccount setup, production API keys and BAA. Applies to new and existing Quest customers.</p>
                 </div>
                 <div class="card border border-gray-100" data-aos="fade-up" data-aos-delay="100">
                     <p class="text-4xl font-bold text-[#ff3e57] mb-2">$2&ndash;$5</p>
@@ -404,7 +404,7 @@
                         <span class="w-9 h-9 bg-[#ff3e57] text-white rounded-full flex items-center justify-center font-bold text-sm">1</span>
                         <h3 class="text-lg font-semibold">Create your account</h3>
                     </div>
-                    <p class="text-gray-600 text-sm">NPI and state license verified. Tell us whether you have a Quest account already and which bill types you will use.</p>
+                    <p class="text-gray-600 text-sm">Your sandbox opens here, before any payment. NPI and state license verified. Tell us whether you have a Quest account already and which bill types you will use.</p>
                 </div>
                 <div class="card border border-gray-100" data-aos="fade-up" data-aos-delay="100">
                     <div class="flex items-center gap-3 mb-4">
@@ -430,9 +430,9 @@
                 <div class="card border border-gray-100" data-aos="fade-up" data-aos-delay="400">
                     <div class="flex items-center gap-3 mb-4">
                         <span class="w-9 h-9 bg-[#ff3e57] text-white rounded-full flex items-center justify-center font-bold text-sm">5</span>
-                        <h3 class="text-lg font-semibold">Keys and sandbox</h3>
+                        <h3 class="text-lg font-semibold">Production keys</h3>
                     </div>
-                    <p class="text-gray-600 text-sm">API keys issued, and the test compendium and draw-site list scoped to your account.</p>
+                    <p class="text-gray-600 text-sm">Production API keys issued, and the test compendium and draw-site list scoped to your account.</p>
                 </div>
                 <div class="card border border-gray-100" data-aos="fade-up" data-aos-delay="500">
                     <div class="flex items-center gap-3 mb-4">
@@ -509,7 +509,7 @@
                 <li>
                     <p class="text-xs font-semibold tracking-widest text-gray-400 mb-2">STEP 1</p>
                     <h3 class="text-xl font-semibold mb-2">Get a sandbox key</h3>
-                    <p class="text-gray-600">In the LabLink console, open <strong>API keys &amp; webhooks</strong> and create a sandbox key. It is shown once. Send it on every request as <code class="font-mono text-gray-800">Authorization: Bearer &lt;key&gt;</code>. A sandbox key works only on the sandbox base URL, and a production key only on production. The examples read it from <code class="font-mono text-gray-800">$LABLINK_API_KEY</code>.</p>
+                    <p class="text-gray-600">Create your LabLink account (no payment needed for sandbox), then open <strong>API keys &amp; webhooks</strong> in the console and create a sandbox key. It is shown once. Send it on every request as <code class="font-mono text-gray-800">Authorization: Bearer &lt;key&gt;</code>. A sandbox key works only on the sandbox base URL, and a production key only on production. The examples read it from <code class="font-mono text-gray-800">$LABLINK_API_KEY</code>.</p>
                 </li>
 
                 <li>
@@ -689,7 +689,7 @@ export function verifyLabLinkSignature(rawBody, header, secret, toleranceSeconds
                 </div>
                 <div class="card border border-gray-100" data-aos="fade-up" data-aos-delay="200">
                     <h3 class="text-lg font-semibold mb-3">Scoped to your organization</h3>
-                    <p class="text-gray-600 text-sm">Keys, patients and orders are scoped to your organization and environment. LabLink passes patient data through to the lab network and keeps no copy.</p>
+                    <p class="text-gray-600 text-sm">Keys, patients and orders are scoped to your organization and environment. Patient data is retained under the organization that created it, and CareGap never sells it.</p>
                 </div>
                 <div class="card border border-gray-100" data-aos="fade-up">
                     <h3 class="text-lg font-semibold mb-3">Your brand throughout</h3>
@@ -799,7 +799,7 @@ export function verifyLabLinkSignature(rawBody, header, secret, toleranceSeconds
                 </div>
                 <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="500">
                     <h3 class="text-xl font-semibold mb-2">How fast can I be in sandbox?</h3>
-                    <p class="text-gray-600">Sandbox access does not wait on Quest paperwork. You can be calling the API and building while your subaccount is being set up.</p>
+                    <p class="text-gray-600">Right away. Your sandbox opens when you create your account, before any payment, and does not wait on Quest paperwork. You can be calling the API and building while your subaccount is being set up.</p>
                 </div>
             </div>
 
@@ -830,7 +830,7 @@ export function verifyLabLinkSignature(rawBody, header, secret, toleranceSeconds
                 <div class="text-center mb-12" data-aos="fade-up">
                     <h2 class="text-4xl font-bold mb-4">Ready to order?</h2>
                     <p class="text-lg text-gray-400 mb-8">Developers: create your account and open your sandbox at LabLink. No call needed.</p>
-                    <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="contact" class="inline-block bg-[#ff3e57] text-white px-8 py-4 rounded-full font-semibold hover:bg-[#ff3e57]/90 transition-colors">Create Your LabLink Account</a>
+                    <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="contact" class="inline-block bg-[#ff3e57] text-white px-8 py-4 rounded-full font-semibold hover:bg-[#ff3e57]/90 transition-colors">Create Sandbox Account</a>
                     <h3 class="text-2xl font-bold mt-14 mb-3">Talk to an integration specialist</h3>
                     <p class="text-gray-400">For teams that want help scoping an integration, a build, or their Quest setup. Only the first three fields are required. We reply by email; your sandbox is not held up waiting for this form.</p>
                 </div>

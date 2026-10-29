@@ -88,12 +88,12 @@
 
             <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">How to order Quest labs through an API</h1>
 
-            <p class="text-xl text-gray-700 mb-6">To order Quest Diagnostics tests from your own software you need three things: a programmatic connection to Quest, a licensed ordering provider with an active NPI, and a HIPAA-compliant place for the patient record. LabLink provides the connection through one REST API, on an existing Quest interface, and passes patient data through to the lab network without keeping a copy.</p>
+            <p class="text-xl text-gray-700 mb-6">To order Quest Diagnostics tests from your own software you need three things: a programmatic connection to Quest, a licensed ordering provider with an active NPI, and a HIPAA-compliant place for the patient record. LabLink provides the connection through one REST API, on an existing Quest interface, and keeps patient data under your organization.</p>
             <p class="text-lg text-gray-600 mb-10">With LabLink you create a patient, pick tests from Quest's catalog, place an order with the ordering provider, diagnosis codes and bill type, follow its status, and receive signed webhooks when Quest has the requisition and when results are posted. Ordering through the API is open in sandbox today; production ordering is not open yet. This guide walks through each step and what to plan for.</p>
 
             <div class="flex flex-col sm:flex-row gap-4 mb-14">
                 <a href="https://lablink.caregap.io/docs" data-cta="read_docs" data-cta-location="guide_intro" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Read API Docs</a>
-                <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="guide_intro" class="border-2 border-[#ff3e57] text-[#ff3e57] px-8 py-3 rounded-full hover:bg-[#ff3e57] hover:text-white transition-colors text-center">Create Your LabLink Account</a>
+                <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="guide_intro" class="border-2 border-[#ff3e57] text-[#ff3e57] px-8 py-3 rounded-full hover:bg-[#ff3e57] hover:text-white transition-colors text-center">Create Sandbox Account</a>
             </div>
 
             <h2 class="text-3xl font-bold mb-4">Before you write code</h2>
@@ -176,7 +176,7 @@
                 <li>Drive your UI from <code class="font-mono text-sm bg-gray-100 px-1 rounded">actionRequired</code> rather than hard-coding the steps an order goes through.</li>
                 <li>Verify webhook signatures against the raw body, dedupe events on <code class="font-mono text-sm bg-gray-100 px-1 rounded">id</code> (delivery is at least once), and keep sandbox and production endpoints and secrets separate.</li>
                 <li>Keep API keys server side. Never put them in a browser or mobile app bundle.</li>
-                <li>Keep patient data and results out of application logs, analytics and error trackers. LabLink keeps no copy of patient data, so your system is the record of what you ordered and received.</li>
+                <li>Keep patient data and results out of application logs, analytics and error trackers.</li>
                 <li>Patients in Rhode Island are not served.</li>
                 <li>If you client bill and re-bill patients, have counsel review state direct-bill, anti-markup and disclosure rules before you publish prices.</li>
             </ul>
@@ -215,7 +215,7 @@
                 <p class="text-gray-300 mb-6">Read the API reference, then create an account and place your first sandbox order. If you would rather have the CareGap build team build your app or portal on LabLink, talk to us.</p>
                 <div class="flex flex-col sm:flex-row gap-4">
                     <a href="https://lablink.caregap.io/docs" data-cta="read_docs" data-cta-location="guide_next_step" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Read API Docs</a>
-                    <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="guide_next_step" class="border-2 border-white/30 text-white px-8 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-colors text-center">Create Your LabLink Account</a>
+                    <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="guide_next_step" class="border-2 border-white/30 text-white px-8 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-colors text-center">Create Sandbox Account</a>
                     <a href="/lablink#contact" data-cta="talk_to_us" data-cta-location="guide_next_step" class="text-white underline self-center hover:text-[#ff3e57]">Talk to Us</a>
                 </div>
                 <p class="text-sm text-gray-400 mt-6">Related: <a href="/quest-api-without-account" class="text-white underline hover:text-[#ff3e57]">Ordering Quest tests without your own Quest account</a> &middot; <a href="/quest-lab-results-api" class="text-white underline hover:text-[#ff3e57]">Retrieving Quest results programmatically</a></p>

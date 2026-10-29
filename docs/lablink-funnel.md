@@ -4,7 +4,19 @@ How LabLink traffic and conversions are measured, from first visit to production
 
 ## Where events go
 
-`analytics.js` pushes events to `window.dataLayer`. **No analytics vendor is installed on caregap.io today**, so for now events stay in the browser. To send them somewhere, install a tag manager or analytics tool that reads `dataLayer` (for example Google Tag Manager → GA4). That is an owner decision; see "Open decisions" below.
+**Google Analytics 4.** Set `GA4_MEASUREMENT_ID` at the top of `analytics.js` to the site's measurement ID (GA4 → Admin → Data streams → the caregap.io stream → Measurement ID, `G-…`). Until it is set, events stay in `window.dataLayer` and nothing is sent.
+
+- GA4 loads only on `caregap.io` and `www.caregap.io`, never on deploy previews or local copies.
+- The page URL GA4 records is the path plus allow-listed UTMs. Any other query parameter is dropped, and the referrer is reduced to its host.
+- Google signals and ad personalization are off.
+- In GA4 → Admin → Data streams → Enhanced measurement, leave "Form interactions" on if you like (it sends no field values); there is no site search to measure.
+- The privacy policy already lists analytics services. There is no consent banner; add one before marketing to visitors in the EU or UK.
+
+### GA4 setup after the ID is in
+
+1. **Key events** (GA4 → Admin → Events → mark as key event): `lablink_contact_submitted`, plus `lablink_cta_clicked`. Filter the latter to `cta_id = create_account` in reports.
+2. **Custom dimensions** (GA4 → Admin → Custom definitions, event scope): `traffic_source`, `page_type`, `cta_id`, `cta_location`, `form_location`, `lead_source`. Without them, those parameters are collected but cannot be used in reports.
+3. Check delivery in GA4 → Admin → DebugView by opening the site with `?analytics_debug=1`. That also logs each event to the browser console.
 
 Events are built from an allow-list of fields per event and passed through `sanitize()`:
 
@@ -79,10 +91,10 @@ Until a destination exists, the Netlify Forms export of `quest-signup` gives the
 
 1. Open any LabLink page with `?analytics_debug=1`. Debug mode lasts for the browser session.
 2. Open the browser console. Each event logs as `[lablink analytics] {…}`. `window.dataLayer` holds them too.
-3. Check each transition:
+3. Check each transition (on a deploy preview events stay in `dataLayer`; on caregap.io they also show in GA4 DebugView):
    - Load `/lablink` → `lablink_landing_view` with `page_type: "lablink"`.
    - Load `/lablink?utm_source=chatgpt.com` in a new tab → `traffic_source: "ai_assistant"`, and LabLink app links now end in `?utm_source=chatgpt.com`.
-   - Click "Create Your LabLink Account" → `lablink_cta_clicked` with `cta_id: "create_account"`, `cta_location: "hero"`.
+   - Click "Create Sandbox Account" → `lablink_cta_clicked` with `cta_id: "create_account"`, `cta_location: "hero"`.
    - Submit the contact form on a deploy preview → `/thanks` logs `lablink_contact_submitted` once. Reloading `/thanks` logs nothing.
 4. Confirm no payload contains form values other than the fixed `lead_source` choices.
 
@@ -99,5 +111,5 @@ These belong in the LabLink app repository, not this site:
 
 ## Open decisions
 
-- **Analytics destination (NEEDS OWNER DECISION):** which tool receives `dataLayer` events (GA4 through GTM, PostHog, Plausible, or server-side only), and whether a consent banner is needed. The privacy policy already lists "Advertising and Analytics Services".
+- **GA4 measurement ID:** owner chose Google Analytics; the ID still needs to be set in `analytics.js`.
 - **App-side events:** need a change in the LabLink app repository, which this session could not access.

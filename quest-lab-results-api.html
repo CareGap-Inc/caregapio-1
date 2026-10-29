@@ -38,7 +38,7 @@
           "mainEntity": [
             {"@type": "Question", "name": "Can I poll for results instead of using webhooks?", "acceptedAnswer": {"@type": "Answer", "text": "You can poll GET /orders/{id} to see when an order reaches results_final, but the results themselves are delivered in the order.results_final webhook. Register a webhook endpoint to receive them."}},
             {"@type": "Question", "name": "What happens when Quest corrects a result?", "acceptedAnswer": {"@type": "Answer", "text": "A corrected result is a new message from Quest, so it arrives as a new order.results_final event with a new id. Its OBX-11 result status is C. The same message delivered twice keeps the same id."}},
-            {"@type": "Question", "name": "Does LabLink keep a copy of the results?", "acceptedAnswer": {"@type": "Answer", "text": "No. LabLink passes patient data through to the lab network and keeps no copy, so store the results when the event arrives, as you would any patient record."}},
+            {"@type": "Question", "name": "Can I fetch results again later through the API?", "acceptedAnswer": {"@type": "Answer", "text": "Not today. No API endpoint returns results: they are delivered in the order.results_final event, so store them when it arrives, as you would any patient record."}},
             {"@type": "Question", "name": "Can I test results handling in sandbox?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Register a sandbox webhook endpoint and send a test event from the LabLink console. Test events have test set to true and an orderId of 0."}}
           ]
         }
@@ -89,11 +89,11 @@
             <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">How to retrieve Quest lab results programmatically</h1>
 
             <p class="text-xl text-gray-700 mb-6">With LabLink, Quest results are pushed to you rather than pulled. When results are posted to an order, LabLink sends a signed <code class="font-mono text-lg bg-gray-100 px-1 rounded">order.results_final</code> webhook to your endpoint. It carries Quest's own results message, HL7 v2 ORU^R01 parsed to JSON without interpretation, and the PDF report.</p>
-            <p class="text-lg text-gray-600 mb-10"><code class="font-mono text-base bg-gray-100 px-1 rounded">GET /orders/{id}</code> tells you when an order has reached <code class="font-mono text-base bg-gray-100 px-1 rounded">results_final</code>, but the results themselves arrive in the event, and LabLink keeps no copy. This guide covers the event, how to read the HL7 JSON, corrected results, and handling results safely. Ordering through the API is open in sandbox today; production ordering is not open yet.</p>
+            <p class="text-lg text-gray-600 mb-10"><code class="font-mono text-base bg-gray-100 px-1 rounded">GET /orders/{id}</code> tells you when an order has reached <code class="font-mono text-base bg-gray-100 px-1 rounded">results_final</code>, but the results themselves arrive in the event: no API endpoint returns them. This guide covers the event, how to read the HL7 JSON, corrected results, and handling results safely. Ordering through the API is open in sandbox today; production ordering is not open yet.</p>
 
             <div class="flex flex-col sm:flex-row gap-4 mb-14">
                 <a href="https://lablink.caregap.io/docs" data-cta="read_docs" data-cta-location="guide_intro" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Read API Docs</a>
-                <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="guide_intro" class="border-2 border-[#ff3e57] text-[#ff3e57] px-8 py-3 rounded-full hover:bg-[#ff3e57] hover:text-white transition-colors text-center">Create Your LabLink Account</a>
+                <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="guide_intro" class="border-2 border-[#ff3e57] text-[#ff3e57] px-8 py-3 rounded-full hover:bg-[#ff3e57] hover:text-white transition-colors text-center">Create Sandbox Account</a>
             </div>
 
             <h2 class="text-3xl font-bold mb-4">How results reach you</h2>
@@ -209,7 +209,7 @@
             <h2 class="text-3xl font-bold mb-4">Handling results safely</h2>
             <ul class="space-y-3 text-gray-700 mb-12 list-disc pl-6">
                 <li>The results event is a patient record: Quest's own message, with the patient's details. Keep it out of logs, analytics and error trackers, and store it as you would any PHI.</li>
-                <li>LabLink keeps no copy of patient data, so store results when the event arrives.</li>
+                <li>No API endpoint returns results, so store them when the event arrives. Patient data is retained under the organization that created it, and CareGap never sells it.</li>
                 <li>A corrected result is a new message from Quest and a new event with a new <code class="font-mono text-sm bg-gray-100 px-1 rounded">id</code>. Keep both, and show the latest.</li>
                 <li>Interpreting results and following up with patients stays with your ordering provider.</li>
             </ul>
@@ -226,8 +226,8 @@
                         <p class="text-gray-600">A corrected result is a new message from Quest, so it arrives as a new order.results_final event with a new id. Its OBX-11 result status is C. The same message delivered twice keeps the same id.</p>
                     </div>
                     <div class="border-b pb-6">
-                        <h3 class="text-xl font-semibold mb-2">Does LabLink keep a copy of the results?</h3>
-                        <p class="text-gray-600">No. LabLink passes patient data through to the lab network and keeps no copy, so store the results when the event arrives, as you would any patient record.</p>
+                        <h3 class="text-xl font-semibold mb-2">Can I fetch results again later through the API?</h3>
+                        <p class="text-gray-600">Not today. No API endpoint returns results: they are delivered in the order.results_final event, so store them when it arrives, as you would any patient record.</p>
                     </div>
                     <div class="border-b pb-6">
                         <h3 class="text-xl font-semibold mb-2">Can I test results handling in sandbox?</h3>
@@ -241,7 +241,7 @@
                 <p class="text-gray-300 mb-6">Read the webhook reference, then register a sandbox endpoint and send yourself a test results event.</p>
                 <div class="flex flex-col sm:flex-row gap-4">
                     <a href="https://lablink.caregap.io/docs" data-cta="read_docs" data-cta-location="guide_next_step" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Read API Docs</a>
-                    <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="guide_next_step" class="border-2 border-white/30 text-white px-8 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-colors text-center">Create Your LabLink Account</a>
+                    <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="guide_next_step" class="border-2 border-white/30 text-white px-8 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-colors text-center">Create Sandbox Account</a>
                     <a href="/lablink#contact" data-cta="talk_to_us" data-cta-location="guide_next_step" class="text-white underline self-center hover:text-[#ff3e57]">Talk to Us</a>
                 </div>
                 <p class="text-sm text-gray-400 mt-6">Related: <a href="/quest-lab-ordering-api" class="text-white underline hover:text-[#ff3e57]">How to order Quest labs through an API</a></p>

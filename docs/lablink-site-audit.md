@@ -31,7 +31,7 @@ An audit of caregap.io for the LabLink sunset of `/quest` and `/lab-ordering`, p
 | Current `/lablink` pricing ($1,500 onboarding; $5/$3/$2 graduated; $1/patient/yr) is sourced only to owner commit `08677bc`, which cites a fee schedule that is not in the repo | Blocker for "verified" status | Recorded as owner-published, **NEEDS OWNER CONFIRMATION** against billing config. Not changed |
 | Prices were repeated independently on the home page (`$1,500 onboarding, from $2.00 per order`) | Low | Home page now links to `/lablink#pricing`. All remaining figures are tied to `data/lablink-commercial.json` by tests |
 | No "two account models" comparison on `/lablink` (already removed in `08677bc`) | — | Test guards against its return |
-| Sandbox access is not free: published copy puts payment (step 3) before keys (step 5), and `/thanks` says the same | Medium (CTA wording) | Primary CTA is "Create Your LabLink Account", not "Create Free Sandbox". Hero says "Sandbox access is included in onboarding". **NEEDS OWNER CONFIRMATION** (row P8) |
+| Published copy put payment before sandbox keys | Medium (CTA wording) | Owner: sandbox opens before payment. CTA is now "Create Sandbox Account"; how-it-works, pricing, `/thanks` and the guides say sandbox opens before any payment (row P8) |
 | Retired claims (CareGap's own Quest account, no setup fee, no card, Testing Price List, cash only) could still surface from AI assistants or caches | Medium | Added an FAQ entry on `/lablink`, a section in the guide, and a "Retired offers" section in `llms.txt` stating plainly that they are not available |
 | "Who We Work With" logos sit on the LabLink page with no context | Medium (endorsement risk) | **NEEDS OWNER CONFIRMATION** (row S3). Not changed |
 | `www.caregap.io` behaviour could not be checked | Low | Confirm it 301s to the apex |
@@ -45,7 +45,7 @@ An audit of caregap.io for the LabLink sunset of `/quest` and `/lab-ordering`, p
 | **The site said production ordering was live** ("Sandbox today. Live in days", "moving real orders and real results today", "already runs in production"). The spec says `POST /orders` returns `not_available` on production until production billing is in place | **High** (accuracy) | Claims removed; `/lablink`, the guides and `llms.txt` say production ordering is not open yet. A test blocks those claims while the spec says "Sandbox only for now" |
 | "Requisitions" resource and "pull structured results" did not match the API (orders; results arrive by webhook) | Medium | Corrected |
 | "FHIR layer" not supported by the docs | Medium | Removed. Row A14 |
-| LabLink docs say it keeps no copy of patient data; `/lablink`'s patient-record layer implies it does | Medium | Flagged, not changed (pricing positioning). Row A15 |
+| LabLink docs say it keeps no copy of patient data | Medium | Owner: data is retained under the creating organization and never sold. Site says that instead; the LabLink app docs still need the same fix. Row A15 |
 | Old `/lab-ordering` linked `app.caregap.io/openapi.json`; the current site uses `lablink.caregap.io` | Low | Test blocks `app.caregap.io` anywhere on the site |
 | Rate limits and order idempotency are undocumented | Low | Not claimed |
 
@@ -103,14 +103,12 @@ Three candidate intent pages were proposed. Two were built.
 
 ## Blockers needing owner signoff
 
-1. **Confirm current pricing** (rows P1–P4) against the signed October 2026 fee schedule and the LabLink billing code: graduated tiers, calendar-month reset, how the patient-record year and patient count work.
-2. **Is sandbox open before payment?** (row P8). If yes, the primary CTA can become "Create Sandbox Account", and possibly "no card" if that is true.
-3. **Production ordering date** (row A13), and whether the $1,500 onboarding is charged before production opens.
-4. **Patient-record positioning** (rows A15, P4): the docs say LabLink keeps no copy of patient data.
-5. **LabLink app repository access**, to build the app-side funnel events.
-6. **Partner logos on `/lablink`** (row S3): permission, and whether each is a LabLink customer.
-7. **Analytics destination and consent** (`docs/lablink-funnel.md`).
-8. **Whose name the Quest subaccount is in** for new-to-Quest customers (row Q2).
+1. **Confirm the published prices are current** (rows P1–P4): $1,500 onboarding; $5.00 / $3.00 / $2.00 per order, graduated by monthly volume and reset each calendar month; $1.00 per patient per year. They come from one commit that cites a fee schedule not in this repository.
+2. **Production ordering date** (row A13): in progress, no date yet. The site says production ordering is not open yet.
+3. **Partner logos on `/lablink`** (row S3): whether each company agreed to be shown, and whether each is a LabLink customer or other CareGap work.
+4. **GA4 measurement ID** for `analytics.js` (`docs/lablink-funnel.md`).
+5. **Whose name the Quest subaccount is in** for new-to-Quest customers (row Q2).
+6. **LabLink app**: update its docs' "keeps no copy" wording (row A15), and add the app-side funnel events.
 
 ## Backlog (prioritized)
 

@@ -17,15 +17,15 @@ Approval owner for every commercial fact: the CareGap owner (Jeremy Walker, jere
 
 | # | Fact (as published) | Source | Status |
 |---|---|---|---|
-| P1 | Subaccount onboarding $1,500, one time; covers NPI and license verification, Quest subaccount setup, API keys, sandbox access and BAA | `08677bc`; fee schedule cited, not in repo | Owner-published. **NEEDS OWNER CONFIRMATION** against LabLink billing config / Stripe price |
+| P1 | Subaccount onboarding $1,500, one time; covers NPI and license verification, Quest subaccount setup, production API keys and BAA | `08677bc`; fee schedule cited, not in repo | Owner-published. **NEEDS OWNER CONFIRMATION** that the figure is current. Sandbox is no longer listed as part of onboarding (row P8) |
 | P2 | Same onboarding fee for new and existing Quest customers | `08677bc` | Owner-published. **NEEDS OWNER CONFIRMATION** |
 | P3 | Order platform fee: $5.00 (orders 1–100), $3.00 (101–500), $2.00 (501+), graduated; earlier orders are not repriced; resets on the first of each calendar month | `08677bc` | Owner-published. **NEEDS OWNER CONFIRMATION** that billing code implements graduated (not volume-repriced) tiers and a calendar-month reset |
-| P4 | Patient record $1.00 per patient per year, billed annually | `08677bc` | Owner-published. **NEEDS OWNER CONFIRMATION** of when the year starts and how a "patient" is counted, and how it fits row A15 (LabLink keeps no copy of patient data) |
+| P4 | Patient record $1.00 per patient per year, billed annually | `08677bc` | Owner-published. **NEEDS OWNER CONFIRMATION** of when the year starts and how a "patient" is counted, |
 | P5 | Platform fees apply to every order regardless of bill type | `08677bc` | Owner-published |
 | P6 | Fees exclude taxes; charged to the payment method on file; card data handled by Stripe | `08677bc` | Owner-published |
 | P7 | Pricing is indicative; final terms set in the CareGap Platform Agreement | `08677bc` | Owner-published |
-| P8 | Onboarding is charged up front, before sandbox keys are issued (steps 3 → 5 on `/lablink`; `/thanks` step 2 → 3) | `lablink.html`, `thanks.html` | Derived. **NEEDS OWNER CONFIRMATION.** If sandbox is open before payment, the site can say so and the CTA can become "Create Sandbox Account". The spec says sandbox *usage* is not billed, which does not settle whether onboarding is paid before sandbox access |
-| P9 | "Free", "no credit card" or "no setup fee" | — | **Not claimed anywhere.** Do not add unless P8 changes |
+| P8 | Sandbox opens when an account is created, before any payment | Owner, 2026-10-29 | **Owner-confirmed.** Primary CTA is now "Create Sandbox Account", with "no payment needed for sandbox". "Free" and "no credit card" are still not claimed |
+| P9 | "Free", "no credit card" or "no setup fee" | — | **Not claimed.** "No payment needed for sandbox" is claimed (row P8) |
 
 ## Quest relationship and bill types
 
@@ -69,7 +69,7 @@ Verified on 2026-10-29 against the LabLink OpenAPI spec (3.1.0, "LabLink API" 1.
 | A12 | Rate limits, idempotency keys for orders | — | **Not documented.** Not claimed |
 | A13 | **Production ordering is not open:** `POST /orders`, `/answers`, `/provider`, `/billing` return `403 not_available` on production "until production billing is in place" | spec | **Verified.** Contradicted the site ("Sandbox today. Live in days", "moving real orders and real results today", "already runs in production"); those claims are removed and the site says production ordering is not open yet. **NEEDS OWNER INPUT:** expected production date, and whether onboarding is charged before production opens |
 | A14 | "FHIR layer" | `lablink.html` (removed) | **Not supported by the docs** (results are HL7 v2 as JSON; no FHIR endpoints). Removed from the site. **NEEDS OWNER CONFIRMATION** if a FHIR layer exists elsewhere |
-| A15 | "LabLink passes patient data through to the lab network and keeps no copy" | `overview.md`, `insurance.md`, `webhooks.md` | **Verified.** Conflicts with the Layer 1 copy on `/lablink` ("The patient record … on HIPAA-compliant infrastructure", $1.00 per patient record per year), which implies LabLink holds the record. **NEEDS OWNER CONFIRMATION** of how to describe what the patient-record fee covers |
+| A15 | Patient data is retained under the organization that created it; CareGap never sells it | Owner, 2026-10-29 | **Owner-confirmed.** Replaces "LabLink keeps no copy", which the LabLink app docs (`lablink.caregap.io/llms/overview.md`, `insurance.md`, `webhooks.md`, the `POST /orders` `patientAddress` description) still say. **Those docs need updating in the LabLink app repository** |
 | A16 | Runnable cURL and JavaScript examples for the first sandbox order; Node.js signature check; results parsing example | `lablink.html`, `quest-lab-results-api.html` | **Published**, validated by `tests/examples.test.mjs` |
 
 ## Services, proof points and support

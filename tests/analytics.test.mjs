@@ -144,3 +144,22 @@ test('the funnel doc defines every event', () => {
   const doc = read('docs/lablink-funnel.md');
   for (const event of SPEC_EVENTS) assert.ok(doc.includes('`' + event + '`'), event);
 });
+
+test('GA4 is either off or configured with a valid measurement ID, on production hosts only', () => {
+  assert.match(analytics.GA4_MEASUREMENT_ID, /^(|G-[A-Z0-9]+)$/);
+  assert.deepEqual(analytics.GA4_HOSTS, ['caregap.io', 'www.caregap.io']);
+});
+
+test('the page URL sent to GA4 keeps only allow-listed UTMs', () => {
+  const clean = analytics.cleanPageLocation;
+  assert.equal(clean('https://caregap.io/lablink?utm_source=chatgpt.com&email=a@b.com&token=abc#faq'), 'https://caregap.io/lablink?utm_source=chatgpt.com');
+  assert.equal(clean('https://caregap.io/quest-lab-results-api?npi=1234567893'), 'https://caregap.io/quest-lab-results-api');
+  assert.equal(clean('https://caregap.io/lablink?utm_campaign=x@y.com'), 'https://caregap.io/lablink');
+});
+
+test('GA4 is configured without Google signals or ad personalization', () => {
+  const source = read('analytics.js');
+  assert.match(source, /allow_google_signals: false/);
+  assert.match(source, /allow_ad_personalization_signals: false/);
+  assert.match(source, /page_location: cleanPageLocation\(/);
+});

@@ -58,7 +58,7 @@ collect for laboratory testing.
 ## Pricing (public, indicative)
 
 - Subaccount onboarding: $1,500 one time. NPI and license verification, Quest
-  subaccount setup, API keys, sandbox access and BAA. Applies to new and
+  subaccount setup, production API keys and BAA. Applies to new and
   existing Quest customers.
 - Order platform fee, per order, graduated by monthly volume:
   - Orders 1 to 100: $5.00 each
@@ -122,7 +122,8 @@ sandbox today.
 Path to a first sandbox order (the OpenAPI spec is authoritative for every
 field):
 
-1. Create a sandbox key in the console.
+1. Create a LabLink account (sandbox opens before any payment) and create a
+   sandbox key in the console.
 2. `POST /patients` with synthetic data and your own `externalId`; a retry
    returns `conflict` with `existingId` instead of a duplicate.
 3. `GET /tests?search=` or `?code=`, then `GET /tests/{id}` for each test:
@@ -142,8 +143,10 @@ field):
    dedupe on the event `id`.
 
 Errors are always `{ "error": { "type", "message", "param", "requestId" } }`;
-every response has a `LabLink-Request-Id` header. LabLink passes patient
-data through to the lab network and keeps no copy. Developer support:
+every response has a `LabLink-Request-Id` header. Results are delivered in
+the `order.results_final` event; no endpoint returns them, so store them on
+receipt. Patient data is retained under the organization that created it,
+and CareGap never sells it. Developer support:
 support@caregap.io (quote the request id; never send patient data or keys).
 
 - API docs: https://lablink.caregap.io/docs
@@ -152,7 +155,8 @@ support@caregap.io (quote the request id; never send patient data or keys).
 
 ## Timeline
 
-Sandbox access does not wait on Quest paperwork. Quest subaccount setup is a
+Sandbox opens when you create your account, before any payment, and does not
+wait on Quest paperwork. Quest subaccount setup is a
 manual process on Quest's side that typically takes several business days.
 Production ordering through the API opens once production billing is in
 place.

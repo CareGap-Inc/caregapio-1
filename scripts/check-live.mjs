@@ -46,6 +46,15 @@ async function checkPage(path) {
 async function main() {
   console.log(`Checking ${base}\n`);
 
+  // A wrong host (for example a deploy preview that does not exist) answers
+  // 404 everywhere, which would make the 404 checks below pass falsely.
+  const home = await head(base + '/');
+  const homeHtml = home.status === 200 ? await home.text() : '';
+  if (!homeHtml.includes('<link rel="canonical" href="https://caregap.io/">')) {
+    console.log(`FAIL  ${base}/ returned ${home.status} and is not the CareGap site. Check the URL.`);
+    process.exit(1);
+  }
+
   for (const path of ['/quest', '/quest/', '/quest.html', '/lab-ordering', '/lab-ordering/', '/lab-ordering.html']) {
     await checkRedirect(path, '/lablink');
   }

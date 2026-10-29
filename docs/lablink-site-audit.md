@@ -107,7 +107,7 @@ Three candidate intent pages were proposed. Two were built.
 
 ## Backlog (prioritized)
 
-1. After deploy: `npm run check:live`; confirm `www` and the `lablink.caregap.io` docs URLs return 200 without auth.
+1. After deploy: `npm run check:live`; confirm `www` redirects to the apex. (The `lablink.caregap.io` docs, `llms.txt` and OpenAPI URLs were confirmed public on 2026-10-29.)
 2. With spec access: add validated cURL and JavaScript examples for the six first-order steps, with `data-openapi-operation`, copy buttons and expected responses; add rate-limit and idempotency notes if supported.
 3. Build `/quest-lab-results-api` once result formats and sandbox behaviour are confirmed.
 4. App-side events (`signup_started`, `signup_completed`, `first_sandbox_order_succeeded`, `production_activation_started`, `production_activated`) in the LabLink app.

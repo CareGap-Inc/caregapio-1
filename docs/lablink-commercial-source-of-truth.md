@@ -24,7 +24,7 @@ Approval owner for every commercial fact: the CareGap owner (Jeremy Walker, jere
 | P5 | Platform fees apply to every order regardless of bill type | `08677bc` | Owner-published |
 | P6 | Fees exclude taxes; charged to the payment method on file; card data handled by Stripe | `08677bc` | Owner-published |
 | P7 | Pricing is indicative; final terms set in the CareGap Platform Agreement | `08677bc` | Owner-published |
-| P8 | Onboarding is charged up front, before sandbox keys are issued (steps 3 → 5 on `/lablink`; `/thanks` step 2 → 3) | `lablink.html`, `thanks.html` | Derived. **NEEDS OWNER CONFIRMATION.** If sandbox is open before payment, the site can say so and the CTA can become "Create Sandbox Account" |
+| P8 | Onboarding is charged up front, before sandbox keys are issued (steps 3 → 5 on `/lablink`; `/thanks` step 2 → 3) | `lablink.html`, `thanks.html` | Derived. **NEEDS OWNER CONFIRMATION.** If sandbox is open before payment, the site can say so and the CTA can become "Create Sandbox Account". The spec says sandbox *usage* is not billed, which does not settle whether onboarding is paid before sandbox access |
 | P9 | "Free", "no credit card" or "no setup fee" | — | **Not claimed anywhere.** Do not add unless P8 changes |
 
 ## Quest relationship and bill types
@@ -51,11 +51,11 @@ Approval owner for every commercial fact: the CareGap owner (Jeremy Walker, jere
 
 ## API and developer experience
 
-None of these could be checked against the OpenAPI spec: `lablink.caregap.io` was blocked from this environment. Run `npm run check:live` from a normal network to confirm the URLs, then compare the spec with this table.
+`npm run check:live` from a normal network on 2026-10-29 confirmed that the docs, `llms.txt` and `openapi.json` (OpenAPI 3.1.0, "LabLink API" 1.0.0) are public, and read the spec's `servers`. Endpoint-level claims (A2–A8) are still unchecked against the spec's paths.
 
 | # | Fact | Source | Status |
 |---|---|---|---|
-| A1 | REST API with separate sandbox and production base URLs (and keys) | `lablink.html` | Owner-published. **NEEDS VERIFICATION** against `openapi.json` `servers` |
+| A1 | REST API with separate sandbox and production base URLs (and keys) | `openapi.json` `servers`: sandbox `https://lablink.caregap.io/api/sandbox/v1` ("Synthetic data only. Nothing reaches a real lab or a real patient, and nothing is billed. Use a sandbox key."); production `https://lablink.caregap.io/api/v1` ("Available once your account is live. Use a production key.") | **Verified** 2026-10-29 |
 | A2 | Patients with caller-supplied `externalId` so retries do not duplicate | `lablink.html` | Owner-published. **NEEDS VERIFICATION** |
 | A3 | Test catalog search by name or order code; ask-at-order-entry questions | `lablink.html` | Owner-published. **NEEDS VERIFICATION** |
 | A4 | Requisition: patient, tests, provider and answers in one request; CareGap completes questionnaire and provider authorization | `lablink.html` | Owner-published. **NEEDS VERIFICATION** |
@@ -63,7 +63,7 @@ None of these could be checked against the OpenAPI spec: `lablink.caregap.io` wa
 | A6 | Signed webhooks when Quest receives the requisition and when results post, separately for sandbox and production | `lablink.html` | Owner-published. **NEEDS VERIFICATION** |
 | A7 | Playground in the console for sandbox calls | `lablink.html` | Owner-published. **NEEDS VERIFICATION** |
 | A8 | One error shape across endpoints | `lablink.html` | Owner-published. **NEEDS VERIFICATION** |
-| A9 | Docs at `/docs`, agent docs at `/llms.txt`, spec at `/openapi.json` on `lablink.caregap.io` | `08677bc` | Owner-published. **NEEDS VERIFICATION** that each returns 200 without auth |
+| A9 | Docs at `/docs`, agent docs at `/llms.txt`, spec at `/openapi.json` on `lablink.caregap.io` | `npm run check:live` | **Verified** 2026-10-29: each returns 200 without auth |
 | A10 | Structured results; FHIR layer; HL7 and file handling with Quest; audit logging | `lablink.html` | Owner-published |
 | A11 | Rate limits, idempotency keys beyond `externalId`, result formats (PDF, LOINC and so on), sandbox result simulation | — | **Not published.** Unknown until the spec is reviewed |
 | A12 | Runnable code examples (cURL / JavaScript) | — | **Not published.** Blocked on spec access; the `data-openapi-operation` and `check:live` harness is ready |

@@ -10,6 +10,7 @@
     <meta property="og:url" content="https://caregap.io/lablink">
     <meta property="og:title" content="LabLink by CareGap | Order Quest Labs From Your App">
     <meta property="og:description" content="Order Quest Diagnostics lab tests from your own app. $1,500 onboarding, $2.00 to $5.00 per order, $1.00 per patient per year. Client bill, patient cash or patient insurance.">
+    <meta property="og:image" content="https://caregap.io/Hero-CareGap.png">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/png" href="https://imgur.com/QAdKjar.png">
     <script type="application/ld+json">
@@ -85,6 +86,9 @@
           "@id": "https://caregap.io/lablink#faq",
           "mainEntity": [
             {"@type": "Question", "name": "How much does LabLink cost?", "acceptedAnswer": {"@type": "Answer", "text": "A $1,500 one-time subaccount onboarding fee, an order platform fee of $5.00, $3.00 or $2.00 per order graduated by monthly volume, and $1.00 per patient record per year. Laboratory testing is billed separately by Quest according to the bill type on each order. Pricing is indicative; final terms are set in the CareGap Platform Agreement."}},
+            {"@type": "Question", "name": "Do I need my own Quest account?", "acceptedAnswer": {"@type": "Answer", "text": "No. If you are new to Quest, LabLink onboarding sets up a Quest subaccount for your organization and tracks it to a client number. If you already have a Quest account, you can bring it. Either way you need a licensed ordering provider with an active NPI, and the $1,500 one-time onboarding fee applies."}},
+            {"@type": "Question", "name": "Can I still order on CareGap's Quest account with no setup fee?", "acceptedAnswer": {"@type": "Answer", "text": "No. Earlier CareGap pages at caregap.io/quest and caregap.io/lab-ordering described ordering on CareGap's own Quest account with no setup fee, and a separate plan for your own account. Those offers have been retired and are not available. LabLink is CareGap's current lab ordering offer."}},
+            {"@type": "Question", "name": "How does billing work?", "acceptedAnswer": {"@type": "Answer", "text": "There are two separate streams. CareGap charges its platform fees (onboarding, per-order and per-patient record fees) to the payment method on file. Quest bills laboratory testing according to each order's bill type: your subaccount for Client Bill, the patient for Patient Cash, or the patient's health plan for Patient Insurance."}},
             {"@type": "Question", "name": "I already have a Quest account. Can I use LabLink?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. LabLink works with existing Quest customers and with organizations that are new to Quest. Pricing is the same either way, including the $1,500 one-time onboarding fee. Tell us which you are at signup and we take it from there."}},
             {"@type": "Question", "name": "Can I bill insurance?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. You can order as Client Bill, Patient Cash or Patient Insurance. Insurance orders are billed by Quest to the patient's health plan and require insurance details and ICD-10 codes. You can use different bill types for different orders."}},
             {"@type": "Question", "name": "What does a test actually cost?", "acceptedAnswer": {"@type": "Answer", "text": "That depends on the bill type. Client Bill orders are billed by Quest to your subaccount at Quest's program rates. Patient Cash orders are billed by Quest to the patient at its standard patient pricing. Insurance orders are billed to the plan. CareGap does not sell, bill or collect for laboratory testing."}},
@@ -105,8 +109,9 @@
     <link rel="stylesheet" href="dist/styles.css">
     <!-- Calendly widget script -->
     <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+    <script src="analytics.js" defer></script>
 </head>
-<body class="font-['Inter'] bg-white">
+<body class="font-['Inter'] bg-white" data-lablink-page="lablink">
 
     <!-- Calendly Modal (shared script.js expects these nodes) -->
     <div id="calendly-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
@@ -135,7 +140,7 @@
                     <a href="#how-it-works" class="text-gray-700 hover:text-[#ff3e57] transition-colors">How It Works</a>
                     <a href="#developers" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Developers</a>
                     <a href="#faq-section" class="text-gray-700 hover:text-[#ff3e57] transition-colors">FAQ</a>
-                    <a href="https://lablink.caregap.io" class="bg-[#ff3e57] text-white px-6 py-2 rounded-full hover:bg-[#ff3e57]/90 transition-colors">Open LabLink</a>
+                    <a href="https://lablink.caregap.io" data-cta="open_app" data-cta-location="nav" class="bg-[#ff3e57] text-white px-6 py-2 rounded-full hover:bg-[#ff3e57]/90 transition-colors">Open LabLink</a>
                 </div>
                 <button class="md:hidden" id="mobile-menu-button" aria-label="Open menu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -150,7 +155,7 @@
                     <a href="#how-it-works" class="text-gray-700 hover:text-[#ff3e57] transition-colors">How It Works</a>
                     <a href="#developers" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Developers</a>
                     <a href="#faq-section" class="text-gray-700 hover:text-[#ff3e57] transition-colors">FAQ</a>
-                    <a href="https://lablink.caregap.io" class="bg-[#ff3e57] text-white px-6 py-2 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Open LabLink</a>
+                    <a href="https://lablink.caregap.io" data-cta="open_app" data-cta-location="nav_mobile" class="bg-[#ff3e57] text-white px-6 py-2 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Open LabLink</a>
                 </div>
             </div>
         </nav>
@@ -177,9 +182,10 @@
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="https://lablink.caregap.io" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Get Started With LabLink</a>
-                        <a href="#pricing" class="border-2 border-[#ff3e57] text-[#ff3e57] px-8 py-3 rounded-full hover:bg-[#ff3e57] hover:text-white transition-colors text-center">See Pricing</a>
+                        <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="hero" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Create Your LabLink Account</a>
+                        <a href="https://lablink.caregap.io/docs" data-cta="read_docs" data-cta-location="hero" class="border-2 border-[#ff3e57] text-[#ff3e57] px-8 py-3 rounded-full hover:bg-[#ff3e57] hover:text-white transition-colors text-center">Read API Docs</a>
                     </div>
+                    <p class="text-sm text-gray-500 mt-5">Sandbox access is included in <a href="#pricing" class="underline hover:text-[#ff3e57]">onboarding</a>. Want to talk it through first? <a href="#contact" data-cta="talk_to_us" data-cta-location="hero" class="text-[#ff3e57] font-semibold hover:underline">Talk to us</a>.</p>
                 </div>
 
                 <div class="md:w-1/3" data-aos="fade-left">
@@ -389,7 +395,7 @@
         <div class="container mx-auto px-6">
             <div class="max-w-3xl mb-14" data-aos="fade-up">
                 <h2 class="text-4xl font-bold mb-4">Six steps, mostly automated</h2>
-                <p class="text-lg text-gray-600">Sign up at <a href="https://lablink.caregap.io" class="text-[#ff3e57] font-semibold hover:underline">lablink.caregap.io</a>, sign, integrate. You do not have to meet anyone to get started.</p>
+                <p class="text-lg text-gray-600">Sign up at <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="how_it_works" class="text-[#ff3e57] font-semibold hover:underline">lablink.caregap.io</a>, sign, integrate. You do not have to meet anyone to get started.</p>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -481,9 +487,78 @@
             </div>
 
             <div class="mt-10 flex flex-wrap gap-4" data-aos="fade-up">
-                <a href="https://lablink.caregap.io/docs" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors">Read The API Docs</a>
-                <a href="https://lablink.caregap.io/llms.txt" class="border-2 border-white/30 text-white px-8 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-colors font-mono text-sm self-center">llms.txt</a>
-                <a href="https://lablink.caregap.io/openapi.json" class="border-2 border-white/30 text-white px-8 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-colors font-mono text-sm self-center">openapi.json</a>
+                <a href="https://lablink.caregap.io/docs" data-cta="read_docs" data-cta-location="developers" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors">Read The API Docs</a>
+                <a href="https://lablink.caregap.io/llms.txt" data-cta="agent_docs" data-cta-location="developers" class="border-2 border-white/30 text-white px-8 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-colors font-mono text-sm self-center">llms.txt</a>
+                <a href="https://lablink.caregap.io/openapi.json" data-cta="openapi" data-cta-location="developers" class="border-2 border-white/30 text-white px-8 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-colors font-mono text-sm self-center">openapi.json</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- First sandbox order -->
+    <section id="first-sandbox-order" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mb-14" data-aos="fade-up">
+                <p class="text-sm font-semibold tracking-widest text-[#ff3e57] mb-4">TIME TO FIRST SANDBOX ORDER</p>
+                <h2 class="text-4xl font-bold mb-4">From signup to your first sandbox order</h2>
+                <p class="text-lg text-gray-600">The path a developer follows to place a sandbox order end to end. Exact routes, payloads, base URLs and the auth header are in the <a href="https://lablink.caregap.io/docs" data-cta="read_docs" data-cta-location="first_sandbox_order" class="text-[#ff3e57] font-semibold hover:underline">API docs</a> and <a href="https://lablink.caregap.io/openapi.json" data-cta="openapi" data-cta-location="first_sandbox_order" class="text-[#ff3e57] font-semibold hover:underline">openapi.json</a>, so they cannot drift from the API you call.</p>
+            </div>
+
+            <ol class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-14">
+                <li class="card border border-gray-100" data-aos="fade-up">
+                    <p class="text-xs font-semibold tracking-widest text-gray-400 mb-2">STEP 1</p>
+                    <h3 class="text-lg font-semibold mb-2">Get sandbox keys</h3>
+                    <p class="text-gray-600 text-sm">Create your LabLink account. Sandbox API keys are issued in the LabLink console as part of onboarding. Sandbox and production have separate base URLs and keys.</p>
+                </li>
+                <li class="card border border-gray-100" data-aos="fade-up" data-aos-delay="50">
+                    <p class="text-xs font-semibold tracking-widest text-gray-400 mb-2">STEP 2</p>
+                    <h3 class="text-lg font-semibold mb-2">Create a test patient</h3>
+                    <p class="text-gray-600 text-sm">Use synthetic data only. Send your own <code class="font-mono text-gray-800">externalId</code> so a retried request never creates a duplicate patient.</p>
+                </li>
+                <li class="card border border-gray-100" data-aos="fade-up" data-aos-delay="100">
+                    <p class="text-xs font-semibold tracking-widest text-gray-400 mb-2">STEP 3</p>
+                    <h3 class="text-lg font-semibold mb-2">Pick a test</h3>
+                    <p class="text-gray-600 text-sm">Search the Quest catalog by name or order code, and read the test's ask-at-order-entry questions so you can answer them in the order.</p>
+                </li>
+                <li class="card border border-gray-100" data-aos="fade-up" data-aos-delay="150">
+                    <p class="text-xs font-semibold tracking-widest text-gray-400 mb-2">STEP 4</p>
+                    <h3 class="text-lg font-semibold mb-2">Create a requisition</h3>
+                    <p class="text-gray-600 text-sm">Patient, tests, ordering provider, bill type and answers in one request. CareGap completes the questionnaire and provider authorization.</p>
+                </li>
+                <li class="card border border-gray-100" data-aos="fade-up" data-aos-delay="200">
+                    <p class="text-xs font-semibold tracking-widest text-gray-400 mb-2">STEP 5</p>
+                    <h3 class="text-lg font-semibold mb-2">Follow its status</h3>
+                    <p class="text-gray-600 text-sm">Read the requisition's status. Anything left to do comes back as <code class="font-mono text-gray-800">actionRequired</code>, with the call that finishes it.</p>
+                </li>
+                <li class="card border border-gray-100" data-aos="fade-up" data-aos-delay="250">
+                    <p class="text-xs font-semibold tracking-widest text-gray-400 mb-2">STEP 6</p>
+                    <h3 class="text-lg font-semibold mb-2">Handle webhooks</h3>
+                    <p class="text-gray-600 text-sm">Receive signed events when Quest receives the requisition and when results are posted. Verify the signature before you trust the payload. Sandbox and production webhooks are configured separately.</p>
+                </li>
+            </ol>
+
+            <div class="grid lg:grid-cols-2 gap-8 max-w-6xl">
+                <div class="bg-gray-50 rounded-2xl p-8" data-aos="fade-up">
+                    <h3 class="text-xl font-semibold mb-2">Sandbox to production checklist</h3>
+                    <p class="text-gray-600 text-sm mb-6">None of this blocks building in sandbox. All of it is needed before your first real order.</p>
+                    <ul class="space-y-3 text-sm text-gray-700">
+                        <li class="flex gap-3"><span class="text-[#ff3e57] font-bold" aria-hidden="true">&#10003;</span> A licensed ordering provider with an active NPI, verified with their state license</li>
+                        <li class="flex gap-3"><span class="text-[#ff3e57] font-bold" aria-hidden="true">&#10003;</span> The CareGap Platform Agreement and BAA, e-signed</li>
+                        <li class="flex gap-3"><span class="text-[#ff3e57] font-bold" aria-hidden="true">&#10003;</span> A payment method on file, with onboarding paid</li>
+                        <li class="flex gap-3"><span class="text-[#ff3e57] font-bold" aria-hidden="true">&#10003;</span> Your Quest subaccount issued, or your existing Quest account connected, through to a client number</li>
+                        <li class="flex gap-3"><span class="text-[#ff3e57] font-bold" aria-hidden="true">&#10003;</span> The automated certification suite passed: a test order and result round trip</li>
+                        <li class="flex gap-3"><span class="text-[#ff3e57] font-bold" aria-hidden="true">&#10003;</span> For insurance orders, your flow collects insurance details and ICD-10 codes</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-900 text-white rounded-2xl p-8" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-xl font-semibold mb-2">Stuck in sandbox?</h3>
+                    <ul class="space-y-3 text-sm text-gray-300 mb-6">
+                        <li>Read the error body. Every endpoint returns the same error shape.</li>
+                        <li>Check the requisition for <code class="font-mono text-gray-100">actionRequired</code> and make the call it names.</li>
+                        <li>Send the same call from the playground in the LabLink console and compare it with your request.</li>
+                    </ul>
+                    <p class="text-sm text-gray-300 mb-6">Still stuck? Email <a href="mailto:sales@caregap.io" data-cta="email_sales" data-cta-location="sandbox_help" class="text-[#ff3e57] font-semibold hover:underline">sales@caregap.io</a> with the endpoint and the time of the call. Never include patient data or API keys.</p>
+                    <a href="#contact" data-cta="talk_to_us" data-cta-location="sandbox_help" class="inline-block border-2 border-white/30 text-white px-6 py-2 rounded-full hover:bg-white hover:text-gray-900 transition-colors text-sm">Talk to an integration specialist</a>
+                </div>
             </div>
         </div>
     </section>
@@ -604,6 +679,18 @@
                     <p class="text-gray-600">A $1,500 one-time subaccount onboarding fee, an order platform fee of $5.00, $3.00 or $2.00 per order graduated by monthly volume, and $1.00 per patient record per year. Laboratory testing is billed separately by Quest according to the bill type on each order. Pricing is indicative; final terms are set in the CareGap Platform Agreement.</p>
                 </div>
                 <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="50">
+                    <h3 class="text-xl font-semibold mb-2">Do I need my own Quest account?</h3>
+                    <p class="text-gray-600">No. If you are new to Quest, LabLink onboarding sets up a Quest subaccount for your organization and tracks it to a client number. If you already have a Quest account, you can bring it. Either way you need a licensed ordering provider with an active NPI, and the $1,500 one-time onboarding fee applies. <a href="/quest-api-without-account" class="text-[#ff3e57] font-semibold hover:underline">More on ordering without your own Quest account</a>.</p>
+                </div>
+                <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="50">
+                    <h3 class="text-xl font-semibold mb-2">Can I still order on CareGap's Quest account with no setup fee?</h3>
+                    <p class="text-gray-600">No. Earlier CareGap pages at caregap.io/quest and caregap.io/lab-ordering described ordering on CareGap's own Quest account with no setup fee, and a separate plan for your own account. Those offers have been retired and are not available. LabLink is CareGap's current lab ordering offer.</p>
+                </div>
+                <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="50">
+                    <h3 class="text-xl font-semibold mb-2">How does billing work?</h3>
+                    <p class="text-gray-600">There are two separate streams. CareGap charges its platform fees (onboarding, per-order and per-patient record fees) to the payment method on file. Quest bills laboratory testing according to each order's bill type: your subaccount for Client Bill, the patient for Patient Cash, or the patient's health plan for Patient Insurance.</p>
+                </div>
+                <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="50">
                     <h3 class="text-xl font-semibold mb-2">I already have a Quest account. Can I use LabLink?</h3>
                     <p class="text-gray-600">Yes. LabLink works with existing Quest customers and with organizations that are new to Quest. Pricing is the same either way, including the $1,500 one-time onboarding fee. Tell us which you are at signup and we take it from there.</p>
                 </div>
@@ -637,11 +724,25 @@
                 </div>
                 <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="450">
                     <h3 class="text-xl font-semibold mb-2">We do not have a dev team. Can you build the app?</h3>
-                    <p class="text-gray-600">Yes. The CareGap build team can design, build and maintain your branded app or portal on top of LabLink. <a href="https://calendly.com/caregap/caregap-demo" class="text-[#ff3e57] font-semibold hover:underline">Book a call</a> and we will scope it.</p>
+                    <p class="text-gray-600">Yes. The CareGap build team can design, build and maintain your branded app or portal on top of LabLink. <a href="https://calendly.com/caregap/caregap-demo" data-cta="book_call" data-cta-location="faq" class="text-[#ff3e57] font-semibold hover:underline">Book a call</a> and we will scope it.</p>
                 </div>
                 <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="500">
                     <h3 class="text-xl font-semibold mb-2">How fast can I be in sandbox?</h3>
                     <p class="text-gray-600">Sandbox access does not wait on Quest paperwork. You can be calling the API and building while your subaccount is being set up.</p>
+                </div>
+            </div>
+
+            <div class="mt-16 max-w-4xl" data-aos="fade-up">
+                <h2 class="text-2xl font-bold mb-6">Guides</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <a href="/quest-lab-ordering-api" class="block border border-gray-200 rounded-2xl p-6 hover:border-[#ff3e57] transition-colors">
+                        <p class="font-semibold mb-2">How to order Quest labs through an API</p>
+                        <p class="text-gray-600 text-sm">The workflow, prerequisites, bill types and the path from sandbox to production.</p>
+                    </a>
+                    <a href="/quest-api-without-account" class="block border border-gray-200 rounded-2xl p-6 hover:border-[#ff3e57] transition-colors">
+                        <p class="font-semibold mb-2">Ordering Quest tests without your own Quest account</p>
+                        <p class="text-gray-600 text-sm">What you need instead, what it costs, and what changed from earlier CareGap offers.</p>
+                    </a>
                 </div>
             </div>
         </div>
@@ -653,14 +754,24 @@
             <div class="max-w-2xl mx-auto">
                 <div class="text-center mb-12" data-aos="fade-up">
                     <h2 class="text-4xl font-bold mb-4">Ready to order?</h2>
-                    <p class="text-lg text-gray-400 mb-8">Create your account and open your sandbox at LabLink.</p>
-                    <a href="https://lablink.caregap.io" class="inline-block bg-[#ff3e57] text-white px-8 py-4 rounded-full font-semibold hover:bg-[#ff3e57]/90 transition-colors">Get Started at lablink.caregap.io</a>
-                    <p class="text-gray-400 mt-12">Prefer to talk first? Tell us about your product and we will follow up.</p>
+                    <p class="text-lg text-gray-400 mb-8">Developers: create your account and open your sandbox at LabLink. No call needed.</p>
+                    <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="contact" class="inline-block bg-[#ff3e57] text-white px-8 py-4 rounded-full font-semibold hover:bg-[#ff3e57]/90 transition-colors">Create Your LabLink Account</a>
+                    <h3 class="text-2xl font-bold mt-14 mb-3">Talk to an integration specialist</h3>
+                    <p class="text-gray-400">For teams that want help scoping an integration, a build, or their Quest setup. Only the first three fields are required. We reply by email; your sandbox is not held up waiting for this form.</p>
                 </div>
 
-                <form name="quest-signup" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks" class="space-y-5" data-aos="fade-up" data-aos-delay="100">
+                <form name="quest-signup" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks" data-lablink-contact="lablink_contact" class="space-y-5" data-aos="fade-up" data-aos-delay="100">
                     <input type="hidden" name="form-name" value="quest-signup">
                     <p class="hidden"><label>Leave this blank: <input name="bot-field"></label></p>
+                    <!-- Attribution, filled by analytics.js: allow-listed UTMs, landing page and referring host only -->
+                    <input type="hidden" name="utm_source" value="">
+                    <input type="hidden" name="utm_medium" value="">
+                    <input type="hidden" name="utm_campaign" value="">
+                    <input type="hidden" name="utm_term" value="">
+                    <input type="hidden" name="utm_content" value="">
+                    <input type="hidden" name="landing_page" value="">
+                    <input type="hidden" name="referrer_host" value="">
+                    <input type="hidden" name="traffic_source" value="">
 
                     <div class="grid md:grid-cols-2 gap-5">
                         <div>
@@ -686,8 +797,8 @@
 
                     <div class="grid md:grid-cols-2 gap-5">
                         <div>
-                            <label for="quest-relationship" class="block text-sm font-medium mb-2">Quest relationship <span class="text-[#ff3e57]">*</span></label>
-                            <select id="quest-relationship" name="quest-relationship" required class="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#ff3e57] transition-colors">
+                            <label for="quest-relationship" class="block text-sm font-medium mb-2">Quest relationship</label>
+                            <select id="quest-relationship" name="quest-relationship" class="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#ff3e57] transition-colors">
                                 <option value="" class="bg-gray-900">Select one</option>
                                 <option value="Existing Quest customer" class="bg-gray-900">We already have a Quest account</option>
                                 <option value="New to Quest" class="bg-gray-900">We are new to Quest</option>
@@ -695,8 +806,8 @@
                             </select>
                         </div>
                         <div>
-                            <label for="ordering-provider" class="block text-sm font-medium mb-2">Ordering provider with an NPI? <span class="text-[#ff3e57]">*</span></label>
-                            <select id="ordering-provider" name="ordering-provider" required class="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#ff3e57] transition-colors">
+                            <label for="ordering-provider" class="block text-sm font-medium mb-2">Ordering provider with an NPI?</label>
+                            <select id="ordering-provider" name="ordering-provider" class="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#ff3e57] transition-colors">
                                 <option value="" class="bg-gray-900">Select one</option>
                                 <option value="Yes, in-house clinician" class="bg-gray-900">Yes, in-house clinician</option>
                                 <option value="Yes, telehealth partner" class="bg-gray-900">Yes, through a telehealth partner</option>
@@ -732,7 +843,7 @@
                     </div>
 
                     <div>
-                        <label for="source" class="block text-sm font-medium mb-2">How did you find us?</label>
+                        <label for="source" class="block text-sm font-medium mb-2">How did you hear about CareGap?</label>
                         <select id="source" name="source" class="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#ff3e57] transition-colors">
                             <option value="" class="bg-gray-900">Select one</option>
                             <option value="AI assistant" class="bg-gray-900">AI assistant (ChatGPT, Claude, Perplexity, Gemini)</option>
@@ -741,6 +852,8 @@
                             <option value="Social" class="bg-gray-900">LinkedIn or social</option>
                             <option value="Other" class="bg-gray-900">Other</option>
                         </select>
+                        <label for="source-detail" class="sr-only">Tell us more about how you heard about CareGap (optional)</label>
+                        <input type="text" id="source-detail" name="source-detail" maxlength="200" placeholder="Optional: which assistant, search, or who referred you" class="mt-3 w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#ff3e57] transition-colors">
                     </div>
 
                     <div class="flex items-start gap-3 pt-1">
@@ -759,7 +872,7 @@
                     </div>
 
                     <button type="submit" class="w-full border-2 border-white/30 text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-gray-900 transition-colors">Send</button>
-                    <p class="text-xs text-gray-500 text-center">No payment is taken on this form.</p>
+                    <p class="text-xs text-gray-500 text-center">No payment is taken on this form. Do not include patient information.</p>
                 </form>
             </div>
         </div>

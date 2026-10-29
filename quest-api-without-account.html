@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Quest Tests Without Your Own Quest Account | LabLink by CareGap</title>
+    <meta name="description" content="You do not need an existing Quest Diagnostics account to order Quest tests through LabLink. Here is what you need instead, how the Quest subaccount is set up, what it costs, and what changed from earlier CareGap offers.">
+    <link rel="canonical" href="https://caregap.io/quest-api-without-account">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://caregap.io/quest-api-without-account">
+    <meta property="og:title" content="Can you order Quest tests without your own Quest account?">
+    <meta property="og:description" content="What you need instead of a Quest account, how LabLink sets up a Quest subaccount for you, and what it costs.">
+    <meta property="og:image" content="https://caregap.io/Hero-CareGap.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/png" href="https://imgur.com/QAdKjar.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://caregap.io/#org",
+          "name": "CareGap",
+          "url": "https://caregap.io",
+          "email": "sales@caregap.io"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://caregap.io/"},
+            {"@type": "ListItem", "position": 2, "name": "LabLink", "item": "https://caregap.io/lablink"},
+            {"@type": "ListItem", "position": 3, "name": "Ordering without your own Quest account", "item": "https://caregap.io/quest-api-without-account"}
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://caregap.io/quest-api-without-account#faq",
+          "mainEntity": [
+            {"@type": "Question", "name": "Do I need a Quest account to use the LabLink sandbox?", "acceptedAnswer": {"@type": "Answer", "text": "No. Sandbox access is part of LabLink onboarding and does not wait on Quest subaccount setup. You can build the integration while the subaccount is being set up."}},
+            {"@type": "Question", "name": "I already have a Quest account. Is LabLink cheaper for me?", "acceptedAnswer": {"@type": "Answer", "text": "No. Pricing is the same for new and existing Quest customers, including the $1,500 one-time onboarding fee."}},
+            {"@type": "Question", "name": "Can I bill insurance if I am new to Quest?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Client Bill, Patient Cash and Patient Insurance are available whether you are new to Quest or bring an existing account. Insurance orders need the patient's insurance details and ICD-10 codes."}},
+            {"@type": "Question", "name": "Can patients order tests for themselves through LabLink?", "acceptedAnswer": {"@type": "Answer", "text": "Not without a provider. Every order requires a licensed ordering provider with an active NPI, and CareGap does not originate lab orders."}}
+          ]
+        }
+      ]
+    }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dist/styles.css">
+    <script src="analytics.js" defer></script>
+</head>
+<body class="font-['Inter'] bg-white text-gray-900" data-lablink-page="guide">
+
+    <header id="header" class="w-full bg-white border-b border-gray-100">
+        <nav class="container mx-auto px-6 py-4" aria-label="Main">
+            <div class="flex items-center justify-between">
+                <a href="/" class="logo"><img src="https://imgur.com/jWqRq4Y.png" alt="CareGap home" class="h-8"></a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="/lablink" class="text-gray-700 hover:text-[#ff3e57] transition-colors font-semibold">LabLink</a>
+                    <a href="/lablink#pricing" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Pricing</a>
+                    <a href="/lablink#developers" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Developers</a>
+                    <a href="https://lablink.caregap.io" data-cta="open_app" data-cta-location="nav" class="bg-[#ff3e57] text-white px-6 py-2 rounded-full hover:bg-[#ff3e57]/90 transition-colors">Open LabLink</a>
+                </div>
+                <button class="md:hidden" id="mobile-menu-button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-4">
+                <div class="flex flex-col space-y-4">
+                    <a href="/lablink" class="text-gray-700 hover:text-[#ff3e57] transition-colors font-semibold">LabLink</a>
+                    <a href="/lablink#pricing" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Pricing</a>
+                    <a href="/lablink#developers" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Developers</a>
+                    <a href="https://lablink.caregap.io" data-cta="open_app" data-cta-location="nav_mobile" class="bg-[#ff3e57] text-white px-6 py-2 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Open LabLink</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <article class="container mx-auto px-6 py-12 max-w-3xl">
+            <nav aria-label="Breadcrumb" class="text-sm text-gray-500 mb-8">
+                <ol class="flex flex-wrap gap-2">
+                    <li><a href="/" class="hover:text-[#ff3e57]">Home</a> <span aria-hidden="true">/</span></li>
+                    <li><a href="/lablink" class="hover:text-[#ff3e57]">LabLink</a> <span aria-hidden="true">/</span></li>
+                    <li aria-current="page">Ordering without your own Quest account</li>
+                </ol>
+            </nav>
+
+            <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">Can you order Quest tests without your own Quest account?</h1>
+
+            <p class="text-xl text-gray-700 mb-6">Yes. You do not need an existing Quest Diagnostics account to order Quest tests through LabLink. If you are new to Quest, LabLink onboarding sets up a Quest subaccount for your organization and tracks it through to a client number, then connects it to the LabLink API.</p>
+            <p class="text-lg text-gray-600 mb-10">What you cannot skip is a licensed ordering provider with an active NPI, a signed CareGap Platform Agreement and BAA, and the one-time onboarding fee. The rest of this page covers each of those, what it costs, and what changed from earlier CareGap offers.</p>
+
+            <div class="flex flex-col sm:flex-row gap-4 mb-14">
+                <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="guide_intro" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Create Your LabLink Account</a>
+                <a href="https://lablink.caregap.io/docs" data-cta="read_docs" data-cta-location="guide_intro" class="border-2 border-[#ff3e57] text-[#ff3e57] px-8 py-3 rounded-full hover:bg-[#ff3e57] hover:text-white transition-colors text-center">Read API Docs</a>
+            </div>
+
+            <h2 class="text-3xl font-bold mb-4">What you need instead of a Quest account</h2>
+            <ul class="space-y-4 text-gray-700 mb-12 list-disc pl-6">
+                <li><strong>A licensed ordering provider with an active NPI.</strong> Every order needs one, whoever pays for the test. That can be your own clinician or a telehealth partner. CareGap verifies the NPI and state license during onboarding, and does not originate lab orders itself.</li>
+                <li><strong>The CareGap Platform Agreement and BAA,</strong> e-signed before go-live. Final pricing terms are set in the Platform Agreement.</li>
+                <li><strong>A payment method on file.</strong> Onboarding is charged up front, and platform fees are charged to the same payment method.</li>
+                <li><strong>The right data for each bill type.</strong> Insurance orders need the patient's insurance details and ICD-10 codes.</li>
+            </ul>
+
+            <h2 class="text-3xl font-bold mb-4">How the Quest subaccount gets set up</h2>
+            <ol class="space-y-4 text-gray-700 mb-6 list-decimal pl-6">
+                <li>You create your LabLink account and tell us you are new to Quest. Your ordering provider's NPI and state license are verified.</li>
+                <li>You sign the Platform Agreement and BAA and put a payment method on file.</li>
+                <li>CareGap files your Quest subaccount and tracks it through to a client number.</li>
+                <li>Meanwhile your sandbox keys are issued, so you build the integration while the paperwork clears.</li>
+                <li>Once the subaccount is issued and your integration passes the automated certification round trip, your account moves to production.</li>
+            </ol>
+            <p class="text-gray-600 mb-12">Step 3 is the only manual step. Quest subaccount setup is a human process on Quest's side and typically takes several business days. Sandbox access does not wait on it.</p>
+
+            <h2 class="text-3xl font-bold mb-4">Who pays for the test</h2>
+            <p class="text-gray-700 mb-4">Laboratory testing is billed by Quest, not CareGap, according to the bill type you choose on each order:</p>
+            <div class="overflow-x-auto mb-4">
+                <table class="w-full text-left text-sm">
+                    <thead>
+                        <tr class="border-b border-gray-200 text-gray-500">
+                            <th scope="col" class="py-3 pr-4 font-semibold">Bill type</th>
+                            <th scope="col" class="py-3 font-semibold">Who Quest bills</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-700">
+                        <tr class="border-b border-gray-100"><td class="py-3 pr-4 font-semibold">Client Bill</td><td class="py-3">Your subaccount, at Quest's program rates. You decide what your patient pays in your app.</td></tr>
+                        <tr class="border-b border-gray-100"><td class="py-3 pr-4 font-semibold">Patient Cash</td><td class="py-3">The patient, at Quest's standard patient pricing. Program rates do not apply.</td></tr>
+                        <tr><td class="py-3 pr-4 font-semibold">Patient Insurance</td><td class="py-3">The patient's health plan. Program rates do not apply. Insurance details and ICD-10 codes are required.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-gray-600 mb-12">CareGap provides ordering and results technology. CareGap does not sell, bill or collect for laboratory testing.</p>
+
+            <h2 class="text-3xl font-bold mb-4">What it costs</h2>
+            <p class="text-gray-700 mb-4">The same for organizations new to Quest and for existing Quest customers:</p>
+            <ul class="space-y-2 text-gray-700 mb-4 list-disc pl-6">
+                <li>$1,500 one-time subaccount onboarding: NPI and license verification, Quest subaccount setup, API keys, sandbox access and BAA.</li>
+                <li>An order platform fee of $5.00, $3.00 or $2.00 per order, graduated by monthly volume.</li>
+                <li>$1.00 per patient record per year.</li>
+            </ul>
+            <p class="text-gray-600 mb-12">Platform fees apply to every order regardless of bill type. See the <a href="/lablink#pricing" class="text-[#ff3e57] font-semibold hover:underline">full LabLink pricing</a>, including how the graduated tiers work and an estimator. Pricing is indicative; final terms are set in the CareGap Platform Agreement.</p>
+
+            <h2 class="text-3xl font-bold mb-4">What changed from earlier CareGap offers</h2>
+            <p class="text-gray-700 mb-4">Before LabLink, CareGap published two separate offers: one at caregap.io/lab-ordering for ordering on CareGap's own Quest account with no setup fee, and one at caregap.io/quest for a Quest account of your own. Both have been retired and are not available, including their pricing.</p>
+            <p class="text-gray-600 mb-12">Those addresses now redirect to the <a href="/lablink" class="text-[#ff3e57] font-semibold hover:underline">LabLink page</a>, which describes CareGap's current lab ordering offer. If an assistant, search result or old link describes ordering on CareGap's Quest account, it is describing the retired offer.</p>
+
+            <h2 class="text-3xl font-bold mb-4">Limitations to plan for</h2>
+            <ul class="space-y-3 text-gray-700 mb-12 list-disc pl-6">
+                <li>LabLink is not a direct-to-consumer testing service. Every order needs your licensed ordering provider.</li>
+                <li>Production takes several business days for organizations new to Quest, because Quest subaccount setup is manual.</li>
+                <li>If you client bill and re-bill your patients, some states regulate that through direct-bill, anti-markup or disclosure rules. Have counsel review before you publish pricing.</li>
+                <li>Collection is at Quest patient service centers. At-home collection is available as an add-on through a mobile phlebotomy partner.</li>
+            </ul>
+
+            <section id="faq" aria-labelledby="faq-heading" class="mb-14">
+                <h2 id="faq-heading" class="text-3xl font-bold mb-6">Questions</h2>
+                <div class="space-y-6">
+                    <div class="border-b pb-6">
+                        <h3 class="text-xl font-semibold mb-2">Do I need a Quest account to use the LabLink sandbox?</h3>
+                        <p class="text-gray-600">No. Sandbox access is part of LabLink onboarding and does not wait on Quest subaccount setup. You can build the integration while the subaccount is being set up.</p>
+                    </div>
+                    <div class="border-b pb-6">
+                        <h3 class="text-xl font-semibold mb-2">I already have a Quest account. Is LabLink cheaper for me?</h3>
+                        <p class="text-gray-600">No. Pricing is the same for new and existing Quest customers, including the $1,500 one-time onboarding fee.</p>
+                    </div>
+                    <div class="border-b pb-6">
+                        <h3 class="text-xl font-semibold mb-2">Can I bill insurance if I am new to Quest?</h3>
+                        <p class="text-gray-600">Yes. Client Bill, Patient Cash and Patient Insurance are available whether you are new to Quest or bring an existing account. Insurance orders need the patient's insurance details and ICD-10 codes.</p>
+                    </div>
+                    <div class="border-b pb-6">
+                        <h3 class="text-xl font-semibold mb-2">Can patients order tests for themselves through LabLink?</h3>
+                        <p class="text-gray-600">Not without a provider. Every order requires a licensed ordering provider with an active NPI, and CareGap does not originate lab orders.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="bg-gray-900 text-white rounded-2xl p-8">
+                <h2 class="text-2xl font-bold mb-3">Next step</h2>
+                <p class="text-gray-300 mb-6">Developers can create an account and start in sandbox without a call. If you want help with your Quest setup or ordering provider first, talk to us.</p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="guide_next_step" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Create Your LabLink Account</a>
+                    <a href="/lablink#contact" data-cta="talk_to_us" data-cta-location="guide_next_step" class="border-2 border-white/30 text-white px-8 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-colors text-center">Talk to Us</a>
+                </div>
+                <p class="text-sm text-gray-400 mt-6">Related: <a href="/quest-lab-ordering-api" class="text-white underline hover:text-[#ff3e57]">How to order Quest labs through an API</a></p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12 border-t border-white/10">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <img src="https://imgur.com/jWqRq4Y.png" alt="CareGap Logo" class="h-8 mb-4">
+                    <p class="text-gray-400">&copy; 2026 CareGap. All rights reserved.</p>
+                </div>
+                <div>
+                    <h2 class="font-semibold mb-4">Products</h2>
+                    <p class="text-gray-400"><a href="/lablink" class="hover:text-white transition-colors">LabLink</a></p>
+                    <p class="text-gray-400 mt-2"><a href="/easydonor" class="hover:text-white transition-colors">EasyDonor</a></p>
+                </div>
+                <div>
+                    <h2 class="font-semibold mb-4">Contact</h2>
+                    <p class="text-gray-400"><a href="mailto:sales@caregap.io" class="hover:text-white transition-colors">sales@caregap.io</a></p>
+                </div>
+                <div>
+                    <h2 class="font-semibold mb-4">Legal</h2>
+                    <div class="flex space-x-4">
+                        <a href="/terms-of-use" class="text-gray-400 hover:text-white transition-colors">Terms Of Use</a>
+                        <a href="/privacy-policy" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
+                    </div>
+                </div>
+            </div>
+            <p class="text-xs text-gray-600 max-w-4xl">Informational only and not legal advice. Indicative pricing; final terms are set in the CareGap Platform Agreement. CareGap provides ordering and results technology and does not sell, bill or collect for laboratory testing. CareGap does not originate lab orders; a licensed ordering provider with an active NPI is required.</p>
+        </div>
+    </footer>
+
+    <script>
+    (function () {
+        var button = document.getElementById('mobile-menu-button');
+        var menu = document.getElementById('mobile-menu');
+        button.addEventListener('click', function () {
+            var open = menu.classList.toggle('hidden') === false;
+            button.setAttribute('aria-expanded', String(open));
+        });
+    })();
+    </script>
+</body>
+</html>

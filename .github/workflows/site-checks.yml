@@ -1,0 +1,40 @@
+name: Site checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    # Weekly, to catch drift in the live site and the LabLink docs.
+    - cron: '17 14 * * 1'
+  workflow_dispatch:
+    inputs:
+      base:
+        description: Site to check live (e.g. a deploy preview URL)
+        default: https://caregap.io
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+
+  live:
+    # Network checks against the deployed site and lablink.caregap.io.
+    # Not on pull requests, so an outage elsewhere cannot block a merge.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm run check:live -- --base="$BASE"
+        env:
+          BASE: ${{ github.event.inputs.base || 'https://caregap.io' }}

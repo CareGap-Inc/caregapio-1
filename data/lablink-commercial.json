@@ -1,0 +1,52 @@
+{
+  "$comment": "Single source of truth for LabLink public commercial facts. Every price on the public site and in llms.txt must match this file; tests/pricing.test.mjs enforces it. Change this file first, then the pages, and record the change in docs/lablink-commercial-source-of-truth.md.",
+  "product": "LabLink",
+  "lastVerified": "2026-10-28",
+  "source": "CareGap owner commit 08677bc (October 2026 Quest Subaccount Fee Schedule)",
+  "currency": "USD",
+  "onboarding": {
+    "amount": 1500,
+    "display": "$1,500",
+    "cadence": "one time",
+    "includes": "NPI and license verification, Quest subaccount setup, API keys, sandbox access and BAA",
+    "appliesTo": "new and existing Quest customers"
+  },
+  "orderPlatformFee": {
+    "graduated": true,
+    "resets": "first day of each calendar month",
+    "tiers": [
+      { "tier": 1, "from": 1, "to": 100, "rate": 5 },
+      { "tier": 2, "from": 101, "to": 500, "rate": 3 },
+      { "tier": 3, "from": 501, "to": null, "rate": 2 }
+    ],
+    "workedExamples": [
+      { "orders": 300, "total": 1100 },
+      { "orders": 1000, "total": 2700 }
+    ]
+  },
+  "patientRecord": {
+    "amount": 1,
+    "display": "$1.00",
+    "cadence": "per patient, per year, billed annually"
+  },
+  "billTypes": ["Client Bill", "Patient Cash", "Patient Insurance"],
+  "terms": "Indicative pricing. Final terms are set in the CareGap Platform Agreement. Fees exclude applicable taxes and are charged to the payment method on file.",
+  "urls": {
+    "app": "https://lablink.caregap.io",
+    "docs": "https://lablink.caregap.io/docs",
+    "openapi": "https://lablink.caregap.io/openapi.json",
+    "agentDocs": "https://lablink.caregap.io/llms.txt",
+    "talkToUs": "https://caregap.io/lablink#contact",
+    "sales": "mailto:sales@caregap.io"
+  },
+  "retired": {
+    "$comment": "Offers from the retired /quest and /lab-ordering pages. None of these are available. They must not appear on the public site as current terms; tests/legacy-content.test.mjs enforces it.",
+    "offers": [
+      "Ordering on CareGap's own Quest account with no Quest account of your own",
+      "$0 / no setup fee, sandbox with no card",
+      "Testing charged by CareGap at a CareGap Testing Price List",
+      "Flat $2.00 per order with $1,500 setup on your own account (original /quest page)",
+      "Cash pay only, no insurance billing"
+    ]
+  }
+}

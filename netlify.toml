@@ -2,11 +2,19 @@
   publish = "."
   command = "npm install && npm run build"
 
+# Deploy previews and branch deploys must never be indexed. Their build
+# writes a _headers file that adds X-Robots-Tag: noindex to every response.
+[context.deploy-preview]
+  command = "npm install && npm run build && node scripts/noindex-nonprod.mjs"
+
+[context.branch-deploy]
+  command = "npm install && npm run build && node scripts/noindex-nonprod.mjs"
+
 # Specific routes must come before the catch-all below.
 
 # The /quest and /lab-ordering landing pages were merged into /lablink
 # when the product became LabLink. Keep old links and search results
-# working.
+# working. See docs/lablink-legacy-url-migration.md.
 [[redirects]]
   from = "/quest"
   to = "/lablink"
@@ -37,9 +45,50 @@
   to = "/thanks"
   status = 301
 
+# Repository folders that are not part of the public site.
+[[redirects]]
+  from = "/docs/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/tests/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/scripts/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/data/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/node_modules/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
 [[redirects]]
   from = "/lablink"
   to = "/lablink.html"
+  status = 200
+
+[[redirects]]
+  from = "/quest-lab-ordering-api"
+  to = "/quest-lab-ordering-api.html"
+  status = 200
+
+[[redirects]]
+  from = "/quest-api-without-account"
+  to = "/quest-api-without-account.html"
   status = 200
 
 [[redirects]]
@@ -62,10 +111,11 @@
   to = "/privacy-policy.html"
   status = 200
 
+# Unknown paths get a real 404, not the home page.
 [[redirects]]
   from = "/*"
-  to = "/index.html"
-  status = 200
+  to = "/404.html"
+  status = 404
 
 [build.environment]
   NODE_VERSION = "18"

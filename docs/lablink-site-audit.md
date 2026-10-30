@@ -106,7 +106,7 @@ Three candidate intent pages were proposed. Two were built.
 Resolved 2026-10-30: prices confirmed current; production ordering open; sandbox opens before payment; patient data retained under the creating organization and never sold; partner logos permissioned (all CareGap clients).
 
 1. **Quest Diagnostics logo**: send the official file to add to the logo strip.
-2. **GA4 measurement ID** for `analytics.js` (`docs/lablink-funnel.md`).
+2. **GA4 setup in the GA console**: key events and custom dimensions (`docs/lablink-funnel.md`).
 3. **Whose name the Quest subaccount is in** for new-to-Quest customers (row Q2).
 4. **LabLink app docs**: remove "keeps no copy" (row A15) and "Sandbox only for now" (row A13); add the app-side funnel events.
 

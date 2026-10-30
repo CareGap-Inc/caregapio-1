@@ -175,12 +175,16 @@
         global.dataLayer = global.dataLayer || [];
         global.gtag = global.gtag || function () { global.dataLayer.push(arguments); };
         global.gtag('js', new Date());
-        global.gtag('config', GA4_MEASUREMENT_ID, {
+        var config = {
             page_location: cleanPageLocation(global.location.href),
             page_referrer: referrerHost ? 'https://' + referrerHost + '/' : '',
             allow_google_signals: false,
             allow_ad_personalization_signals: false
-        });
+        };
+        // ?analytics_debug=1 also shows this browser in GA4 DebugView. GA4
+        // treats any debug_mode value as on, so it is only set when wanted.
+        if (debug) config.debug_mode = true;
+        global.gtag('config', GA4_MEASUREMENT_ID, config);
         var tag = document.createElement('script');
         tag.async = true;
         tag.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_MEASUREMENT_ID;

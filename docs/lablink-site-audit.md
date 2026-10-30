@@ -42,7 +42,7 @@ An audit of caregap.io for the LabLink sunset of `/quest` and `/lab-ordering`, p
 |---|---|---|
 | No step-by-step path to a first sandbox order | High (conversion) | Added "From signup to your first sandbox order", a sandbox-to-production checklist and a "Stuck in sandbox?" path to `/lablink` |
 | No runnable examples | High | Added cURL and JavaScript for each first-order step, a Node.js signature check and a results parser. Each is validated against the spec snapshot (operation, sandbox base URL, body fields, required fields, enums, query parameters); the signature and parser examples are executed in tests; `check:live` confirms each route exists on the sandbox |
-| **The site said production ordering was live** ("Sandbox today. Live in days", "moving real orders and real results today", "already runs in production"). The spec says `POST /orders` returns `not_available` on production until production billing is in place | **High** (accuracy) | Claims removed; `/lablink`, the guides and `llms.txt` say production ordering is not open yet. A test blocks those claims while the spec says "Sandbox only for now" |
+| **The site said production ordering was live** (later confirmed open by the owner, 2026-10-30; the "not open" copy was removed again) ("Sandbox today. Live in days", "moving real orders and real results today", "already runs in production"). The spec says `POST /orders` returns `not_available` on production until production billing is in place | **High** (accuracy) | Claims removed; `/lablink`, the guides and `llms.txt` say production ordering is not open yet. A test blocks those claims while the spec says "Sandbox only for now" |
 | "Requisitions" resource and "pull structured results" did not match the API (orders; results arrive by webhook) | Medium | Corrected |
 | "FHIR layer" not supported by the docs | Medium | Removed. Row A14 |
 | LabLink docs say it keeps no copy of patient data | Medium | Owner: data is retained under the creating organization and never sold. Site says that instead; the LabLink app docs still need the same fix. Row A15 |
@@ -103,12 +103,12 @@ Three candidate intent pages were proposed. Two were built.
 
 ## Blockers needing owner signoff
 
-1. **Confirm the published prices are current** (rows P1–P4): $1,500 onboarding; $5.00 / $3.00 / $2.00 per order, graduated by monthly volume and reset each calendar month; $1.00 per patient per year. They come from one commit that cites a fee schedule not in this repository.
-2. **Production ordering date** (row A13): in progress, no date yet. The site says production ordering is not open yet.
-3. **Partner logos on `/lablink`** (row S3): whether each company agreed to be shown, and whether each is a LabLink customer or other CareGap work.
-4. **GA4 measurement ID** for `analytics.js` (`docs/lablink-funnel.md`).
-5. **Whose name the Quest subaccount is in** for new-to-Quest customers (row Q2).
-6. **LabLink app**: update its docs' "keeps no copy" wording (row A15), and add the app-side funnel events.
+Resolved 2026-10-30: prices confirmed current; production ordering open; sandbox opens before payment; patient data retained under the creating organization and never sold; partner logos permissioned (all CareGap clients).
+
+1. **Quest Diagnostics logo**: send the official file to add to the logo strip.
+2. **GA4 measurement ID** for `analytics.js` (`docs/lablink-funnel.md`).
+3. **Whose name the Quest subaccount is in** for new-to-Quest customers (row Q2).
+4. **LabLink app docs**: remove "keeps no copy" (row A15) and "Sandbox only for now" (row A13); add the app-side funnel events.
 
 ## Backlog (prioritized)
 

@@ -17,14 +17,14 @@ Approval owner for every commercial fact: the CareGap owner (Jeremy Walker, jere
 
 | # | Fact (as published) | Source | Status |
 |---|---|---|---|
-| P1 | Subaccount onboarding $1,500, one time; covers NPI and license verification, Quest subaccount setup, production API keys and BAA | `08677bc`; fee schedule cited, not in repo | Owner-published. **NEEDS OWNER CONFIRMATION** that the figure is current. Sandbox is no longer listed as part of onboarding (row P8) |
-| P2 | Same onboarding fee for new and existing Quest customers | `08677bc` | Owner-published. **NEEDS OWNER CONFIRMATION** |
-| P3 | Order platform fee: $5.00 (orders 1–100), $3.00 (101–500), $2.00 (501+), graduated; earlier orders are not repriced; resets on the first of each calendar month | `08677bc` | Owner-published. **NEEDS OWNER CONFIRMATION** that billing code implements graduated (not volume-repriced) tiers and a calendar-month reset |
-| P4 | Patient record $1.00 per patient per year, billed annually | `08677bc` | Owner-published. **NEEDS OWNER CONFIRMATION** of when the year starts and how a "patient" is counted, |
+| P1 | Subaccount onboarding $1,500, one time; covers NPI and license verification, Quest subaccount setup, production API keys and BAA | `08677bc`; owner | **Owner-confirmed current** 2026-10-30. Sandbox is not part of what onboarding pays for (row P8) |
+| P2 | Same onboarding fee for new and existing Quest customers | `08677bc`; owner | **Owner-confirmed current** 2026-10-30 |
+| P3 | Order platform fee: $5.00 (orders 1–100), $3.00 (101–500), $2.00 (501+), graduated; earlier orders are not repriced; resets on the first of each calendar month | `08677bc`; owner | **Owner-confirmed current** 2026-10-30 |
+| P4 | Patient record $1.00 per patient per year, billed annually | `08677bc`; owner | **Owner-confirmed current** 2026-10-30 |
 | P5 | Platform fees apply to every order regardless of bill type | `08677bc` | Owner-published |
 | P6 | Fees exclude taxes; charged to the payment method on file; card data handled by Stripe | `08677bc` | Owner-published |
 | P7 | Pricing is indicative; final terms set in the CareGap Platform Agreement | `08677bc` | Owner-published |
-| P8 | Sandbox opens when an account is created, before any payment | Owner, 2026-10-29 | **Owner-confirmed.** Primary CTA is now "Create Sandbox Account", with "no payment needed for sandbox". "Free" and "no credit card" are still not claimed |
+| P8 | Sandbox opens when an account is created, before any payment | Owner, 2026-10-29 | **Owner-confirmed.** Primary CTA is "Create Sandbox Account", with "no payment needed for sandbox". "Free" and "no credit card" are still not claimed |
 | P9 | "Free", "no credit card" or "no setup fee" | — | **Not claimed.** "No payment needed for sandbox" is claimed (row P8) |
 
 ## Quest relationship and bill types
@@ -67,7 +67,7 @@ Verified on 2026-10-29 against the LabLink OpenAPI spec (3.1.0, "LabLink API" 1.
 | A10 | Results: HL7 v2 ORU^R01 parsed to JSON (`hl7v2+json`) plus the PDF report, in the `order.results_final` event; no endpoint to fetch results | `llms/webhooks.md`; spec | **Verified.** The site no longer says results are "pulled" |
 | A11 | Sandbox test provider Test Physician, NPI `1336176510`; patients in RI not served; unknown fields rejected | spec | **Verified** |
 | A12 | Rate limits, idempotency keys for orders | — | **Not documented.** Not claimed |
-| A13 | **Production ordering is not open:** `POST /orders`, `/answers`, `/provider`, `/billing` return `403 not_available` on production "until production billing is in place" | spec | **Verified.** Contradicted the site ("Sandbox today. Live in days", "moving real orders and real results today", "already runs in production"); those claims are removed and the site says production ordering is not open yet. **NEEDS OWNER INPUT:** expected production date, and whether onboarding is charged before production opens |
+| A13 | Production ordering is open once an account is live | Owner, 2026-10-30; `productionOrdering` in `data/lablink-commercial.json` | **Owner-confirmed.** The LabLink spec and docs still say `POST /orders` is "Sandbox only for now" and returns `not_available` on production; the owner is updating them. When the live spec changes, `check:live` reports drift: refresh the snapshot |
 | A14 | "FHIR layer" | `lablink.html` (removed) | **Not supported by the docs** (results are HL7 v2 as JSON; no FHIR endpoints). Removed from the site. **NEEDS OWNER CONFIRMATION** if a FHIR layer exists elsewhere |
 | A15 | Patient data is retained under the organization that created it; CareGap never sells it | Owner, 2026-10-29 | **Owner-confirmed.** Replaces "LabLink keeps no copy", which the LabLink app docs (`lablink.caregap.io/llms/overview.md`, `insurance.md`, `webhooks.md`, the `POST /orders` `patientAddress` description) still say. **Those docs need updating in the LabLink app repository** |
 | A16 | Runnable cURL and JavaScript examples for the first sandbox order; Node.js signature check; results parsing example | `lablink.html`, `quest-lab-results-api.html` | **Published**, validated by `tests/examples.test.mjs` |
@@ -78,7 +78,7 @@ Verified on 2026-10-29 against the LabLink OpenAPI spec (3.1.0, "LabLink API" 1.
 |---|---|---|---|
 | S1 | At-home collection as an add-on through a mobile phlebotomy partner | `08677bc` | Owner-published. Add-on price not published |
 | S2 | CareGap build team can build and maintain a branded app or portal | `08677bc` | Owner-published |
-| S3 | "Who We Work With" logos on `/lablink` (Lumen, UpShiftHR, InfinitiHR, Muse Bio, Nutrivue, Getlabs, Thorne, Tru Niagen, Tachin.ai, TRD) | pre-existing | **NEEDS OWNER CONFIRMATION** that each is permissioned and accurately presented on a LabLink page (customer, partner or vendor) |
+| S3 | "Who We Work With" logos (Lumen, UpShiftHR, InfinitiHR, Muse Bio, Nutrivue, Getlabs, Thorne, Tru Niagen, Tachin.ai, TRD) | Owner, 2026-10-30 | **Owner-confirmed:** each agreed to be shown and is a CareGap client. Quest Diagnostics logo requested; waiting on the official file |
 | S4 | Developer support: support@caregap.io, quoting the request id (LabLink docs); sales: sales@caregap.io. No response-time commitment published | `llms/overview.md`, site | **Verified** for the address. No SLA is claimed |
 
 ## Retired offers (must not be presented as available)

@@ -29,6 +29,10 @@
     "display": "$1.00",
     "cadence": "per patient, per year, billed annually"
   },
+  "productionOrdering": {
+    "status": "open",
+    "source": "Owner, 2026-10-30. The LabLink OpenAPI spec still says POST /orders is sandbox only; that text is stale and is being updated in the LabLink docs."
+  },
   "billTypes": ["Client Bill", "Patient Cash", "Patient Insurance"],
   "terms": "Indicative pricing. Final terms are set in the CareGap Platform Agreement. Fees exclude applicable taxes and are charged to the payment method on file.",
   "urls": {

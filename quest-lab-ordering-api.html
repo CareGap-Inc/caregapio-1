@@ -38,7 +38,7 @@
           "mainEntity": [
             {"@type": "Question", "name": "Do I have to handle HL7 to order Quest labs through LabLink?", "acceptedAnswer": {"@type": "Answer", "text": "No. LabLink runs a Quest interface with HL7 and file handling already in place. Your application calls a REST API and receives results as HL7 v2 parsed to JSON."}},
             {"@type": "Question", "name": "Can I test without real patients?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The LabLink sandbox has its own base URL, keys and webhooks, and a test ordering provider. Use synthetic patient data only: nothing in sandbox reaches a real lab or patient, and nothing is billed."}},
-            {"@type": "Question", "name": "Can I place real orders through the API today?", "acceptedAnswer": {"@type": "Answer", "text": "Not yet. Ordering is open in sandbox today. On production, creating an order returns not_available until production billing is in place. Going live will also need a signed Platform Agreement and BAA, a verified ordering provider and your Quest subaccount, which typically takes several business days to set up, so it is worth starting early."}},
+            {"@type": "Question", "name": "Can I place real orders through the API today?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, once your account is live. Going live takes a signed Platform Agreement and BAA, onboarding paid, a verified ordering provider and your Quest subaccount, which typically takes several business days to set up, so it is worth starting early. Build and test in sandbox in the meantime."}},
             {"@type": "Question", "name": "What format are results in?", "acceptedAnswer": {"@type": "Answer", "text": "The order.results_final webhook carries Quest's results message, HL7 v2 ORU^R01 parsed to JSON without interpretation, and the PDF report as base64."}}
           ]
         }
@@ -89,7 +89,7 @@
             <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">How to order Quest labs through an API</h1>
 
             <p class="text-xl text-gray-700 mb-6">To order Quest Diagnostics tests from your own software you need three things: a programmatic connection to Quest, a licensed ordering provider with an active NPI, and a HIPAA-compliant place for the patient record. LabLink provides the connection through one REST API, on an existing Quest interface, and keeps patient data under your organization.</p>
-            <p class="text-lg text-gray-600 mb-10">With LabLink you create a patient, pick tests from Quest's catalog, place an order with the ordering provider, diagnosis codes and bill type, follow its status, and receive signed webhooks when Quest has the requisition and when results are posted. Ordering through the API is open in sandbox today; production ordering is not open yet. This guide walks through each step and what to plan for.</p>
+            <p class="text-lg text-gray-600 mb-10">With LabLink you create a patient, pick tests from Quest's catalog, place an order with the ordering provider, diagnosis codes and bill type, follow its status, and receive signed webhooks when Quest has the requisition and when results are posted. This guide walks through each step and what to plan for.</p>
 
             <div class="flex flex-col sm:flex-row gap-4 mb-14">
                 <a href="https://lablink.caregap.io/docs" data-cta="read_docs" data-cta-location="guide_intro" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Read API Docs</a>
@@ -144,7 +144,7 @@
                         <tr class="border-b border-gray-100"><th scope="row" class="py-3 pr-4 font-semibold">Keys and webhooks</th><td class="py-3 pr-4">Sandbox key; sandbox webhook endpoint and signing secret</td><td class="py-3">Separate production key, endpoint and secret</td></tr>
                         <tr class="border-b border-gray-100"><th scope="row" class="py-3 pr-4 font-semibold">Data</th><td class="py-3 pr-4">Synthetic only. Nothing reaches a real lab or patient, and nothing is billed</td><td class="py-3">Real patients and real orders, under your BAA</td></tr>
                         <tr class="border-b border-gray-100"><th scope="row" class="py-3 pr-4 font-semibold">Ordering provider</th><td class="py-3 pr-4">A test provider, Test Physician, NPI <code class="font-mono">1336176510</code></td><td class="py-3">Your own licensed provider</td></tr>
-                        <tr><th scope="row" class="py-3 pr-4 font-semibold">Ordering</th><td class="py-3 pr-4">Open</td><td class="py-3">Not open yet: creating an order returns <code class="font-mono">not_available</code> until production billing is in place</td></tr>
+                        <tr><th scope="row" class="py-3 pr-4 font-semibold">Ordering</th><td class="py-3 pr-4">Open</td><td class="py-3">Open once your account is live</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -201,7 +201,7 @@
                     </div>
                     <div class="border-b pb-6">
                         <h3 class="text-xl font-semibold mb-2">Can I place real orders through the API today?</h3>
-                        <p class="text-gray-600">Not yet. Ordering is open in sandbox today. On production, creating an order returns not_available until production billing is in place. Going live will also need a signed Platform Agreement and BAA, a verified ordering provider and your Quest subaccount, which typically takes several business days to set up, so it is worth starting early.</p>
+                        <p class="text-gray-600">Yes, once your account is live. Going live takes a signed Platform Agreement and BAA, onboarding paid, a verified ordering provider and your Quest subaccount, which typically takes several business days to set up, so it is worth starting early. Build and test in sandbox in the meantime.</p>
                     </div>
                     <div class="border-b pb-6">
                         <h3 class="text-xl font-semibold mb-2">What format are results in?</h3>

@@ -115,9 +115,8 @@ separate base URLs with separate keys:
   nothing reaches a real lab or patient, and nothing is billed)
 - Production: https://lablink.caregap.io/api/v1
 
-Production ordering is not open yet: on production, `POST /orders` returns
-`not_available` until production billing is in place. Ordering works in
-sandbox today.
+Production ordering is open once your account is live: use a production
+key on the production base URL.
 
 Path to a first sandbox order (the OpenAPI spec is authoritative for every
 field):
@@ -158,8 +157,8 @@ support@caregap.io (quote the request id; never send patient data or keys).
 Sandbox opens when you create your account, before any payment, and does not
 wait on Quest paperwork. Quest subaccount setup is a
 manual process on Quest's side that typically takes several business days.
-Production ordering through the API opens once production billing is in
-place.
+Production follows once the Quest subaccount is set up and the account passes
+certification.
 
 # EasyDonor
 

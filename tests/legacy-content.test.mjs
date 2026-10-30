@@ -58,18 +58,20 @@ test('the /lablink page does not present account-model pricing columns', () => {
   assert.doesNotMatch(html, /Use CareGap's account|Hold your own Quest account|Two charges per order/i);
 });
 
-// The LabLink spec says POST /orders returns not_available on production
-// until production billing is in place. Remove this test, and say so on
-// the site, only when the spec changes.
-test('no page claims production ordering is already open', () => {
-  const spec = JSON.parse(read('data/lablink-openapi.json'));
-  const productionClosed = /Sandbox only for now/.test(spec.paths['/orders'].post.description);
-  if (!productionClosed) return;
-  const CLAIMS = [/live in days/i, /production in days/i, /moving real orders/i, /already runs in production/i, /FHIR layer/i];
+// Whether production ordering is open is an owner decision recorded in
+// data/lablink-commercial.json. The pages must agree with it.
+test('production ordering status on the site matches the source of truth', () => {
+  const status = JSON.parse(read('data/lablink-commercial.json')).productionOrdering.status;
+  const NOT_OPEN = /production ordering (through the API )?is not open|not_available until production billing/i;
   for (const file of publicTextFiles()) {
-    for (const claim of CLAIMS) assert.doesNotMatch(read(file), claim, file);
+    if (status === 'open') assert.doesNotMatch(read(file), NOT_OPEN, `${file} says production is not open`);
   }
-  for (const file of ['lablink.html', 'quest-lab-ordering-api.html', 'quest-api-without-account.html', 'llms.txt']) {
-    assert.match(read(file).replace(/\s+/g, ' '), /production ordering (through the API )?is not open yet|Production ordering is not open yet/i, `${file} says production ordering is not open yet`);
+  if (status !== 'open') {
+    for (const file of ['lablink.html', 'quest-lab-ordering-api.html', 'quest-api-without-account.html', 'llms.txt']) {
+      assert.match(read(file).replace(/\s+/g, ' '), NOT_OPEN, `${file} says production ordering is not open`);
+    }
+  }
+  for (const file of publicTextFiles()) {
+    assert.doesNotMatch(read(file), /moving real orders|FHIR layer/i, file);
   }
 });

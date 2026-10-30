@@ -20,7 +20,7 @@
     // Google Analytics 4 measurement ID, e.g. 'G-ABC123DEF4'. Empty: GA4 is
     // not loaded. It loads only on these hosts, never on deploy previews or
     // local copies.
-    var GA4_MEASUREMENT_ID = '';
+    var GA4_MEASUREMENT_ID = 'G-0EY398DPWB';
     var GA4_HOSTS = ['caregap.io', 'www.caregap.io'];
 
     // Allowed fields per event. Events marked "app" are emitted by the

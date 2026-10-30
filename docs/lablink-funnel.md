@@ -4,7 +4,7 @@ How LabLink traffic and conversions are measured, from first visit to production
 
 ## Where events go
 
-**Google Analytics 4.** Set `GA4_MEASUREMENT_ID` at the top of `analytics.js` to the site's measurement ID (GA4 → Admin → Data streams → the caregap.io stream → Measurement ID, `G-…`). Until it is set, events stay in `window.dataLayer` and nothing is sent.
+**Google Analytics 4**, measurement ID `G-0EY398DPWB` (the "CareGap Website" stream), set as `GA4_MEASUREMENT_ID` at the top of `analytics.js`. Do not also paste Google's gtag snippet into pages: `analytics.js` loads the same tag with the privacy settings below, and a second copy would double-count. Clearing the ID turns GA4 off; events then stay in `window.dataLayer`.
 
 - GA4 loads only on `caregap.io` and `www.caregap.io`, never on deploy previews or local copies.
 - The page URL GA4 records is the path plus allow-listed UTMs. Any other query parameter is dropped, and the referrer is reduced to its host.
@@ -111,5 +111,4 @@ These belong in the LabLink app repository, not this site:
 
 ## Open decisions
 
-- **GA4 measurement ID:** owner chose Google Analytics; the ID still needs to be set in `analytics.js`.
 - **App-side events:** need a change in the LabLink app repository, which this session could not access.

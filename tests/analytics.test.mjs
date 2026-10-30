@@ -163,3 +163,9 @@ test('GA4 is configured without Google signals or ad personalization', () => {
   assert.match(source, /allow_ad_personalization_signals: false/);
   assert.match(source, /page_location: cleanPageLocation\(/);
 });
+
+test('GA4 debug mode is sent only when analytics_debug is on', () => {
+  const source = read('analytics.js');
+  assert.match(source, /if \(debug\) config\.debug_mode = true;/);
+  assert.doesNotMatch(source, /debug_mode:\s*false/, 'GA4 treats any debug_mode value as on');
+});

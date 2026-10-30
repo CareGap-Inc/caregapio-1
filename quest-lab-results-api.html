@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Retrieve Quest Lab Results Programmatically | LabLink by CareGap</title>
+    <meta name="description" content="How Quest Diagnostics results reach your app through LabLink: the signed order.results_final webhook, Quest's HL7 v2 results message as JSON, the PDF report, corrected results, and how to handle them safely.">
+    <link rel="canonical" href="https://caregap.io/quest-lab-results-api">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://caregap.io/quest-lab-results-api">
+    <meta property="og:title" content="How to retrieve Quest lab results programmatically">
+    <meta property="og:description" content="Quest results through LabLink: a signed webhook carrying Quest's HL7 v2 message as JSON and the PDF report.">
+    <meta property="og:image" content="https://caregap.io/Hero-CareGap.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/png" href="https://imgur.com/QAdKjar.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://caregap.io/#org",
+          "name": "CareGap",
+          "url": "https://caregap.io",
+          "email": "sales@caregap.io"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://caregap.io/"},
+            {"@type": "ListItem", "position": 2, "name": "LabLink", "item": "https://caregap.io/lablink"},
+            {"@type": "ListItem", "position": 3, "name": "Retrieving Quest results programmatically", "item": "https://caregap.io/quest-lab-results-api"}
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://caregap.io/quest-lab-results-api#faq",
+          "mainEntity": [
+            {"@type": "Question", "name": "Can I poll for results instead of using webhooks?", "acceptedAnswer": {"@type": "Answer", "text": "You can poll GET /orders/{id} to see when an order reaches results_final, but the results themselves are delivered in the order.results_final webhook. Register a webhook endpoint to receive them."}},
+            {"@type": "Question", "name": "What happens when Quest corrects a result?", "acceptedAnswer": {"@type": "Answer", "text": "A corrected result is a new message from Quest, so it arrives as a new order.results_final event with a new id. Its OBX-11 result status is C. The same message delivered twice keeps the same id."}},
+            {"@type": "Question", "name": "Can I fetch results again later through the API?", "acceptedAnswer": {"@type": "Answer", "text": "Not today. No API endpoint returns results: they are delivered in the order.results_final event, so store them when it arrives, as you would any patient record."}},
+            {"@type": "Question", "name": "Can I test results handling in sandbox?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Register a sandbox webhook endpoint and send a test event from the LabLink console. Test events have test set to true and an orderId of 0."}}
+          ]
+        }
+      ]
+    }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dist/styles.css">
+    <script src="analytics.js" defer></script>
+</head>
+<body class="font-['Inter'] bg-white text-gray-900" data-lablink-page="guide">
+
+    <header id="header" class="w-full bg-white border-b border-gray-100">
+        <nav class="container mx-auto px-6 py-4" aria-label="Main">
+            <div class="flex items-center justify-between">
+                <a href="/" class="logo"><img src="https://imgur.com/jWqRq4Y.png" alt="CareGap home" class="h-8"></a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="/lablink" class="text-gray-700 hover:text-[#ff3e57] transition-colors font-semibold">LabLink</a>
+                    <a href="/lablink#pricing" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Pricing</a>
+                    <a href="/lablink#developers" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Developers</a>
+                    <a href="https://lablink.caregap.io" data-cta="open_app" data-cta-location="nav" class="bg-[#ff3e57] text-white px-6 py-2 rounded-full hover:bg-[#ff3e57]/90 transition-colors">Open LabLink</a>
+                </div>
+                <button class="md:hidden" id="mobile-menu-button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-4">
+                <div class="flex flex-col space-y-4">
+                    <a href="/lablink" class="text-gray-700 hover:text-[#ff3e57] transition-colors font-semibold">LabLink</a>
+                    <a href="/lablink#pricing" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Pricing</a>
+                    <a href="/lablink#developers" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Developers</a>
+                    <a href="https://lablink.caregap.io" data-cta="open_app" data-cta-location="nav_mobile" class="bg-[#ff3e57] text-white px-6 py-2 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Open LabLink</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <article class="container mx-auto px-6 py-12 max-w-3xl">
+            <nav aria-label="Breadcrumb" class="text-sm text-gray-500 mb-8">
+                <ol class="flex flex-wrap gap-2">
+                    <li><a href="/" class="hover:text-[#ff3e57]">Home</a> <span aria-hidden="true">/</span></li>
+                    <li><a href="/lablink" class="hover:text-[#ff3e57]">LabLink</a> <span aria-hidden="true">/</span></li>
+                    <li aria-current="page">Retrieving Quest results programmatically</li>
+                </ol>
+            </nav>
+
+            <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">How to retrieve Quest lab results programmatically</h1>
+
+            <p class="text-xl text-gray-700 mb-6">With LabLink, Quest results are pushed to you rather than pulled. When results are posted to an order, LabLink sends a signed <code class="font-mono text-lg bg-gray-100 px-1 rounded">order.results_final</code> webhook to your endpoint. It carries Quest's own results message, HL7 v2 ORU^R01 parsed to JSON without interpretation, and the PDF report.</p>
+            <p class="text-lg text-gray-600 mb-10"><code class="font-mono text-base bg-gray-100 px-1 rounded">GET /orders/{id}</code> tells you when an order has reached <code class="font-mono text-base bg-gray-100 px-1 rounded">results_final</code>, but the results themselves arrive in the event: no API endpoint returns them. This guide covers the event, how to read the HL7 JSON, corrected results, and handling results safely.</p>
+
+            <div class="flex flex-col sm:flex-row gap-4 mb-14">
+                <a href="https://lablink.caregap.io/docs" data-cta="read_docs" data-cta-location="guide_intro" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Read API Docs</a>
+                <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="guide_intro" class="border-2 border-[#ff3e57] text-[#ff3e57] px-8 py-3 rounded-full hover:bg-[#ff3e57] hover:text-white transition-colors text-center">Create Sandbox Account</a>
+            </div>
+
+            <h2 class="text-3xl font-bold mb-4">How results reach you</h2>
+            <ol class="space-y-4 text-gray-700 mb-12 list-decimal pl-6">
+                <li>You place the order with <code class="font-mono text-sm bg-gray-100 px-1 rounded">POST /orders</code>. Its status is <code class="font-mono text-sm bg-gray-100 px-1 rounded">created</code>.</li>
+                <li>When Quest has the requisition, LabLink sends <code class="font-mono text-sm bg-gray-100 px-1 rounded">order.awaiting_collection</code>. Download the requisition PDF the patient brings to the draw with <code class="font-mono text-sm bg-gray-100 px-1 rounded">GET /orders/{id}/requisition</code>.</li>
+                <li>The patient is drawn and Quest runs the tests.</li>
+                <li>When results are posted, LabLink sends <code class="font-mono text-sm bg-gray-100 px-1 rounded">order.results_final</code> with the results message and PDF report, and the order's status becomes <code class="font-mono text-sm bg-gray-100 px-1 rounded">results_final</code>.</li>
+            </ol>
+
+            <h2 class="text-3xl font-bold mb-4">The order.results_final event</h2>
+            <div class="overflow-x-auto mb-6">
+                <table class="w-full text-left text-sm">
+                    <thead>
+                        <tr class="border-b border-gray-200 text-gray-500">
+                            <th scope="col" class="py-3 pr-4 font-semibold">Field</th>
+                            <th scope="col" class="py-3 font-semibold">What it holds</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-700 align-top">
+                        <tr class="border-b border-gray-100"><td class="py-3 pr-4 font-mono">id</td><td class="py-3">The event id. The same order and event always have the same id: dedupe on it.</td></tr>
+                        <tr class="border-b border-gray-100"><td class="py-3 pr-4 font-mono">type</td><td class="py-3"><code class="font-mono">order.results_final</code></td></tr>
+                        <tr class="border-b border-gray-100"><td class="py-3 pr-4 font-mono">environment</td><td class="py-3"><code class="font-mono">sandbox</code> or <code class="font-mono">production</code></td></tr>
+                        <tr class="border-b border-gray-100"><td class="py-3 pr-4 font-mono">test</td><td class="py-3"><code class="font-mono">true</code> for a test event sent from the console</td></tr>
+                        <tr class="border-b border-gray-100"><td class="py-3 pr-4 font-mono">data.orderId</td><td class="py-3">The order. Read it with <code class="font-mono">GET /orders/{id}</code>.</td></tr>
+                        <tr class="border-b border-gray-100"><td class="py-3 pr-4 font-mono">data.results.format</td><td class="py-3">Always <code class="font-mono">hl7v2+json</code></td></tr>
+                        <tr class="border-b border-gray-100"><td class="py-3 pr-4 font-mono">data.results.messages</td><td class="py-3">Quest's results message, every segment in order, every field under its HL7 position. Usually one; more when the lab network holds several for the order.</td></tr>
+                        <tr><td class="py-3 pr-4 font-mono">data.results.reports</td><td class="py-3">The PDF report: <code class="font-mono">filename</code>, <code class="font-mono">contentType</code>, <code class="font-mono">base64</code>, and <code class="font-mono">source</code> (<code class="font-mono">hl7</code> when Quest embedded it in the message, <code class="font-mono">lab_network</code> otherwise)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-gray-700 mb-4">A shortened sandbox test event, with the base64 cut short:</p>
+            <p id="copy-status" class="sr-only" aria-live="polite"></p>
+            <div class="flex items-center justify-between bg-gray-800 text-gray-300 text-xs font-mono rounded-t-xl px-4 py-2"><span>order.results_final &middot; JSON</span><button type="button" data-copy-target="ex-results-event" data-cta="copy_example" data-cta-location="results_event" class="text-gray-200 hover:text-white underline" aria-label="Copy the example results event">Copy</button></div>
+<pre id="ex-results-event" data-example-kind="webhook-event" class="bg-gray-900 text-gray-100 text-sm rounded-b-xl p-4 overflow-x-auto mb-12"><code>{
+  "id": "evt_8a1d5c3e9b7f2a6d4c0e1b9f7a3d5c2e",
+  "object": "event",
+  "type": "order.results_final",
+  "environment": "sandbox",
+  "createdAt": "2026-10-21T15:06:12.000Z",
+  "test": true,
+  "data": {
+    "orderId": "0",
+    "status": "results_final",
+    "results": {
+      "format": "hl7v2+json",
+      "messages": [
+        {
+          "encoding": { "field": "|", "component": "^", "repetition": "~", "escape": "\\", "subcomponent": "&amp;" },
+          "segments": [
+            { "segment": "MSH", "fields": { "3": "LAB", "4": "QUEST DIAGNOSTICS", "9": ["ORU", "R01"], "12": "2.5.1" } },
+            { "segment": "PID", "fields": { "1": "1", "5": ["SAMPLE", "TEST"], "7": "19000101", "8": "U" } },
+            { "segment": "OBR", "fields": { "1": "1", "4": ["91986", "DONOR, CHAGAS SCREEN", "99QDI"], "25": "F" } },
+            { "segment": "OBX", "fields": { "1": "1", "2": "ST", "3": ["86011607", "DONOR, CHAGAS SCREEN", "99QDI"], "5": "NONREACTIVE", "7": "NONREACTIVE", "8": "N", "11": "F" } },
+            { "segment": "NTE", "fields": { "1": "1", "2": "L", "3": "This is a test event. No patient or order exists." } },
+            { "segment": "OBX", "fields": { "1": "2", "2": "ED", "3": ["ClinicalPDFReport1", "Clinical PDF Report TEST000000-1", "99QDI"], "11": "F" } }
+          ]
+        }
+      ],
+      "reports": [
+        { "filename": "ClinicalPDFReport1.pdf", "contentType": "application/pdf", "source": "hl7", "base64": "JVBERi0xLjQK" }
+      ]
+    }
+  }
+}</code></pre>
+
+            <h2 class="text-3xl font-bold mb-4">Reading the HL7 JSON</h2>
+            <ul class="space-y-3 text-gray-700 mb-6 list-disc pl-6">
+                <li>Each message is <code class="font-mono text-sm bg-gray-100 px-1 rounded">{ encoding, segments }</code>, with segments in the order Quest sent them.</li>
+                <li>Fields are keyed by HL7 position, 1-based: <code class="font-mono text-sm bg-gray-100 px-1 rounded">fields["5"]</code> is OBX-5. Empty fields are left out.</li>
+                <li>A plain field is a string. A field with components is an array of them, and a component with subcomponents is an array inside it. A repeating field is <code class="font-mono text-sm bg-gray-100 px-1 rounded">{ "repetitions": [ … ] }</code>.</li>
+                <li>Observations are OBX segments under their OBR: OBX-3 the test, OBX-5 the value, OBX-6 units, OBX-7 the reference range, OBX-8 abnormal flags, OBX-11 the result status (<code class="font-mono text-sm bg-gray-100 px-1 rounded">F</code> final, <code class="font-mono text-sm bg-gray-100 px-1 rounded">C</code> corrected). NTE segments after an OBX are its comments.</li>
+                <li>Values are Quest's text, unchanged. LabLink does not interpret, normalize or re-code results.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">A starting point for turning the event into rows. It skips the embedded PDF (OBX type <code class="font-mono text-sm bg-gray-100 px-1 rounded">ED</code>), which is also in <code class="font-mono text-sm bg-gray-100 px-1 rounded">reports</code>:</p>
+            <div class="flex items-center justify-between bg-gray-800 text-gray-300 text-xs font-mono rounded-t-xl px-4 py-2"><span>Observations from order.results_final &middot; JavaScript</span><button type="button" data-copy-target="ex-observations" data-cta="copy_example" data-cta-location="results_observations" class="text-gray-200 hover:text-white underline" aria-label="Copy the observations example">Copy</button></div>
+<pre id="ex-observations" data-example-kind="results-parsing" class="bg-gray-900 text-gray-100 text-sm rounded-b-xl p-4 overflow-x-auto mb-12"><code>function observations(event) {
+  const rows = [];
+  for (const message of event.data.results.messages) {
+    let orderedTest = null;
+    let last = null;
+    for (const { segment, fields } of message.segments) {
+      if (segment === 'OBR') orderedTest = fields['4'];
+      if (segment === 'OBX' &amp;&amp; fields['2'] !== 'ED') {
+        last = {
+          orderedTest,
+          observation: fields['3'],
+          value: fields['5'],
+          units: fields['6'],
+          referenceRange: fields['7'],
+          abnormalFlags: fields['8'],
+          status: fields['11'], // F final, C corrected
+          comments: []
+        };
+        rows.push(last);
+      }
+      if (segment === 'NTE' &amp;&amp; last) last.comments.push(fields['3']);
+    }
+  }
+  return rows;
+}</code></pre>
+
+            <h2 class="text-3xl font-bold mb-4">Delivery rules</h2>
+            <ul class="space-y-3 text-gray-700 mb-12 list-disc pl-6">
+                <li>Register endpoints on the console's API keys &amp; webhooks page, separately for sandbox and production, each with its own signing secret.</li>
+                <li>Verify <code class="font-mono text-sm bg-gray-100 px-1 rounded">LabLink-Signature</code> (<code class="font-mono text-sm bg-gray-100 px-1 rounded">t=&lt;unix seconds&gt;,v1=&lt;hex&gt;</code>, HMAC-SHA256 of <code class="font-mono text-sm bg-gray-100 px-1 rounded">&lt;t&gt;.&lt;raw body&gt;</code>) before trusting an event, and reject one older than five minutes. The <a href="/lablink#first-sandbox-order" class="text-[#ff3e57] font-semibold hover:underline">first sandbox order walkthrough</a> has a Node.js check.</li>
+                <li>Answer 2xx within 10 seconds, then do the work. Redirects are not followed.</li>
+                <li>A failed delivery is retried every 5 minutes, up to 3 more times. Delivery is at least once: the same event can arrive twice, so dedupe on <code class="font-mono text-sm bg-gray-100 px-1 rounded">id</code>.</li>
+                <li>A results event can be a few megabytes with its PDF. Accept bodies of that size.</li>
+                <li>Events are sent for orders created through the LabLink API or the console playground.</li>
+            </ul>
+
+            <h2 class="text-3xl font-bold mb-4">Handling results safely</h2>
+            <ul class="space-y-3 text-gray-700 mb-12 list-disc pl-6">
+                <li>The results event is a patient record: Quest's own message, with the patient's details. Keep it out of logs, analytics and error trackers, and store it as you would any PHI.</li>
+                <li>No API endpoint returns results, so store them when the event arrives. Patient data is retained under the organization that created it, and CareGap never sells it.</li>
+                <li>A corrected result is a new message from Quest and a new event with a new <code class="font-mono text-sm bg-gray-100 px-1 rounded">id</code>. Keep both, and show the latest.</li>
+                <li>Interpreting results and following up with patients stays with your ordering provider.</li>
+            </ul>
+
+            <section id="faq" aria-labelledby="faq-heading" class="mb-14">
+                <h2 id="faq-heading" class="text-3xl font-bold mb-6">Questions</h2>
+                <div class="space-y-6">
+                    <div class="border-b pb-6">
+                        <h3 class="text-xl font-semibold mb-2">Can I poll for results instead of using webhooks?</h3>
+                        <p class="text-gray-600">You can poll GET /orders/{id} to see when an order reaches results_final, but the results themselves are delivered in the order.results_final webhook. Register a webhook endpoint to receive them.</p>
+                    </div>
+                    <div class="border-b pb-6">
+                        <h3 class="text-xl font-semibold mb-2">What happens when Quest corrects a result?</h3>
+                        <p class="text-gray-600">A corrected result is a new message from Quest, so it arrives as a new order.results_final event with a new id. Its OBX-11 result status is C. The same message delivered twice keeps the same id.</p>
+                    </div>
+                    <div class="border-b pb-6">
+                        <h3 class="text-xl font-semibold mb-2">Can I fetch results again later through the API?</h3>
+                        <p class="text-gray-600">Not today. No API endpoint returns results: they are delivered in the order.results_final event, so store them when it arrives, as you would any patient record.</p>
+                    </div>
+                    <div class="border-b pb-6">
+                        <h3 class="text-xl font-semibold mb-2">Can I test results handling in sandbox?</h3>
+                        <p class="text-gray-600">Yes. Register a sandbox webhook endpoint and send a test event from the LabLink console. Test events have test set to true and an orderId of 0.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="bg-gray-900 text-white rounded-2xl p-8">
+                <h2 class="text-2xl font-bold mb-3">Next step</h2>
+                <p class="text-gray-300 mb-6">Read the webhook reference, then register a sandbox endpoint and send yourself a test results event.</p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="https://lablink.caregap.io/docs" data-cta="read_docs" data-cta-location="guide_next_step" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Read API Docs</a>
+                    <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="guide_next_step" class="border-2 border-white/30 text-white px-8 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-colors text-center">Create Sandbox Account</a>
+                    <a href="/lablink#contact" data-cta="talk_to_us" data-cta-location="guide_next_step" class="text-white underline self-center hover:text-[#ff3e57]">Talk to Us</a>
+                </div>
+                <p class="text-sm text-gray-400 mt-6">Related: <a href="/quest-lab-ordering-api" class="text-white underline hover:text-[#ff3e57]">How to order Quest labs through an API</a></p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12 border-t border-white/10">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <img src="https://imgur.com/jWqRq4Y.png" alt="CareGap Logo" class="h-8 mb-4">
+                    <p class="text-gray-400">&copy; 2026 CareGap. All rights reserved.</p>
+                </div>
+                <div>
+                    <h2 class="font-semibold mb-4">Products</h2>
+                    <p class="text-gray-400"><a href="/lablink" class="hover:text-white transition-colors">LabLink</a></p>
+                    <p class="text-gray-400 mt-2"><a href="/easydonor" class="hover:text-white transition-colors">EasyDonor</a></p>
+                </div>
+                <div>
+                    <h2 class="font-semibold mb-4">Contact</h2>
+                    <p class="text-gray-400"><a href="mailto:sales@caregap.io" class="hover:text-white transition-colors">sales@caregap.io</a></p>
+                </div>
+                <div>
+                    <h2 class="font-semibold mb-4">Legal</h2>
+                    <div class="flex space-x-4">
+                        <a href="/terms-of-use" class="text-gray-400 hover:text-white transition-colors">Terms Of Use</a>
+                        <a href="/privacy-policy" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
+                    </div>
+                </div>
+            </div>
+            <p class="text-xs text-gray-600 max-w-4xl">Informational only and not legal advice. CareGap provides ordering and results technology and does not sell, bill or collect for laboratory testing. CareGap does not originate lab orders; a licensed ordering provider with an active NPI is required.</p>
+        </div>
+    </footer>
+
+    <script>
+    (function () {
+        var button = document.getElementById('mobile-menu-button');
+        var menu = document.getElementById('mobile-menu');
+        button.addEventListener('click', function () {
+            var open = menu.classList.toggle('hidden') === false;
+            button.setAttribute('aria-expanded', String(open));
+        });
+    })();
+    </script>
+    <script src="copy-code.js"></script>
+</body>
+</html>

@@ -52,13 +52,14 @@
     <link rel="stylesheet" href="dist/styles.css">
     <!-- Calendly widget script -->
     <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+    <script src="analytics.js" defer></script>
 </head>
 <body class="font-['Inter'] bg-white">
     <!-- Calendly Modal -->
     <div id="calendly-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-3xl h-[80vh] bg-white rounded-lg shadow-xl overflow-hidden">
             <div class="absolute top-0 right-0 z-10 p-4">
-                <button id="close-modal" class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-md hover:bg-gray-100 transition-colors">
+                <button id="close-modal" aria-label="Close" class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-md hover:bg-gray-100 transition-colors">
                     <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
@@ -84,7 +85,7 @@
                     <a href="#faq-section" class="text-gray-700 hover:text-[#ff3e57] transition-colors">FAQ</a>
                     <a href="https://calendly.com/caregap/caregap-demo" class="bg-[#ff3e57] text-white px-6 py-2 rounded-full hover:bg-[#ff3e57]/90 transition-colors">Book a Demo</a>
                 </div>
-                <button class="md:hidden" id="mobile-menu-button">
+                <button class="md:hidden" id="mobile-menu-button" aria-label="Open menu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -164,16 +165,16 @@
                 <div class="bg-white/5 border border-white/10 rounded-2xl p-8 flex flex-col" data-aos="fade-up">
                     <p class="text-xs font-semibold tracking-widest text-[#ff3e57] mb-3">LAB ORDERING</p>
                     <h3 class="text-3xl font-bold mb-3">LabLink</h3>
-                    <p class="text-gray-400 mb-6">Order Quest Diagnostics lab tests and pull structured results from your own app through one API. Bring your existing Quest account or start a new one, and bill the client, the patient or the patient's insurance.</p>
+                    <p class="text-gray-400 mb-6">Order Quest Diagnostics lab tests and receive Quest's results in your own app through one API. Bring your existing Quest account or start a new one, and bill the client, the patient or the patient's insurance.</p>
                     <ul class="space-y-3 mb-8 text-gray-300 text-sm">
                         <li class="flex gap-3"><span class="text-[#ff3e57] font-bold">&#10003;</span> Live Quest interface, sandbox in minutes</li>
                         <li class="flex gap-3"><span class="text-[#ff3e57] font-bold">&#10003;</span> Client Bill, Patient Cash and Patient Insurance</li>
                         <li class="flex gap-3"><span class="text-[#ff3e57] font-bold">&#10003;</span> HIPAA-compliant patient records, BAA included</li>
-                        <li class="flex gap-3"><span class="text-[#ff3e57] font-bold">&#10003;</span> Published pricing: $1,500 onboarding, from $2.00 per order</li>
+                        <li class="flex gap-3"><span class="text-[#ff3e57] font-bold">&#10003;</span> <a href="/lablink#pricing" class="hover:text-white underline">Published pricing</a> and a developer API with sandbox</li>
                     </ul>
                     <div class="mt-auto flex flex-wrap gap-4">
-                        <a href="/lablink" class="inline-block bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors">Explore LabLink</a>
-                        <a href="https://lablink.caregap.io" class="inline-block border-2 border-white/30 text-white px-8 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-colors">Open LabLink</a>
+                        <a href="/lablink" data-cta="explore_lablink" data-cta-location="home_products" class="inline-block bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors">Explore LabLink</a>
+                        <a href="https://lablink.caregap.io" data-cta="open_app" data-cta-location="home_products" class="inline-block border-2 border-white/30 text-white px-8 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-colors">Open LabLink</a>
                     </div>
                 </div>
 
@@ -276,21 +277,21 @@
 
       <!-- Track (JS duplicates this row to create an endless loop) -->
       <div
-        class="logo-track flex items-center gap-10 will-change-transform"
+        class="logo-track flex items-center gap-6 will-change-transform"
         data-logo-track
         aria-label="Partner logos scrolling from right to left"
       >
         <!-- 👇 Add/replace logos here (only in this first set) -->
-        <img src="https://raw.githubusercontent.com/jeremycwalker1/CAREGAP.IO/main/LUMEN-LOGO.png" alt="Lumen" class="h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-        <img src="https://raw.githubusercontent.com/jeremycwalker1/CAREGAP.IO/main/UPSHIFT-LOGO.png" alt="UpShiftHR" class="h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-        <img src="https://raw.githubusercontent.com/jeremycwalker1/CAREGAP.IO/main/InfinitiHR-Logo.png" alt="InfinitiHR" class="h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-        <img src="https://raw.githubusercontent.com/jeremycwalker1/CAREGAP.IO/main/musebiologo.png" alt="Muse Bio" class="h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-          <img src="https://raw.githubusercontent.com/jeremycwalker1/CAREGAP.IO/main/Getlabs-Logo.png" alt="Getlabs" class="h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-        <img src="https://raw.githubusercontent.com/jeremycwalker1/CAREGAP.IO/main/Nutrivue-Logo.png" alt="Nutrivue" class="h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-        <img src="https://raw.githubusercontent.com/jeremycwalker1/CAREGAP.IO/main/Thorne-Logo.png" alt="Thorne" class="h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-        <img src="https://raw.githubusercontent.com/jeremycwalker1/CAREGAP.IO/main/TN_Logo (1).png" alt="Tru Niagen" class="h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-        <img src="https://raw.githubusercontent.com/jeremycwalker1/CAREGAP.IO/main/tachin-logo.png" alt="Tachin.ai" class="h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-        <img src="https://raw.githubusercontent.com/jeremycwalker1/CAREGAP.IO/main/TRD-LOGO.png" alt="TRD" class="h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+        <img src="/logos/lumen.png" alt="Lumen" class="h-16 w-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+        <img src="/logos/upshifthr.png" alt="UpShiftHR" class="h-16 w-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+        <img src="/logos/infinitihr.png" alt="InfinitiHR" class="h-16 w-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+        <img src="/logos/muse-bio.png" alt="Muse Bio" class="h-16 w-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+          <img src="/logos/getlabs.png" alt="Getlabs" class="h-16 w-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+        <img src="/logos/nutrivue.png" alt="Nutrivue" class="h-16 w-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+        <img src="/logos/thorne.png" alt="Thorne" class="h-16 w-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+        <img src="/logos/tru-niagen.png" alt="Tru Niagen" class="h-16 w-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+        <img src="/logos/tachin.png" alt="Tachin.ai" class="h-16 w-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+        <img src="/logos/trd.png" alt="TRD" class="h-16 w-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
         <!-- add more <img> logos as you go -->
       </div>
     </div>

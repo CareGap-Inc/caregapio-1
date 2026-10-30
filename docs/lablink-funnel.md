@@ -1,0 +1,115 @@
+# LabLink acquisition and conversion funnel
+
+How LabLink traffic and conversions are measured, from first visit to production customer.
+
+## Where events go
+
+**Google Analytics 4.** Set `GA4_MEASUREMENT_ID` at the top of `analytics.js` to the site's measurement ID (GA4 → Admin → Data streams → the caregap.io stream → Measurement ID, `G-…`). Until it is set, events stay in `window.dataLayer` and nothing is sent.
+
+- GA4 loads only on `caregap.io` and `www.caregap.io`, never on deploy previews or local copies.
+- The page URL GA4 records is the path plus allow-listed UTMs. Any other query parameter is dropped, and the referrer is reduced to its host.
+- Google signals and ad personalization are off.
+- In GA4 → Admin → Data streams → Enhanced measurement, leave "Form interactions" on if you like (it sends no field values); there is no site search to measure.
+- The privacy policy already lists analytics services. There is no consent banner; add one before marketing to visitors in the EU or UK.
+
+### GA4 setup after the ID is in
+
+1. **Key events** (GA4 → Admin → Events → mark as key event): `lablink_contact_submitted`, plus `lablink_cta_clicked`. Filter the latter to `cta_id = create_account` in reports.
+2. **Custom dimensions** (GA4 → Admin → Custom definitions, event scope): `traffic_source`, `page_type`, `cta_id`, `cta_location`, `form_location`, `lead_source`. Without them, those parameters are collected but cannot be used in reports.
+3. Check delivery in GA4 → Admin → DebugView by opening the site with `?analytics_debug=1`. That also logs each event to the browser console.
+
+Events are built from an allow-list of fields per event and passed through `sanitize()`:
+
+- Fields that are not on the event's allow-list are dropped.
+- Values containing `@`, seven or more consecutive digits (phone numbers, NPIs, IDs), `Bearer `, `sk_` or `pk_` are dropped.
+- URLs lose their query string and fragment.
+- Values are capped at 100 characters.
+- The self-reported lead source must be one of the fixed choices. Free text from the form is never sent.
+
+`tests/analytics.test.mjs` enforces all of this.
+
+## Events
+
+| Event | Emitted by | When | Fields |
+|---|---|---|---|
+| `lablink_landing_view` | caregap.io | A page with `data-lablink-page` loads (`/lablink` = `lablink`, guides = `guide`) | `page_path`, `page_type`, `traffic_source`, `referrer_host`, `utm_*` |
+| `lablink_cta_clicked` | caregap.io | Click on any element with `data-cta` | `page_path`, `cta_id`, `cta_location`, `cta_destination` |
+| `lablink_contact_submitted` | caregap.io | `/thanks` loads after the LabLink contact form was submitted in the same session | `page_path`, `form_location`, `lead_source`, `traffic_source`, `utm_*` |
+| `lablink_sandbox_signup_started` | LabLink app (to build) | Signup form first shown or first field completed | `traffic_source`, `utm_*` |
+| `lablink_sandbox_signup_completed` | LabLink app (to build) | Account created | `traffic_source`, `utm_*` |
+| `lablink_first_sandbox_order_succeeded` | LabLink app, server side (to build) | First sandbox requisition for an account accepted | none beyond an anonymous account key |
+| `lablink_production_activation_started` | LabLink app (to build) | Account starts the go-live steps (agreement, payment, provider) | none beyond an anonymous account key |
+| `lablink_production_activated` | LabLink app, server side (to build) | Account passes certification and moves to production | none beyond an anonymous account key |
+
+### CTA identifiers
+
+`cta_id` is one of: `create_account`, `open_app`, `read_docs`, `openapi`, `agent_docs`, `talk_to_us`, `email_sales`, `email_support`, `book_call`, `explore_lablink`, and `copy_example` (a Copy button on a code example; `cta_location` names the example, e.g. `create_order`). `tests/links.test.mjs` checks each link points at its allowed destination. Copy clicks are the closest thing to "developer tried the API" the marketing site can see. `cta_location` is set on the link (`hero`, `nav`, `developers`, `first_sandbox_order`, `sandbox_help`, `faq`, `contact`, `guide_intro`, `guide_next_step`, `home_products`, `thanks`, …).
+
+On caregap.io, a `create_account` click is the handoff to signup. `lablink_sandbox_signup_started` belongs in the app, where the signup form actually is.
+
+### Traffic source
+
+`traffic_source` is one of:
+
+- `ai_assistant`: the referrer is a known assistant (ChatGPT, Perplexity, Claude, Gemini, Copilot and others in `AI_HOSTS`), or `utm_source` names one. ChatGPT adds `utm_source=chatgpt.com` to links it cites.
+- `organic_search`: the referrer is a search engine.
+- `campaign`: there is a `utm_source` that is not an assistant.
+- `referral`: any other site.
+- `direct`: no referrer. **Direct is not treated as AI.** Assistants often strip referrers, so some AI traffic lands here. The self-reported question on the contact form ("How did you hear about CareGap?" with an "AI assistant" choice and optional detail) is the way to measure that share.
+
+## Attribution and UTMs
+
+- On arrival, allow-listed UTM keys (`utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`), the referring host and the landing path are stored in `sessionStorage`. They are replaced only on a new external touch (new UTMs or another site's referrer).
+- Links to `https://lablink.caregap.io` get the stored UTM keys appended, so the app can attribute signups. No other parameter is forwarded.
+- The LabLink contact form carries the same values in hidden fields (`utm_*`, `landing_page`, `referrer_host`, `traffic_source`), so each Netlify form submission records its source.
+- Legacy redirects (`/quest`, `/lab-ordering`) keep the query string (Netlify's default), so UTMs on old links survive into `/lablink`. Only allow-listed keys are ever read from it.
+
+## Definitions
+
+- **Lead:** a `lablink_contact_submitted`, or a LabLink account created (`lablink_sandbox_signup_completed`).
+- **Qualified lead:** a lead from an organization with a licensed ordering provider (in house or through a partner), or a clear plan to get one, and a use case LabLink supports today. Judged by sales from the form's optional fields or the onboarding record. This is a CRM stage, not an analytics event.
+- **Activated developer:** an account with `lablink_first_sandbox_order_succeeded`.
+- **Production customer:** an account with `lablink_production_activated`.
+
+## Reports
+
+Once a destination is chosen, build one funnel report:
+
+1. `lablink_landing_view` → `lablink_cta_clicked` (`cta_id = create_account`) → `lablink_sandbox_signup_completed` → `lablink_first_sandbox_order_succeeded` → `lablink_production_activated`.
+2. A second path: `lablink_landing_view` → `lablink_cta_clicked` (`talk_to_us`) → `lablink_contact_submitted`.
+
+Break both down by:
+
+- landing page (`page_path` of the first `lablink_landing_view`): `/lablink`, `/quest-lab-ordering-api`, `/quest-api-without-account`
+- `traffic_source` and `utm_source`
+- use case, from the contact form's optional fields (bill types, build help, at-home collection) in the Netlify form export
+- funnel stage
+
+Until a destination exists, the Netlify Forms export of `quest-signup` gives the contact path with source fields.
+
+## Verifying events
+
+1. Open any LabLink page with `?analytics_debug=1`. Debug mode lasts for the browser session.
+2. Open the browser console. Each event logs as `[lablink analytics] {…}`. `window.dataLayer` holds them too.
+3. Check each transition (on a deploy preview events stay in `dataLayer`; on caregap.io they also show in GA4 DebugView):
+   - Load `/lablink` → `lablink_landing_view` with `page_type: "lablink"`.
+   - Load `/lablink?utm_source=chatgpt.com` in a new tab → `traffic_source: "ai_assistant"`, and LabLink app links now end in `?utm_source=chatgpt.com`.
+   - Click "Create Sandbox Account" → `lablink_cta_clicked` with `cta_id: "create_account"`, `cta_location: "hero"`.
+   - Submit the contact form on a deploy preview → `/thanks` logs `lablink_contact_submitted` once. Reloading `/thanks` logs nothing.
+4. Confirm no payload contains form values other than the fixed `lead_source` choices.
+
+`npm test` runs the automated checks.
+
+## Building the app-side events
+
+These belong in the LabLink app repository, not this site:
+
+- Use the same event names and field allow-lists as `EVENTS` in `analytics.js`.
+- Emit `lablink_first_sandbox_order_succeeded` and `lablink_production_activated` server side, keyed by an anonymous account identifier (a random ID or a salted hash), never an email, NPI, organization name or requisition ID.
+- Never include request or response bodies, patient data, results or keys.
+- Read the `utm_*` query parameters the marketing site appends and store them on the account at signup.
+
+## Open decisions
+
+- **GA4 measurement ID:** owner chose Google Analytics; the ID still needs to be set in `analytics.js`.
+- **App-side events:** need a change in the LabLink app repository, which this session could not access.

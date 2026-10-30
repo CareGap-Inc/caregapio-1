@@ -10,6 +10,7 @@
     <meta property="og:url" content="https://caregap.io/">
     <meta property="og:title" content="CareGap | Healthcare Infrastructure for Digital Health Products">
     <meta property="og:description" content="CareGap builds healthcare infrastructure products, including LabLink for ordering Quest Diagnostics lab tests from your own app.">
+    <meta property="og:image" content="https://caregap.io/Hero-CareGap.png">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/png" href="https://imgur.com/QAdKjar.png">
     <script type="application/ld+json">
@@ -43,7 +44,8 @@
           "url": "https://caregap.io/easydonor",
           "description": "Living-donor program software for tissue banks and biobanks: donor sign-up, screening and eligibility, e-signed consent, collection, results release, compensation, retention and quality records.",
           "provider": {"@id": "https://caregap.io/#org"}
-        }
+        },
+        {"@type": "FAQPage", "@id": "https://caregap.io/#faq", "mainEntity": [{"@type": "Question", "name": "What does CareGap do?", "acceptedAnswer": {"@type": "Answer", "text": "CareGap builds healthcare infrastructure that companies deliver under their own brand. LabLink connects your product to Quest Diagnostics for lab ordering and results. EasyDonor runs living-donor programs for tissue banks and biobanks. The CareGap build team can also design and build a branded app or portal on top of them."}}, {"@type": "Question", "name": "How do I start with LabLink?", "acceptedAnswer": {"@type": "Answer", "text": "Create an account at lablink.caregap.io. Your sandbox opens right away, before any payment, so you can build against the API with synthetic data. Going live takes a signed Platform Agreement and BAA, onboarding, a verified ordering provider and a Quest subaccount."}}, {"@type": "Question", "name": "Can everything be branded to my company?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. LabLink runs behind your own app, so intake, results and patient communication carry your brand. Each EasyDonor program is built around the bank's own criteria, forms and brand."}}, {"@type": "Question", "name": "How is pricing set?", "acceptedAnswer": {"@type": "Answer", "text": "Each product has its own pricing. LabLink pricing is published in full on the LabLink page. EasyDonor programs and custom builds are scoped and priced to your goals."}}, {"@type": "Question", "name": "Can it integrate with my systems?", "acceptedAnswer": {"@type": "Answer", "text": "LabLink is a REST API with separate sandbox and production environments and signed webhooks, documented publicly with an OpenAPI spec. For EasyDonor or a custom build, we scope the integrations with you."}}, {"@type": "Question", "name": "How is patient data handled?", "acceptedAnswer": {"@type": "Answer", "text": "On HIPAA-compliant infrastructure, under a BAA. Patient data is retained under the organization that created it, and CareGap never sells it."}}]}
       ]
     }
     </script>
@@ -79,11 +81,10 @@
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="/lablink" class="text-gray-700 hover:text-[#ff3e57] transition-colors font-semibold">LabLink</a>
                     <a href="/easydonor" class="text-gray-700 hover:text-[#ff3e57] transition-colors font-semibold">EasyDonor</a>
-                    <a href="#how-it-works" class="text-gray-700 hover:text-[#ff3e57] transition-colors">How It Works</a>
-                    <a href="#features-section" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Features</a>
-                    <a href="#partners-section" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Our Partners</a>
+                    <a href="/lablink#developers" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Developers</a>
+                    <a href="#guides" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Guides</a>
                     <a href="#faq-section" class="text-gray-700 hover:text-[#ff3e57] transition-colors">FAQ</a>
-                    <a href="https://calendly.com/caregap/caregap-demo" class="bg-[#ff3e57] text-white px-6 py-2 rounded-full hover:bg-[#ff3e57]/90 transition-colors">Book a Demo</a>
+                    <a href="https://calendly.com/caregap/caregap-demo" data-cta="book_call" data-cta-location="nav" class="bg-[#ff3e57] text-white px-6 py-2 rounded-full hover:bg-[#ff3e57]/90 transition-colors">Book a Demo</a>
                 </div>
                 <button class="md:hidden" id="mobile-menu-button" aria-label="Open menu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,11 +97,10 @@
                 <div class="flex flex-col space-y-4">
                     <a href="/lablink" class="text-gray-700 hover:text-[#ff3e57] transition-colors font-semibold">LabLink</a>
                     <a href="/easydonor" class="text-gray-700 hover:text-[#ff3e57] transition-colors font-semibold">EasyDonor</a>
-                    <a href="#how-it-works" class="text-gray-700 hover:text-[#ff3e57] transition-colors">How It Works</a>
-                    <a href="#features-section" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Features</a>
-                    <a href="#partners-section" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Our Partners</a>
+                    <a href="/lablink#developers" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Developers</a>
+                    <a href="#guides" class="text-gray-700 hover:text-[#ff3e57] transition-colors">Guides</a>
                     <a href="#faq-section" class="text-gray-700 hover:text-[#ff3e57] transition-colors">FAQ</a>
-                    <a href="https://calendly.com/caregap/caregap-demo" class="bg-[#ff3e57] text-white px-6 py-2 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Book a Demo</a>
+                    <a href="https://calendly.com/caregap/caregap-demo" data-cta="book_call" data-cta-location="nav_mobile" class="bg-[#ff3e57] text-white px-6 py-2 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Book a Demo</a>
                 </div>
             </div>
         </nav>
@@ -109,42 +109,31 @@
 <!-- Hero Section -->
 <section class="min-h-screen flex items-center pt-20 bg-gradient-to-b from-white to-gray-50">
   <div class="container mx-auto px-6 py-20">
-    <div class="flex flex-col md:flex-row items-center justify-between">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-12">
 
-      <!-- Text column -->
-      <div class="md:w-1/2 mb-12 md:mb-0" data-aos="fade-right">
-        <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-          <span class="text-gray-900">Your Partner in</span>
-          <span class="text-[#ff3e57] block">Bridging the Gap</span>
-          <span class="text-gray-900">in Healthcare</span>
+      <div class="md:w-3/5" data-aos="fade-right">
+        <p class="text-sm font-semibold tracking-widest text-[#ff3e57] mb-4">HEALTHCARE INFRASTRUCTURE, UNDER YOUR BRAND</p>
+        <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight text-gray-900">
+          Order Quest labs from your app.
+          <span class="text-[#ff3e57] block">Build on CareGap.</span>
         </h1>
-        <p class="text-xl text-gray-600 mb-8">
-          Empowering anyone to deliver comprehensive health and wellness solutions.
+        <p class="text-xl text-gray-600 mb-8 max-w-2xl">
+          LabLink connects your product to Quest Diagnostics: order tests and receive Quest's results through one API, with client, cash or insurance billing. Your sandbox opens when you create an account, before any payment.
         </p>
-        <div class="flex space-x-4">
-          <a
-            href="https://calendly.com/caregap/caregap-demo"
-            class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors"
-          >
-            Get Started
-          </a>
-          <a
-            href="#products"
-            class="border-2 border-[#ff3e57] text-[#ff3e57] px-8 py-3 rounded-full hover:bg-[#ff3e57] hover:text-white transition-colors"
-          >
-            Learn More
-          </a>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="home_hero" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Create Sandbox Account</a>
+          <a href="/lablink" data-cta="explore_lablink" data-cta-location="home_hero" class="border-2 border-[#ff3e57] text-[#ff3e57] px-8 py-3 rounded-full hover:bg-[#ff3e57] hover:text-white transition-colors text-center">Explore LabLink</a>
         </div>
+        <p class="text-sm text-gray-500 mt-5">Running a donor program, or need an app built? <a href="https://calendly.com/caregap/caregap-demo" data-cta="book_call" data-cta-location="home_hero" class="text-[#ff3e57] font-semibold hover:underline">Book a demo</a>.</p>
       </div>
 
-      <!-- Image column: now 1/3 width, transparent, capped max-width -->
-<div class="md:w-1/3" data-aos="fade-left">
-  <img
-    src="https://raw.githubusercontent.com/jeremycwalker1/CAREGAP.IO/main/Hero-CareGap.png"
-    alt="Built on CareGap diagram"
-    class="w-full max-w-md bg-transparent rounded-2xl drop-shadow-lg animate-float mx-auto"
-  />
-</div>
+      <div class="md:w-1/3" data-aos="fade-left">
+        <img
+          src="/Hero-CareGap.png"
+          alt="Built on CareGap diagram"
+          class="w-full max-w-md bg-transparent rounded-2xl drop-shadow-lg animate-float mx-auto"
+        />
+      </div>
 
     </div>
   </div>
@@ -191,17 +180,46 @@
                     </ul>
                     <div class="mt-auto flex flex-wrap gap-4">
                         <a href="/easydonor" class="inline-block bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors">Explore EasyDonor</a>
-                        <a href="https://calendly.com/caregap/caregap-demo" class="inline-block border-2 border-white/30 text-white px-8 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-colors">Book a Demo</a>
+                        <a href="https://calendly.com/caregap/caregap-demo" data-cta="book_call" data-cta-location="home_products" class="inline-block border-2 border-white/30 text-white px-8 py-3 rounded-full hover:bg-white hover:text-gray-900 transition-colors">Book a Demo</a>
                     </div>
                 </div>
             </div>
 
-            <p class="text-gray-400 mt-10" data-aos="fade-up">Building something else in healthcare? <a href="https://calendly.com/caregap/caregap-demo" class="text-[#ff3e57] font-semibold hover:underline">Tell us about it</a> &mdash; more products are on the way.</p>
+            <p class="text-gray-400 mt-10" data-aos="fade-up">Building something else in healthcare? <a href="https://calendly.com/caregap/caregap-demo" data-cta="book_call" data-cta-location="home_products" class="text-[#ff3e57] font-semibold hover:underline">Tell us about it</a> &mdash; more products are on the way.</p>
+        </div>
+    </section>
+
+    <!-- Start building -->
+    <section id="guides" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mb-12" data-aos="fade-up">
+                <p class="text-sm font-semibold tracking-widest text-[#ff3e57] mb-4">START BUILDING</p>
+                <h2 class="text-4xl font-bold mb-4">Ordering Quest labs from your software</h2>
+                <p class="text-lg text-gray-600">Guides for developers and the teams evaluating LabLink, from the first sandbox order to handling results.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <a href="/quest-lab-ordering-api" class="block border border-gray-200 rounded-2xl p-6 hover:border-[#ff3e57] transition-colors" data-aos="fade-up">
+                    <p class="font-semibold mb-2">How to order Quest labs through an API</p>
+                    <p class="text-gray-600 text-sm">Prerequisites, the order lifecycle, sandbox and production, and bill types.</p>
+                </a>
+                <a href="/quest-api-without-account" class="block border border-gray-200 rounded-2xl p-6 hover:border-[#ff3e57] transition-colors" data-aos="fade-up" data-aos-delay="50">
+                    <p class="font-semibold mb-2">Ordering without your own Quest account</p>
+                    <p class="text-gray-600 text-sm">What you need instead, how the Quest subaccount is set up, and what it costs.</p>
+                </a>
+                <a href="/quest-lab-results-api" class="block border border-gray-200 rounded-2xl p-6 hover:border-[#ff3e57] transition-colors" data-aos="fade-up" data-aos-delay="100">
+                    <p class="font-semibold mb-2">Retrieving Quest results programmatically</p>
+                    <p class="text-gray-600 text-sm">The results webhook, Quest's HL7 v2 message as JSON, and the PDF report.</p>
+                </a>
+                <a href="https://lablink.caregap.io/docs" data-cta="read_docs" data-cta-location="home_guides" class="block border border-gray-200 rounded-2xl p-6 hover:border-[#ff3e57] transition-colors" data-aos="fade-up" data-aos-delay="150">
+                    <p class="font-semibold mb-2">LabLink API docs</p>
+                    <p class="text-gray-600 text-sm">Every endpoint, field and error, with the OpenAPI spec and agent-readable docs.</p>
+                </a>
+            </div>
         </div>
     </section>
 
     <!-- How It Works Section -->
-    <section id="how-it-works" class="py-20 bg-white">
+    <section id="how-it-works" class="py-20 bg-gray-50">
         <div class="container mx-auto px-6">
             <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">How It Works</h2>
             <div class="grid md:grid-cols-3 gap-8">
@@ -216,22 +234,22 @@
                     <div class="w-16 h-16 bg-[#ff3e57]/10 rounded-full flex items-center justify-center mb-6">
                         <span class="text-2xl font-bold text-[#ff3e57]">02</span>
                     </div>
-                    <h3 class="text-xl font-semibold mb-4">Deploy your Solutions Fast, Scalable, and Secure</h3>
-                    <p class="text-gray-600"> Build on a system capable of connecting to anything, anywhere</p>
+                    <h3 class="text-xl font-semibold mb-4">Deploy fast, securely and at scale</h3>
+                    <p class="text-gray-600">Build on infrastructure designed to connect to the systems you already use.</p>
                 </div>
                 <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow" data-aos="fade-up" data-aos-delay="300">
                     <div class="w-16 h-16 bg-[#ff3e57]/10 rounded-full flex items-center justify-center mb-6">
                         <span class="text-2xl font-bold text-[#ff3e57]">03</span>
                     </div>
-                    <h3 class="text-xl font-semibold mb-4"> Establish views for every player in the journey</h3>
-                    <p class="text-gray-600"> Holistic program-level metrics, clinical views, Patient portals at your fingertips.</p>
+                    <h3 class="text-xl font-semibold mb-4">Give every player in the journey a view</h3>
+                    <p class="text-gray-600">Program-level metrics, clinical views and patient portals at your fingertips.</p>
                 </div>
             </div>
         </div>
     </section>
 
 <!-- Features Section -->
-<section id="features-section" class="py-20 bg-gray-50">
+<section id="features-section" class="py-20 bg-white">
     <div class="container mx-auto px-6">
         <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">What We Provide</h2>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -263,7 +281,7 @@
     </div>
 </section>
     <!-- Who We Work With -->
-<section id="partners-section" class="py-20 bg-white">
+<section id="partners-section" class="py-20 bg-gray-50">
   <div class="container mx-auto px-6">
     <h2 class="text-4xl font-bold text-center mb-10" data-aos="fade-up">
       Who We Work With
@@ -272,8 +290,8 @@
     <!-- Marquee wrapper -->
     <div class="relative overflow-hidden group" data-aos="fade-up" data-aos-delay="100">
       <!-- gradient edge mask -->
-      <div class="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent"></div>
-      <div class="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent"></div>
+      <div class="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-gray-50 to-transparent"></div>
+      <div class="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-gray-50 to-transparent"></div>
 
       <!-- Track (JS duplicates this row to create an endless loop) -->
       <div
@@ -282,6 +300,7 @@
         aria-label="Partner logos scrolling from right to left"
       >
         <!-- 👇 Add/replace logos here (only in this first set) -->
+        <img src="/logos/quest-diagnostics.png" alt="Quest Diagnostics" class="h-16 w-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
         <img src="/logos/lumen.png" alt="Lumen" class="h-16 w-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
         <img src="/logos/upshifthr.png" alt="UpShiftHR" class="h-16 w-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
         <img src="/logos/infinitihr.png" alt="InfinitiHR" class="h-16 w-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
@@ -304,24 +323,28 @@
         <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">Frequently Asked Questions</h2>
         <div class="space-y-10 max-w-4xl mx-auto">
             <div class="border-b pb-6" data-aos="fade-up">
-                <h3 class="text-xl font-semibold mb-2">How does CareGap help my business?</h3>
-                <p class="text-gray-600">We give you measurable outcomes. Build your solution with us and you will see results, improve retention, and increase lifetime value.</p>
+                <h3 class="text-xl font-semibold mb-2">What does CareGap do?</h3>
+                <p class="text-gray-600">CareGap builds healthcare infrastructure that companies deliver under their own brand. LabLink connects your product to Quest Diagnostics for lab ordering and results. EasyDonor runs living-donor programs for tissue banks and biobanks. The CareGap build team can also design and build a branded app or portal on top of them.</p>
+            </div>
+            <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="50">
+                <h3 class="text-xl font-semibold mb-2">How do I start with LabLink?</h3>
+                <p class="text-gray-600">Create an account at lablink.caregap.io. Your sandbox opens right away, before any payment, so you can build against the API with synthetic data. Going live takes a signed Platform Agreement and BAA, onboarding, a verified ordering provider and a Quest subaccount. <a href="/lablink#first-sandbox-order" class="text-[#ff3e57] font-semibold hover:underline">See the first sandbox order walkthrough</a>.</p>
             </div>
             <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="100">
                 <h3 class="text-xl font-semibold mb-2">Can everything be branded to my company?</h3>
-                <p class="text-gray-600">Yes. From every corner—we ensure the entire experience reflects your brand.</p>
+                <p class="text-gray-600">Yes. LabLink runs behind your own app, so intake, results and patient communication carry your brand. Each EasyDonor program is built around the bank's own criteria, forms and brand.</p>
+            </div>
+            <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="150">
+                <h3 class="text-xl font-semibold mb-2">How is pricing set?</h3>
+                <p class="text-gray-600">Each product has its own pricing. LabLink pricing is published in full on the LabLink page. EasyDonor programs and custom builds are scoped and priced to your goals. <a href="/lablink#pricing" class="text-[#ff3e57] font-semibold hover:underline">LabLink pricing</a>.</p>
             </div>
             <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="200">
-                <h3 class="text-xl font-semibold mb-2">What’s included in your offering?</h3>
-                <p class="text-gray-600">We enable anyone who is looking to solve a problem in healthcare with the tools to make the world a better, healthier place.</p>
+                <h3 class="text-xl font-semibold mb-2">Can it integrate with my systems?</h3>
+                <p class="text-gray-600">LabLink is a REST API with separate sandbox and production environments and signed webhooks, documented publicly with an OpenAPI spec. For EasyDonor or a custom build, we scope the integrations with you. <a href="https://lablink.caregap.io/docs" data-cta="read_docs" data-cta-location="home_faq" class="text-[#ff3e57] font-semibold hover:underline">LabLink API docs</a>.</p>
             </div>
-            <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="300">
-                <h3 class="text-xl font-semibold mb-2">Is pricing flexible?</h3>
-                <p class="text-gray-600">Each product has its own pricing. LabLink pricing is published in full on the <a href="/lablink#pricing" class="text-[#ff3e57] font-semibold hover:underline">LabLink page</a>. For custom builds, we scope pricing to your goals &mdash; reach out to discuss your needs.</p>
-            </div>
-            <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="400">
-                <h3 class="text-xl font-semibold mb-2">Can this integrate with my current systems?</h3>
-                <p class="text-gray-600">Absolutely. Our open APIs allows for easy integrations with your CRM, customer portal, or internal dashboards.</p>
+            <div class="border-b pb-6" data-aos="fade-up" data-aos-delay="250">
+                <h3 class="text-xl font-semibold mb-2">How is patient data handled?</h3>
+                <p class="text-gray-600">On HIPAA-compliant infrastructure, under a BAA. Patient data is retained under the organization that created it, and CareGap never sells it.</p>
             </div>
         </div>
     </div>
@@ -330,11 +353,11 @@
     <!-- CTA Section -->
     <section class="py-20 bg-[#ff3e57] text-white">
         <div class="container mx-auto px-6 text-center">
-            <h2 class="text-4xl font-bold mb-8" data-aos="fade-up">Ready to Transform Your Healthcare Delivery?</h2>
-            <p class="text-xl mb-12 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">Join leading healthcare innovators who are already using CareGap to improve care.</p>
-            <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4" data-aos="fade-up" data-aos-delay="200">
-                <a href="https://calendly.com/caregap/caregap-demo" class="bg-white text-[#ff3e57] px-8 py-3 rounded-full hover:bg-gray-100 transition-colors">Book a Demo</a>
-                <a href="https://calendly.com/caregap/caregap-demo" class="border-2 border-white text-white px-8 py-3 rounded-full hover:bg-white hover:text-[#ff3e57] transition-colors">Contact Sales</a>
+            <h2 class="text-4xl font-bold mb-8" data-aos="fade-up">Ready to build?</h2>
+            <p class="text-xl mb-12 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">Developers can start in the LabLink sandbox today. For EasyDonor, a custom build, or help scoping LabLink, book a time with us.</p>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4" data-aos="fade-up" data-aos-delay="200">
+                <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="home_footer_cta" class="bg-white text-[#ff3e57] px-8 py-3 rounded-full hover:bg-gray-100 transition-colors">Create Sandbox Account</a>
+                <a href="https://calendly.com/caregap/caregap-demo" data-cta="book_call" data-cta-location="home_footer_cta" class="border-2 border-white text-white px-8 py-3 rounded-full hover:bg-white hover:text-[#ff3e57] transition-colors">Book a Demo</a>
             </div>
         </div>
     </section>

@@ -44,7 +44,8 @@ Approval owner for every commercial fact: the CareGap owner (Jeremy Walker, jere
 | E1 | Every order requires a licensed ordering provider with an active NPI; CareGap does not originate orders | `08677bc` | Owner-published |
 | E2 | Platform Agreement and BAA signed before go-live | `08677bc` | Owner-published |
 | E3 | Steps: account (NPI and license verified) → agreement → payment method → Quest subaccount → keys and sandbox → certify and go live | `lablink.html` | Owner-published |
-| E4 | Steps 1, 2, 3, 5 and 6 are automated; Quest subaccount setup is manual and typically several business days | `lablink.html` | Owner-published |
+| E4 | Steps 1, 2, 3, 5 and 6 are automated; Quest subaccount setup is manual and typically several business days to a client number | `lablink.html` | Owner-published |
+| E4a | Each new Quest subaccount needs an interface request before it can take orders through LabLink; Quest says interface requests take 4–6 weeks. In the interim the subaccount can order through Quest Quanum or paper requisitions (outside LabLink) | Quest, relayed by owner 2026-11-05 | **Quest-stated.** **NEEDS OWNER CONFIRMATION** whether connecting an existing Quest account also needs an interface request; the site currently states the 4–6 weeks for new subaccounts only |
 | E5 | Certification: an automated test order and result round trip; passing it moves the account to production | `lablink.html` | Owner-published. **NEEDS OWNER CONFIRMATION** against the app |
 | E6 | Self-service signup at `https://lablink.caregap.io`, with no meeting required | `lablink.html` | Owner-published. Exact signup path not confirmed; CTAs use the app root |
 | E7 | Re-billing lab work is regulated in roughly half the states; counsel review advised | `lablink.html` | Owner-published (informational, not legal advice) |

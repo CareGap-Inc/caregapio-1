@@ -38,7 +38,7 @@
           "mainEntity": [
             {"@type": "Question", "name": "Do I have to handle HL7 to order Quest labs through LabLink?", "acceptedAnswer": {"@type": "Answer", "text": "No. LabLink runs a Quest interface with HL7 and file handling already in place. Your application calls a REST API and receives results as HL7 v2 parsed to JSON."}},
             {"@type": "Question", "name": "Can I test without real patients?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The LabLink sandbox has its own base URL, keys and webhooks, and a test ordering provider. Use synthetic patient data only: nothing in sandbox reaches a real lab or patient, and nothing is billed."}},
-            {"@type": "Question", "name": "Can I place real orders through the API today?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, once your account is live. Going live takes a signed Platform Agreement and BAA, onboarding paid, a verified ordering provider and your Quest subaccount, which typically takes several business days to set up, so it is worth starting early. Build and test in sandbox in the meantime."}},
+            {"@type": "Question", "name": "Can I place real orders through the API today?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, once your account is live. Going live takes a signed Platform Agreement and BAA, onboarding paid, a verified ordering provider and a Quest subaccount with its Quest interface request complete. Quest says the interface request for a new subaccount takes 4 to 6 weeks, so it is worth starting early. In the meantime the subaccount can order through Quest Quanum or paper requisitions, and you can build and test in sandbox."}},
             {"@type": "Question", "name": "What format are results in?", "acceptedAnswer": {"@type": "Answer", "text": "The order.results_final webhook carries Quest's results message, HL7 v2 ORU^R01 parsed to JSON without interpretation, and the PDF report as base64."}}
           ]
         }
@@ -201,7 +201,7 @@
                     </div>
                     <div class="border-b pb-6">
                         <h3 class="text-xl font-semibold mb-2">Can I place real orders through the API today?</h3>
-                        <p class="text-gray-600">Yes, once your account is live. Going live takes a signed Platform Agreement and BAA, onboarding paid, a verified ordering provider and your Quest subaccount, which typically takes several business days to set up, so it is worth starting early. Build and test in sandbox in the meantime.</p>
+                        <p class="text-gray-600">Yes, once your account is live. Going live takes a signed Platform Agreement and BAA, onboarding paid, a verified ordering provider and a Quest subaccount with its Quest interface request complete. Quest says the interface request for a new subaccount takes 4 to 6 weeks, so it is worth starting early. In the meantime the subaccount can order through Quest Quanum or paper requisitions, and you can build and test in sandbox.</p>
                     </div>
                     <div class="border-b pb-6">
                         <h3 class="text-xl font-semibold mb-2">What format are results in?</h3>

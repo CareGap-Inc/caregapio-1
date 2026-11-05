@@ -155,10 +155,18 @@ support@caregap.io (quote the request id; never send patient data or keys).
 ## Timeline
 
 Sandbox opens when you create your account, before any payment, and does not
-wait on Quest paperwork. Quest subaccount setup is a
-manual process on Quest's side that typically takes several business days.
-Production follows once the Quest subaccount is set up and the account passes
-certification.
+wait on Quest paperwork. Quest subaccount setup is a manual process on Quest's
+side that typically takes several business days to reach a client number.
+Each new Quest subaccount also needs an interface request before it can take
+orders through LabLink, and Quest says interface requests take 4 to 6 weeks.
+In the meantime the subaccount can still be used: the ordering provider places
+orders with Quest through Quanum or on paper requisitions. Those orders go to
+Quest directly, outside LabLink, and do not appear in the LabLink API or
+webhooks. Production API ordering follows once the interface is complete and
+the account passes certification.
+
+In short: sandbox in minutes, Quanum or paper orders in days, API orders in
+about 4 to 6 weeks.
 
 # EasyDonor
 

@@ -65,7 +65,7 @@ On your own Quest account, every order uses one of three bill types:
   apply. Insurance details and ICD-10 codes are required.
 
 On CareGap's Quest account, orders are Client Bill: CareGap pays Quest and
-charges the payment method on file, when the order is placed, Quest's price for
+bills Quest's price for
 the order's testing, including any specimen collection fee, with no markup.
 For patients in New Jersey and New York, where Client Bill is not available,
 orders are Patient Cash or Patient Insurance and Quest bills the patient or
@@ -86,7 +86,12 @@ CareGap does not bill or collect for laboratory testing.
   Each order is charged at the rate for its position in the month; earlier
   orders are not repriced. The count resets on the first day of each calendar
   month. Example: 300 orders = (100 x $5.00) + (200 x $3.00) = $1,100.00.
-- Patient record: $1.00 per patient, billed annually.
+- Patient record: $1.00 per patient per year, billed monthly (a twelfth per
+  record each month).
+
+Billing is monthly: on the 1st, CareGap charges the payment method on file for
+the month before (order fees, patient records and, on CareGap's Quest account,
+testing). Onboarding is charged up front, when the card is added.
 
 Platform fees apply to every order regardless of bill type, and are the same
 whichever way you work with Quest. Laboratory testing is separate: Quest bills

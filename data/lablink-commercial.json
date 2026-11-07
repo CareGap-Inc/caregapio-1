@@ -48,7 +48,7 @@
   "patientRecord": {
     "amount": 1,
     "display": "$1.00",
-    "cadence": "per patient, per year, billed annually"
+    "cadence": "per patient, per year, billed monthly at a twelfth per record"
   },
   "productionOrdering": {
     "status": "open",
@@ -106,10 +106,15 @@
           "Patient Insurance"
         ]
       },
-      "testing": "CareGap pays Quest and charges the payment method on file, when the order is placed, Quest's price for the order's testing, including any specimen collection fee, with no markup",
+      "testing": "CareGap pays Quest and bills Quest's price for the order's testing, including any specimen collection fee, with no markup, on the monthly invoice",
       "interfaceRequest": "None; Quest adds the verified ordering provider's NPI to CareGap's account",
       "providerAcknowledgment": "Each ordering provider signs an acknowledgment with CareGap",
       "source": "Owner, 2026-11-07"
     }
+  },
+  "billing": {
+    "cadence": "Monthly in arrears: on the 1st, one invoice for the month before, charged to the payment method on file",
+    "onboarding": "Charged up front, when the card is added",
+    "source": "Owner, 2026-11-07"
   }
 }

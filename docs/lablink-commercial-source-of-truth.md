@@ -17,7 +17,7 @@ Approval owner for every commercial fact: the CareGap owner (Jeremy Walker, jere
 
 | # | Fact (as published) | Source | Status |
 |---|---|---|---|
-| P1 | Subaccount onboarding $1,500, one time; covers NPI and license verification, Quest subaccount setup, production API keys and BAA | `08677bc`; owner | **Owner-confirmed current** 2026-10-30. Sandbox is not part of what onboarding pays for (row P8) |
+| P1 | Onboarding $1,500, one time; covers NPI and license verification, Quest subaccount setup or enrollment on CareGap's Quest account, production API keys and BAA | `08677bc`; owner | **Owner-confirmed current** 2026-10-30; extended to CareGap's Quest account 2026-11-07 (row Q6). Sandbox is not part of what onboarding pays for (row P8) |
 | P2 | Same onboarding fee for new and existing Quest customers | `08677bc`; owner | **Owner-confirmed current** 2026-10-30 |
 | P3 | Order platform fee: $5.00 (orders 1–100), $3.00 (101–500), $2.00 (501+), graduated; earlier orders are not repriced; resets on the first of each calendar month | `08677bc`; owner | **Owner-confirmed current** 2026-10-30 |
 | P4 | Patient record $1.00 per patient per year, billed annually | `08677bc`; owner | **Owner-confirmed current** 2026-10-30 |
@@ -34,8 +34,12 @@ Approval owner for every commercial fact: the CareGap owner (Jeremy Walker, jere
 | Q1 | LabLink works with existing Quest customers and with organizations new to Quest | `08677bc` | Owner-published |
 | Q2 | For new customers, CareGap files a Quest subaccount and tracks it to a client number | `lablink.html` | Owner-published. **NEEDS OWNER CONFIRMATION** of whose name the subaccount is in, since the guide says "for your organization" |
 | Q3 | Bill types: Client Bill (Quest bills the subaccount at Quest program rates), Patient Cash (Quest's standard patient pricing), Patient Insurance (billed to the plan; insurance details and ICD-10 required) | `08677bc` | Owner-published |
-| Q4 | CareGap does not sell, bill or collect for laboratory testing | `08677bc` | Owner-published |
-| Q5 | All bill types are available to new and existing Quest customers | `lablink.html` ("Any Quest relationship. Any bill type.") | Owner-published |
+| Q4 | CareGap does not sell, bill or collect for laboratory testing | `08677bc` | **Superseded by Q7 and Q9** on 2026-11-07: true only on the customer's own Quest account |
+| Q5 | All bill types are available to new and existing Quest customers on their own Quest account | `lablink.html` ("Any Quest relationship. Any bill type.") | Owner-published |
+| Q6 | Ordering on CareGap's Quest account is offered again: no Quest account of the customer's own and no interface request; Quest adds the verified ordering provider's NPI to CareGap's account; each provider signs an acknowledgment with CareGap. Same platform fees as every other customer, including onboarding | Owner, 2026-11-07 | **Owner-confirmed.** Reverses the retirement of the /lab-ordering offer for the path itself; its no-setup-fee pricing stays retired. **NEEDS OWNER CONFIRMATION** of how long Quest takes to add an NPI; the site states no time |
+| Q7 | On CareGap's Quest account, orders are Client Bill. CareGap pays Quest and charges the payment method on file, when the order is placed, Quest's price for the order's testing, including any specimen collection fee, with no markup | Owner, 2026-11-07 | **Owner-confirmed.** Quest's prices are confidential under CareGap's Quest agreement; the owner chose to show them to customers. The CareGap Platform Agreement's §10.2 says testing prices are not set below Quest's price, not that they equal it: align it with "no markup" in the next version |
+| Q8 | On CareGap's Quest account, patients in New Jersey and New York are billed as Patient Cash or Patient Insurance, because Client Bill is not available for them | Owner, 2026-11-07 | **Owner-confirmed** |
+| Q9 | CareGap never bills patients or health plans; on the customer's own Quest account it does not bill or collect for testing | Replaces Q4 | Owner-published 2026-11-07 |
 
 ## Eligibility and onboarding
 
@@ -88,9 +92,9 @@ From `quest.html` (removed in `08677bc`) and `lab-ordering.html` (removed in `08
 
 | Retired claim | Was on | Replacement on the site |
 |---|---|---|
-| Order on CareGap's own Quest account; no Quest account of your own needed | `/lab-ordering` | Q1–Q2: new customers get a Quest subaccount through onboarding |
+| Order on CareGap's own Quest account with no setup fee | `/lab-ordering` | Q6: ordering on CareGap's account is offered again at standard pricing (P1, P3, P4); only the no-setup-fee version stays retired |
 | $0 setup / no setup fee / sandbox with no card | `/lab-ordering` | P1, P8 |
-| Testing charged by CareGap at the CareGap Testing Price List; "CareGap account rates" | `/lab-ordering`, `/quest` | Q3–Q4: Quest bills testing by bill type |
+| Testing charged by CareGap at the CareGap Testing Price List; "CareGap account rates" | `/lab-ordering`, `/quest` | Q3 on the customer's own account; Q7 on CareGap's account, at Quest's price with no markup |
 | $1,500 setup then a flat $2.00 per order | `/quest` | P1, P3 (graduated tiers) |
 | Cash pay only; insurance not supported; no federal program beneficiaries | `/quest`, `/lab-ordering` | Q3: Patient Insurance supported |
 | "Two Quest account models" comparison | `/lab-ordering` | Single LabLink offer |

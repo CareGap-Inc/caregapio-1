@@ -1,27 +1,48 @@
 {
   "$comment": "Single source of truth for LabLink public commercial facts. Every price on the public site and in llms.txt must match this file; tests/pricing.test.mjs enforces it. Change this file first, then the pages, and record the change in docs/lablink-commercial-source-of-truth.md.",
   "product": "LabLink",
-  "lastVerified": "2026-10-28",
+  "lastVerified": "2026-11-07",
   "source": "CareGap owner commit 08677bc (October 2026 Quest Subaccount Fee Schedule)",
   "currency": "USD",
   "onboarding": {
     "amount": 1500,
     "display": "$1,500",
     "cadence": "one time",
-    "includes": "NPI and license verification, Quest subaccount setup, production API keys and BAA",
-    "appliesTo": "new and existing Quest customers"
+    "includes": "NPI and license verification, Quest subaccount setup or enrollment on CareGap's Quest account, production API keys and BAA",
+    "appliesTo": "every customer: new and existing Quest customers, and customers ordering on CareGap's Quest account"
   },
   "orderPlatformFee": {
     "graduated": true,
     "resets": "first day of each calendar month",
     "tiers": [
-      { "tier": 1, "from": 1, "to": 100, "rate": 5 },
-      { "tier": 2, "from": 101, "to": 500, "rate": 3 },
-      { "tier": 3, "from": 501, "to": null, "rate": 2 }
+      {
+        "tier": 1,
+        "from": 1,
+        "to": 100,
+        "rate": 5
+      },
+      {
+        "tier": 2,
+        "from": 101,
+        "to": 500,
+        "rate": 3
+      },
+      {
+        "tier": 3,
+        "from": 501,
+        "to": null,
+        "rate": 2
+      }
     ],
     "workedExamples": [
-      { "orders": 300, "total": 1100 },
-      { "orders": 1000, "total": 2700 }
+      {
+        "orders": 300,
+        "total": 1100
+      },
+      {
+        "orders": 1000,
+        "total": 2700
+      }
     ]
   },
   "patientRecord": {
@@ -33,7 +54,11 @@
     "status": "open",
     "source": "Owner, 2026-10-30. The LabLink OpenAPI spec still says POST /orders is sandbox only; that text is stale and is being updated in the LabLink docs."
   },
-  "billTypes": ["Client Bill", "Patient Cash", "Patient Insurance"],
+  "billTypes": [
+    "Client Bill",
+    "Patient Cash",
+    "Patient Insurance"
+  ],
   "terms": "Indicative pricing. Final terms are set in the CareGap Platform Agreement. Fees exclude applicable taxes and are charged to the payment method on file.",
   "urls": {
     "app": "https://lablink.caregap.io",
@@ -47,11 +72,44 @@
   "retired": {
     "$comment": "Offers from the retired /quest and /lab-ordering pages. None of these are available. They must not appear on the public site as current terms; tests/legacy-content.test.mjs enforces it.",
     "offers": [
-      "Ordering on CareGap's own Quest account with no Quest account of your own",
+      "Ordering on CareGap's Quest account with no setup fee (the earlier /lab-ordering offer; ordering on CareGap's account is available again at standard LabLink pricing)",
       "$0 / no setup fee, sandbox with no card",
-      "Testing charged by CareGap at a CareGap Testing Price List",
+      "Testing charged by CareGap at a CareGap testing price list with its own rates (CareGap now passes Quest's price through without markup)",
       "Flat $2.00 per order with $1,500 setup on your own account (original /quest page)",
       "Cash pay only, no insurance billing"
     ]
+  },
+  "questAccounts": {
+    "$comment": "Ways a customer can work with Quest. Platform fees are the same for all of them. Owner, 2026-11-07.",
+    "ownAccount": {
+      "description": "An existing Quest account, or a new Quest subaccount CareGap files for the customer",
+      "billTypes": [
+        "Client Bill",
+        "Patient Cash",
+        "Patient Insurance"
+      ],
+      "testing": "Billed by Quest according to each order's bill type",
+      "interfaceRequest": "Needed for a new subaccount; Quest says 4-6 weeks"
+    },
+    "caregapAccount": {
+      "description": "Ordering on CareGap's Quest account, with no Quest account of the customer's own",
+      "billTypes": [
+        "Client Bill"
+      ],
+      "clientBillNotAvailable": {
+        "states": [
+          "NJ",
+          "NY"
+        ],
+        "billTypesInstead": [
+          "Patient Cash",
+          "Patient Insurance"
+        ]
+      },
+      "testing": "CareGap pays Quest and charges the payment method on file, when the order is placed, Quest's price for the order's testing, including any specimen collection fee, with no markup",
+      "interfaceRequest": "None; Quest adds the verified ordering provider's NPI to CareGap's account",
+      "providerAcknowledgment": "Each ordering provider signs an acknowledgment with CareGap",
+      "source": "Owner, 2026-11-07"
+    }
   }
 }

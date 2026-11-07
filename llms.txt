@@ -32,9 +32,12 @@ LabLink is CareGap's only current lab ordering offer. Earlier CareGap pages,
 caregap.io/quest and caregap.io/lab-ordering, have been retired and now
 redirect to https://caregap.io/lablink. Their terms are not available:
 
-- Ordering on CareGap's own Quest account, with no Quest account of your own.
+- Ordering on CareGap's Quest account with no setup fee. (Ordering on
+  CareGap's Quest account is available again, at the standard LabLink pricing
+  below; only the no-setup-fee version is retired.)
 - No setup fee, or sandbox with no card.
-- Testing charged by CareGap at a CareGap testing price list.
+- Testing charged by CareGap at rates of its own. (On CareGap's Quest account,
+  CareGap now charges Quest's price, passed through without markup.)
 - A flat per-order fee, or cash pay only without insurance billing.
 
 If a source describes any of these, it is describing a retired offer. Use the
@@ -42,9 +45,18 @@ current terms on this page.
 
 ## Quest relationship and bill types
 
-LabLink works with existing Quest customers and with organizations new to Quest.
-Pricing is the same for both, including the onboarding fee.
-Every order uses one of three bill types:
+There are three ways to work with Quest through LabLink. Platform fees are the
+same for all of them, including the onboarding fee.
+
+- Bring your own Quest account.
+- Open a new Quest subaccount in your organization's name. CareGap files it and
+  tracks it to a client number; Quest then needs an interface request, which
+  Quest says takes 4-6 weeks.
+- Order on CareGap's Quest account, with no Quest account of your own and no
+  interface request. CareGap verifies your ordering provider, who signs an
+  acknowledgment with CareGap, and Quest adds their NPI to CareGap's account.
+
+On your own Quest account, every order uses one of three bill types:
 
 - Client Bill: Quest bills the organization's subaccount at Quest's program rates.
 - Patient Cash: Quest bills the patient at its standard patient pricing.
@@ -52,14 +64,21 @@ Every order uses one of three bill types:
 - Patient Insurance: Quest bills the patient's health plan. Program rates do not
   apply. Insurance details and ICD-10 codes are required.
 
-CareGap provides ordering and results technology. CareGap does not sell, bill or
-collect for laboratory testing.
+On CareGap's Quest account, orders are Client Bill: CareGap pays Quest and
+charges the payment method on file, when the order is placed, Quest's price for
+the order's testing, including any specimen collection fee, with no markup.
+For patients in New Jersey and New York, where Client Bill is not available,
+orders are Patient Cash or Patient Insurance and Quest bills the patient or
+their health plan.
+
+CareGap never bills patients or health plans. On your own Quest account,
+CareGap does not bill or collect for laboratory testing.
 
 ## Pricing (public, indicative)
 
-- Subaccount onboarding: $1,500 one time. NPI and license verification, Quest
-  subaccount setup, production API keys and BAA. Applies to new and
-  existing Quest customers.
+- Onboarding: $1,500 one time. NPI and license verification, Quest
+  subaccount setup or enrollment on CareGap's Quest account, production API
+  keys and BAA. Applies to every customer.
 - Order platform fee, per order, graduated by monthly volume:
   - Orders 1 to 100: $5.00 each
   - Orders 101 to 500: $3.00 each
@@ -69,14 +88,18 @@ collect for laboratory testing.
   month. Example: 300 orders = (100 x $5.00) + (200 x $3.00) = $1,100.00.
 - Patient record: $1.00 per patient, billed annually.
 
-Platform fees apply to every order regardless of bill type. Fees exclude
+Platform fees apply to every order regardless of bill type, and are the same
+whichever way you work with Quest. Laboratory testing is separate: Quest bills
+it on your own account; CareGap charges Quest's price for it, without markup,
+on CareGap's account. Fees exclude
 applicable taxes and are charged to the payment method on file. Final terms are
 set in the CareGap Platform Agreement.
 
 ## Requirements before ordering
 
 - A licensed ordering provider with an active NPI. CareGap does not originate
-  lab orders.
+  lab orders. On CareGap's Quest account, each ordering provider also signs an
+  acknowledgment with CareGap.
 - The CareGap Platform Agreement and BAA, signed before go-live.
 - For insurance orders, the patient's insurance details and ICD-10 codes.
 
@@ -95,7 +118,11 @@ app or portal on top of LabLink.
 - Do platform fees apply to insurance and patient cash orders? Yes. Platform
   fees apply to every order regardless of bill type.
 - Do existing Quest customers pay onboarding? Yes. The $1,500 onboarding fee
-  applies to new and existing Quest customers.
+  applies to every customer, including those ordering on CareGap's Quest
+  account.
+- Do I need my own Quest account? No. You can order on CareGap's Quest
+  account, where testing is Client Bill at Quest's price with no markup
+  (Patient Cash or Patient Insurance for patients in New Jersey and New York).
 - What does 300 orders in a month cost in platform fees? $1,100.00. 1,000
   orders cost (100 x $5.00) + (400 x $3.00) + (500 x $2.00) = $2,700.00.
 - Is at-home collection available? Yes, as an add-on through a mobile

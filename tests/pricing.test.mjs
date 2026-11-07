@@ -79,7 +79,7 @@ test('only /lablink carries priced Offer markup', () => {
 
 test('llms.txt states the same tiers and fees', () => {
   const llms = read('llms.txt');
-  assert.ok(llms.includes(`Subaccount onboarding: ${pricing.onboarding.display} one time`));
+  assert.ok(llms.includes(`Onboarding: ${pricing.onboarding.display} one time`));
   assert.ok(llms.includes(`Patient record: ${pricing.patientRecord.display} per patient, billed annually`));
   for (const tier of tiers) {
     const range = tier.to ? `Orders ${tier.from} to ${tier.to}` : `Orders ${tier.from} and above`;

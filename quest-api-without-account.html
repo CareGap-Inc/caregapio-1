@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Quest Tests Without Your Own Quest Account | LabLink by CareGap</title>
-    <meta name="description" content="You do not need an existing Quest Diagnostics account to order Quest tests through LabLink. Here is what you need instead, how the Quest subaccount is set up, what it costs, and what changed from earlier CareGap offers.">
+    <meta name="description" content="You do not need an existing Quest Diagnostics account to order Quest tests through LabLink. Order on CareGap's Quest account, or have a Quest subaccount set up for you. What you need, how each works, and what it costs.">
     <link rel="canonical" href="https://caregap.io/quest-api-without-account">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://caregap.io/quest-api-without-account">
     <meta property="og:title" content="Can you order Quest tests without your own Quest account?">
-    <meta property="og:description" content="What you need instead of a Quest account, how LabLink sets up a Quest subaccount for you, and what it costs.">
+    <meta property="og:description" content="Order on CareGap's Quest account, or have LabLink set up a Quest subaccount for you: what you need, how each works, and what it costs.">
     <meta property="og:image" content="https://caregap.io/Hero-CareGap.png">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/png" href="https://imgur.com/QAdKjar.png">
@@ -37,9 +37,9 @@
           "@id": "https://caregap.io/quest-api-without-account#faq",
           "mainEntity": [
             {"@type": "Question", "name": "Do I need a Quest account to use the LabLink sandbox?", "acceptedAnswer": {"@type": "Answer", "text": "No. Your sandbox opens when you create your LabLink account, before any payment, and does not wait on Quest subaccount setup. You can build the integration while the subaccount and its Quest interface are being set up."}},
-            {"@type": "Question", "name": "How long until I can order through the API?", "acceptedAnswer": {"@type": "Answer", "text": "Quest needs an interface request for each new subaccount before it can take orders through LabLink, and Quest says interface requests take 4 to 6 weeks. The subaccount can be used in the meantime: your ordering provider places orders with Quest through Quanum or on paper requisitions. Those orders go to Quest directly, outside LabLink, so they do not appear in the LabLink API or webhooks. Once the interface is complete and your integration passes certification, you order through the API."}},
-            {"@type": "Question", "name": "I already have a Quest account. Is LabLink cheaper for me?", "acceptedAnswer": {"@type": "Answer", "text": "No. Pricing is the same for new and existing Quest customers, including the $1,500 one-time onboarding fee."}},
-            {"@type": "Question", "name": "Can I bill insurance if I am new to Quest?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Client Bill, Patient Cash and Patient Insurance are available whether you are new to Quest or bring an existing account. Insurance orders need the patient's insurance details and ICD-10 codes."}},
+            {"@type": "Question", "name": "How long until I can order through the API?", "acceptedAnswer": {"@type": "Answer", "text": "On CareGap's Quest account, as soon as Quest has added your verified ordering provider's NPI to the account: there is no interface request. On a new Quest subaccount, Quest needs an interface request before it can take orders through LabLink, and Quest says interface requests take 4 to 6 weeks. The subaccount can be used in the meantime: your ordering provider places orders with Quest through Quanum or on paper requisitions. Those orders go to Quest directly, outside LabLink, so they do not appear in the LabLink API or webhooks. Once the interface is complete and your integration passes certification, you order through the API."}},
+            {"@type": "Question", "name": "I already have a Quest account. Is LabLink cheaper for me?", "acceptedAnswer": {"@type": "Answer", "text": "No. Pricing is the same for new and existing Quest customers and for customers ordering on CareGap's Quest account, including the $1,500 one-time onboarding fee."}},
+            {"@type": "Question", "name": "Can I bill insurance if I am new to Quest?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, on a Quest subaccount of your own: Client Bill, Patient Cash and Patient Insurance are available whether you are new to Quest or bring an existing account. Insurance orders need the patient's insurance details and ICD-10 codes. On CareGap's Quest account, orders are Client Bill, except for patients in New Jersey and New York, who are billed as Patient Cash or Patient Insurance."}},
             {"@type": "Question", "name": "Can patients order tests for themselves through LabLink?", "acceptedAnswer": {"@type": "Answer", "text": "Not without a provider. Every order requires a licensed ordering provider with an active NPI, and CareGap does not originate lab orders."}}
           ]
         }
@@ -89,8 +89,8 @@
 
             <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">Can you order Quest tests without your own Quest account?</h1>
 
-            <p class="text-xl text-gray-700 mb-6">Yes. You do not need an existing Quest Diagnostics account to order Quest tests through LabLink. If you are new to Quest, LabLink onboarding sets up a Quest subaccount for your organization and tracks it through to a client number, then connects it to the LabLink API.</p>
-            <p class="text-lg text-gray-600 mb-10">What you cannot skip is a licensed ordering provider with an active NPI, a signed CareGap Platform Agreement and BAA, and the one-time onboarding fee. The rest of this page covers each of those, what it costs, and what changed from earlier CareGap offers.</p>
+            <p class="text-xl text-gray-700 mb-6">Yes, in two ways. You can order on CareGap's Quest account, with no Quest account of your own and no interface wait. Or LabLink onboarding sets up a Quest subaccount in your organization's name, tracks it through to a client number, and connects it to the LabLink API.</p>
+            <p class="text-lg text-gray-600 mb-10">What you cannot skip is a licensed ordering provider with an active NPI, a signed CareGap Platform Agreement and BAA, and the one-time onboarding fee. The rest of this page covers each of those, how the two ways differ, and what it costs.</p>
 
             <div class="flex flex-col sm:flex-row gap-4 mb-14">
                 <a href="https://lablink.caregap.io" data-cta="create_account" data-cta-location="guide_intro" class="bg-[#ff3e57] text-white px-8 py-3 rounded-full hover:bg-[#ff3e57]/90 transition-colors text-center">Create Sandbox Account</a>
@@ -105,9 +105,19 @@
                 <li><strong>The right data for each bill type.</strong> Insurance orders need the patient's insurance details and ICD-10 codes.</li>
             </ul>
 
-            <h2 class="text-3xl font-bold mb-4">How the Quest subaccount gets set up</h2>
+            <h2 class="text-3xl font-bold mb-4">Ordering on CareGap's Quest account</h2>
             <ol class="space-y-4 text-gray-700 mb-6 list-decimal pl-6">
-                <li>You create your LabLink account and tell us you are new to Quest. Your ordering provider's NPI and state license are verified.</li>
+                <li>You create your LabLink account and choose CareGap's Quest account. Your sandbox opens straight away.</li>
+                <li>You sign the Platform Agreement and BAA, give your organization's details, and put a payment method on file.</li>
+                <li>You add your ordering provider. CareGap verifies their NPI, state licenses and exclusion status, and they sign an acknowledgment with CareGap.</li>
+                <li>Quest adds their NPI to CareGap's Quest account. There is no subaccount to file and no interface request to wait for.</li>
+                <li>Your account moves to production, and you order through the API with a production key.</li>
+            </ol>
+            <p class="text-gray-600 mb-12">Orders on CareGap's Quest account are Client Bill. CareGap pays Quest and bills you Quest's price for each order's testing, on one invoice a month charged to your payment method on the 1st,, including any specimen collection fee, with no markup. For patients in New Jersey and New York, where Client Bill is not available, orders are Patient Cash or Patient Insurance and Quest bills the patient or their health plan.</p>
+
+            <h2 class="text-3xl font-bold mb-4">How a Quest subaccount gets set up</h2>
+            <ol class="space-y-4 text-gray-700 mb-6 list-decimal pl-6">
+                <li>You create your LabLink account and choose a Quest subaccount of your own. Your ordering provider's NPI and state license are verified.</li>
                 <li>You sign the Platform Agreement and BAA and put a payment method on file.</li>
                 <li>CareGap files your Quest subaccount and tracks it through to a client number.</li>
                 <li>CareGap submits a Quest interface request for the new subaccount so it can take orders through LabLink. Quest says this takes 4&ndash;6 weeks. Once you have a client number, your ordering provider can order through Quest Quanum or on paper requisitions in the meantime.</li>
@@ -117,7 +127,7 @@
             <p class="text-gray-600 mb-12">Steps 3 and 4 are the manual ones, and both happen on Quest's side. Subaccount setup typically takes several business days. The interface request takes longer: Quest says 4&ndash;6 weeks for each new subaccount. Orders placed through Quanum or on paper go to Quest directly, outside LabLink, so they do not appear in the LabLink API or webhooks. Sandbox access does not wait on any of it.</p>
 
             <h2 class="text-3xl font-bold mb-4">Who pays for the test</h2>
-            <p class="text-gray-700 mb-4">Laboratory testing is billed by Quest, not CareGap, according to the bill type you choose on each order:</p>
+            <p class="text-gray-700 mb-4">On your own Quest subaccount, laboratory testing is billed by Quest, not CareGap, according to the bill type you choose on each order:</p>
             <div class="overflow-x-auto mb-4">
                 <table class="w-full text-left text-sm">
                     <thead>
@@ -133,26 +143,27 @@
                     </tbody>
                 </table>
             </div>
-            <p class="text-gray-600 mb-12">CareGap provides ordering and results technology. CareGap does not sell, bill or collect for laboratory testing.</p>
+            <p class="text-gray-600 mb-12">On CareGap's Quest account, orders are Client Bill and CareGap charges you Quest's price for the testing, with no markup, as described above. CareGap never bills patients or health plans.</p>
 
             <h2 class="text-3xl font-bold mb-4">What it costs</h2>
-            <p class="text-gray-700 mb-4">The same for organizations new to Quest and for existing Quest customers:</p>
+            <p class="text-gray-700 mb-4">The same whether you order on CareGap's Quest account, open a subaccount, or bring an existing Quest account:</p>
             <ul class="space-y-2 text-gray-700 mb-4 list-disc pl-6">
-                <li>$1,500 one-time subaccount onboarding: NPI and license verification, Quest subaccount setup, production API keys and BAA.</li>
+                <li>$1,500 one-time onboarding: NPI and license verification, Quest subaccount setup or enrollment on CareGap's Quest account, production API keys and BAA.</li>
                 <li>An order platform fee of $5.00, $3.00 or $2.00 per order, graduated by monthly volume.</li>
                 <li>$1.00 per patient record per year.</li>
             </ul>
-            <p class="text-gray-600 mb-12">Platform fees apply to every order regardless of bill type. See the <a href="/lablink#pricing" class="text-[#ff3e57] font-semibold hover:underline">full LabLink pricing</a>, including how the graduated tiers work and an estimator. Pricing is indicative; final terms are set in the CareGap Platform Agreement.</p>
+            <p class="text-gray-600 mb-12">Platform fees apply to every order regardless of bill type. Laboratory testing is on top: Quest bills it on your own subaccount, and on CareGap's Quest account CareGap charges Quest's price for it, with no markup. See the <a href="/lablink#pricing" class="text-[#ff3e57] font-semibold hover:underline">full LabLink pricing</a>, including how the graduated tiers work and an estimator. Pricing is indicative; final terms are set in the CareGap Platform Agreement.</p>
 
             <h2 class="text-3xl font-bold mb-4">What changed from earlier CareGap offers</h2>
-            <p class="text-gray-700 mb-4">Before LabLink, CareGap published two separate offers: one at caregap.io/lab-ordering for ordering on CareGap's own Quest account with no setup fee, and one at caregap.io/quest for a Quest account of your own. Both have been retired and are not available, including their pricing.</p>
-            <p class="text-gray-600 mb-12">Those addresses now redirect to the <a href="/lablink" class="text-[#ff3e57] font-semibold hover:underline">LabLink page</a>, which describes CareGap's current lab ordering offer. If an assistant, search result or old link describes ordering on CareGap's Quest account, it is describing the retired offer.</p>
+            <p class="text-gray-700 mb-4">Before LabLink, CareGap published two separate offers: one at caregap.io/lab-ordering for ordering on CareGap's own Quest account with no setup fee, and one at caregap.io/quest for a Quest account of your own. Both have been retired, including their pricing.</p>
+            <p class="text-gray-600 mb-12">Those addresses now redirect to the <a href="/lablink" class="text-[#ff3e57] font-semibold hover:underline">LabLink page</a>. Ordering on CareGap's Quest account is available again through LabLink, at the standard LabLink pricing on this page, including the onboarding fee. If an assistant, search result or old link describes ordering on CareGap's account with no setup fee, it is describing the retired offer.</p>
 
             <h2 class="text-3xl font-bold mb-4">Limitations to plan for</h2>
             <ul class="space-y-3 text-gray-700 mb-12 list-disc pl-6">
                 <li>LabLink is not a direct-to-consumer testing service. Every order needs your licensed ordering provider.</li>
                 <li>Patients in Rhode Island are not served.</li>
-                <li>For organizations new to Quest, ordering through the API takes about 4&ndash;6 weeks, because each new Quest subaccount needs an interface request. Quanum or paper requisitions cover the gap.</li>
+                <li>On a new Quest subaccount, ordering through the API takes about 4&ndash;6 weeks, because each new subaccount needs an interface request. Quanum or paper requisitions cover the gap. Ordering on CareGap's Quest account avoids the wait.</li>
+                <li>On CareGap's Quest account, orders are Client Bill except for patients in New Jersey and New York, who are billed as Patient Cash or Patient Insurance.</li>
                 <li>If you client bill and re-bill your patients, some states regulate that through direct-bill, anti-markup or disclosure rules. Have counsel review before you publish pricing.</li>
                 <li>Collection is at Quest patient service centers. At-home collection is available as an add-on through a mobile phlebotomy partner.</li>
             </ul>
@@ -166,15 +177,15 @@
                     </div>
                     <div class="border-b pb-6">
                         <h3 class="text-xl font-semibold mb-2">How long until I can order through the API?</h3>
-                        <p class="text-gray-600">Quest needs an interface request for each new subaccount before it can take orders through LabLink, and Quest says interface requests take 4 to 6 weeks. The subaccount can be used in the meantime: your ordering provider places orders with Quest through Quanum or on paper requisitions. Those orders go to Quest directly, outside LabLink, so they do not appear in the LabLink API or webhooks. Once the interface is complete and your integration passes certification, you order through the API.</p>
+                        <p class="text-gray-600">On CareGap's Quest account, as soon as Quest has added your verified ordering provider's NPI to the account: there is no interface request. On a new Quest subaccount, Quest needs an interface request before it can take orders through LabLink, and Quest says interface requests take 4 to 6 weeks. The subaccount can be used in the meantime: your ordering provider places orders with Quest through Quanum or on paper requisitions. Those orders go to Quest directly, outside LabLink, so they do not appear in the LabLink API or webhooks. Once the interface is complete and your integration passes certification, you order through the API.</p>
                     </div>
                     <div class="border-b pb-6">
                         <h3 class="text-xl font-semibold mb-2">I already have a Quest account. Is LabLink cheaper for me?</h3>
-                        <p class="text-gray-600">No. Pricing is the same for new and existing Quest customers, including the $1,500 one-time onboarding fee.</p>
+                        <p class="text-gray-600">No. Pricing is the same for new and existing Quest customers and for customers ordering on CareGap's Quest account, including the $1,500 one-time onboarding fee.</p>
                     </div>
                     <div class="border-b pb-6">
                         <h3 class="text-xl font-semibold mb-2">Can I bill insurance if I am new to Quest?</h3>
-                        <p class="text-gray-600">Yes. Client Bill, Patient Cash and Patient Insurance are available whether you are new to Quest or bring an existing account. Insurance orders need the patient's insurance details and ICD-10 codes.</p>
+                        <p class="text-gray-600">Yes, on a Quest subaccount of your own: Client Bill, Patient Cash and Patient Insurance are available whether you are new to Quest or bring an existing account. Insurance orders need the patient's insurance details and ICD-10 codes. On CareGap's Quest account, orders are Client Bill, except for patients in New Jersey and New York, who are billed as Patient Cash or Patient Insurance.</p>
                     </div>
                     <div class="border-b pb-6">
                         <h3 class="text-xl font-semibold mb-2">Can patients order tests for themselves through LabLink?</h3>

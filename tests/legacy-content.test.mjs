@@ -3,18 +3,18 @@ import assert from 'node:assert/strict';
 import { read, publicTextFiles, textChunks, htmlFiles } from './helpers.mjs';
 
 // Terms from the retired /quest and /lab-ordering pages. They may appear
-// only in a passage that explicitly says the offer is retired.
+// only in a passage that explicitly says the offer is retired. Ordering on
+// CareGap's Quest account is offered again (owner, 2026-11-07), at standard
+// LabLink pricing, so it is no longer a retired term; its no-setup-fee
+// version and a CareGap price list of its own still are.
 const RETIRED_TERMS = [
   /no setup fee/i,
   /\$0\b/,
   /no card\b/i,
   /testing price list/i,
   /CareGap account rates?/i,
-  /CareGap's (own )?(Quest|laboratory) account/i,
-  /\b(on|use) (our|CareGap's) (Quest )?account/i,
   /insurance billing is not (supported|available)/i,
   /cash pay only/i,
-  /no quest account (of your own )?(is )?needed/i,
   /Start Setup/
 ];
 
@@ -74,4 +74,17 @@ test('production ordering status on the site matches the source of truth', () =>
   for (const file of publicTextFiles()) {
     assert.doesNotMatch(read(file), /moving real orders|FHIR layer/i, file);
   }
+});
+
+// Ordering on CareGap's Quest account (owner, 2026-11-07): the pages must say
+// what it is and what it is not.
+test('the CareGap-account path states its billing and its pricing', () => {
+  const caregap = JSON.parse(read('data/lablink-commercial.json')).questAccounts.caregapAccount;
+  for (const file of ['lablink.html', 'quest-api-without-account.html', 'llms.txt']) {
+    const text = read(file).replace(/&#x27;|&rsquo;/g, "'").replace(/\s+/g, ' ');
+    assert.match(text, /CareGap's Quest account/, `${file} describes ordering on CareGap's Quest account`);
+    assert.match(text, /no markup|without markup/i, `${file} says testing is passed through at Quest's price`);
+    for (const state of ['New Jersey', 'New York']) assert.ok(text.includes(state), `${file} names ${state} as an exception`);
+  }
+  assert.deepEqual(caregap.clientBillNotAvailable.states, ['NJ', 'NY']);
 });
